@@ -1,7 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./Dashboard/Dashboard";
-import About from "./About";
+import Dashboard from "./Dashboard/Dashboard";
+import Budget from "./Budget";
+import Allocation from "./Allocation";
+import Debt from "./Debt";
+import Investments from "./Investments";
+
 import NotFound from "./NotFound";
 import Navbar from "./Navbar";
 
@@ -14,8 +18,12 @@ function App() {
         <Navbar />
         <div className="Page-Style">
           <Routes>
-            <Route path="/" Component={Home} />
-            <Route path="/about" Component={About} />
+            <Route path="/" Component={Dashboard} />
+            <Route path="/budget" Component={Budget} />
+            <Route path="/allocation" Component={Allocation} />
+            <Route path="/debt" Component={Debt} />
+            <Route path="/investments" Component={Investments} />
+
             <Route Component={NotFound} />
           </Routes>
         </div>

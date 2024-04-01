@@ -9,9 +9,9 @@ const Navbar = () => {
         <div className="Navbar-Options">
           <Link to={"/"}>Dashboard</Link>
           <Link to={"/budget"}>Budget</Link>
-          <Link to={"/budget"}>Allocation</Link>
-          <Link to={"/budget"}>Debt</Link>
-          <Link to={"/budget"}>Investments</Link>
+          <Link to={"/allocation"}>Allocation</Link>
+          <Link to={"/debt"}>Debt</Link>
+          <Link to={"/investments"}>Investments</Link>
         </div>
       </div>
     </div>
