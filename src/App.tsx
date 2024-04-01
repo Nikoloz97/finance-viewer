@@ -5,9 +5,10 @@ import Budget from "./Budget";
 import Allocation from "./Allocation";
 import Debt from "./Debt";
 import Investments from "./Investments";
+import Settings from "./Settings";
 
 import NotFound from "./NotFound";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 
 import "./App.css";
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/allocation" Component={Allocation} />
             <Route path="/debt" Component={Debt} />
             <Route path="/investments" Component={Investments} />
+            <Route path="/settings" Component={Settings} />
 
             <Route Component={NotFound} />
           </Routes>
