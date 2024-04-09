@@ -13,6 +13,7 @@ const Navbar = () => {
           <Link to={"/allocation"}>Allocation</Link>
           <Link to={"/debt"}>Debt</Link>
           <Link to={"/investments"}>Investments</Link>
+          <Link to={"/profile"}>Profile</Link>
           <Link to={"/settings"}>Settings</Link>
         </div>
       </div>
