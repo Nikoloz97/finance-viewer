@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import { UseUseUseContext } from "../CustomHooks/UseUseUseContext";
 
 const Navbar = () => {
+  const { user } = UseUseUseContext();
+
   return (
     <div className="Navbar-Container">
       <div className="Navbar">
@@ -13,7 +16,11 @@ const Navbar = () => {
           <Link to={"/allocation"}>Allocation</Link>
           <Link to={"/debt"}>Debt</Link>
           <Link to={"/investments"}>Investments</Link>
-          <Link to={"/profile"}>Profile</Link>
+          {user ? (
+            <Link to={"/profile"}>Profile</Link>
+          ) : (
+            <Link to={"/login"}>Login</Link>
+          )}
           <Link to={"/settings"}>Settings</Link>
         </div>
       </div>
