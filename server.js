@@ -5,6 +5,9 @@ const app = express();
 const port = 5000;
 const uri = process.env.MONGODB_URI;
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -33,10 +36,22 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
 
-app.get("/countries", (req, res) => {
-  res.send("Azerbaijan!");
+  try {
+    await client.connect();
+    const db = client.db("FinanceViewer");
+    const users = db.collection("Users");
+
+    const user = await users.findOne({ username, password });
+
+    if (user) {
+      res.send(user);
+    } else {
+      res.status(404).send("Invalid username or password");
+    }
+  } finally {
+    await client.close();
+  }
 });
