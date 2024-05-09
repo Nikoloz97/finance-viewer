@@ -1,0 +1,25 @@
+.ui.header {
+  color: white !important;
+}
+
+.ui.form .field > label {
+  color: white !important;
+}
+
+.ui.checkbox label {
+  color: white !important;
+}
+
+.Login-Form {
+  width: 25vw;
+}
+
+.Remember-Forgot-Container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Login-Button-Container {
+  display: flex;
+  justify-content: center;
+}

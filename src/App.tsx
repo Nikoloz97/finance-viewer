@@ -8,9 +8,9 @@ import Debt from "./Debt";
 import Investments from "./Investments";
 import Profile from "./Profile";
 import Settings from "./Settings";
-
 import NotFound from "./NotFound";
 import Navbar from "./Navbar/Navbar";
+import Login from "./User/Login";
 
 import "./App.css";
 
@@ -29,6 +29,7 @@ function App() {
               <Route path="/investments" Component={Investments} />
               <Route path="/profile" Component={Profile} />
               <Route path="/settings" Component={Settings} />
+              <Route path="/login" Component={Login} />
               <Route Component={NotFound} />
             </Routes>
           </div>
