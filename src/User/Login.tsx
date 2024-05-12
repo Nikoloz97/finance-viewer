@@ -23,7 +23,8 @@ const Login = () => {
       // Handle login stuff here
       console.log(user);
     } else {
-      console.log("Oops, something went wrong :(");
+      const message = await response.json();
+      console.log(message.message);
     }
   };
 

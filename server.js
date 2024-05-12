@@ -1,9 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const { MongoClient, ServerApiVersion } = require("mongodb");
+const cors = require("cors");
 const app = express();
 const port = 5000;
 const uri = process.env.MONGODB_URI;
+
+app.use(cors());
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
@@ -21,7 +24,7 @@ async function run() {
     // Connect the client to the server
     await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    await client.db("FinanceViewer").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
@@ -49,7 +52,7 @@ app.post("/login", async (req, res) => {
     if (user) {
       res.send(user);
     } else {
-      res.status(404).send("Invalid username or password");
+      res.status(400).json({ message: "Invalid username or password" });
     }
   } finally {
     await client.close();
