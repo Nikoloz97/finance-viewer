@@ -1,7 +1,10 @@
 import React from "react";
 import "./Dashboard.css";
+import { useUserContext } from "../UserContext";
 
 const Home = () => {
+  const { user } = useUserContext();
+
   return (
     <div className="Dashboard-Container">
       <div
@@ -20,7 +23,9 @@ const Home = () => {
             gap: "20px",
           }}
         >
-          <div className="Welcome-Container">Welcome, guest</div>
+          <div className="Welcome-Container">
+            {user ? `Welcome, ${user.firstName}` : "Welcome, guest"}
+          </div>
           <div className="NetWorth-Container"> Net Worth</div>
         </div>
         <div className="Profile-Container"> Profile</div>

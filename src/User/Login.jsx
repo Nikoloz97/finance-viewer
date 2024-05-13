@@ -2,12 +2,18 @@ import { useState } from "react";
 import { Button, Checkbox, Form, Header } from "semantic-ui-react";
 import "./Login.css";
 import { Link } from "react-router-dom";
+import { useUserContext } from "../UserContext";
 
 const Login = () => {
+  const { user, setUser } = useUserContext();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (
+    e
+    // : { preventDefault: () => void }
+  ) => {
     e.preventDefault();
 
     const response = await fetch("/login", {
@@ -19,9 +25,10 @@ const Login = () => {
     });
 
     if (response.ok) {
-      const user = await response.json();
+      const userReceived = await response.json();
       // Handle login stuff here
-      console.log(user);
+      setUser(userReceived);
+      console.log(userReceived);
     } else {
       const message = await response.json();
       console.log(message.message);
