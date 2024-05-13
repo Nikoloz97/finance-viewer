@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { UserContext } from "../UserContext";
 
-export function UseUseUseContext() {
+export function UseContextCheck() {
   const context = useContext(UserContext);
   if (!context) {
     throw new Error("UserContext is undefined!");

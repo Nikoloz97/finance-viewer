@@ -1,9 +1,8 @@
-import React from "react";
 import "./Dashboard.css";
-import { useUserContext } from "../UserContext";
+import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 
 const Home = () => {
-  const { user } = useUserContext();
+  const { user } = UseContextCheck();
 
   return (
     <div className="Dashboard-Container">

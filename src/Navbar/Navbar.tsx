@@ -1,10 +1,9 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
-import { UseUseUseContext } from "../CustomHooks/UseUseUseContext";
+import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 
 const Navbar = () => {
-  const { user } = UseUseUseContext();
+  const { user } = UseContextCheck();
 
   return (
     <div className="Navbar-Container">

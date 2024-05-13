@@ -1,8 +1,17 @@
 import { createContext, useState, useContext, ReactNode } from "react";
 import { useMediaQuery } from "react-responsive";
 
+type User = {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  occupation: string;
+  profileImgUrl: string;
+};
+
 interface UserContextType {
-  user: any;
+  user: User | undefined;
   setUser: React.Dispatch<React.SetStateAction<any>>;
   isUserSignedIn: boolean;
   setIsUserSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,7 +30,7 @@ export const UserContext = createContext<UserContextType | undefined>(
 export const useUserContext = () => useContext(UserContext);
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [user, setUser] = useState<any>(undefined);
+  const [user, setUser] = useState<User | undefined>(undefined);
   const [isUserSignedIn, setIsUserSignedIn] = useState<boolean>(false);
 
   const isDesktop = useMediaQuery({
