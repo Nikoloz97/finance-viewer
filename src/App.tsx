@@ -29,7 +29,7 @@ function App() {
               <Route path="/investments" Component={Investments} />
               <Route path="/profile" Component={Profile} />
               <Route path="/settings" Component={Settings} />
-              <Route path="/login" Component={Login} />
+              <Route path="/user/login" Component={Login} />
               <Route Component={NotFound} />
             </Routes>
           </div>

@@ -1,6 +1,7 @@
 {
   "name": "finance-viewer",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@storybook/addon-a11y": "^8.0.6",

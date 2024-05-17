@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, ReactNode } from "react";
 import { useMediaQuery } from "react-responsive";
 
+//TODO: extract this into an importable file??
 type User = {
   username: string;
   password: string;
@@ -12,7 +13,7 @@ type User = {
 
 interface UserContextType {
   user: User | undefined;
-  setUser: React.Dispatch<React.SetStateAction<any>>;
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
   isUserSignedIn: boolean;
   setIsUserSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
   isDesktop: boolean;

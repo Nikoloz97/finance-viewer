@@ -18,7 +18,7 @@ const Navbar = () => {
           {user ? (
             <Link to={"/profile"}>Profile</Link>
           ) : (
-            <Link to={"/login"}>Login</Link>
+            <Link to={"user/login"}>Login</Link>
           )}
           <Link to={"/settings"}>Settings</Link>
         </div>
