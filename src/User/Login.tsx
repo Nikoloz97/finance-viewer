@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Button, Checkbox, Form, Header } from "semantic-ui-react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 
 const Login = () => {
   const { setUser } = UseContextCheck();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +26,7 @@ const Login = () => {
       const userReceived = await response.json();
       // Handle login
       setUser(userReceived);
+      navigate("/");
       console.log(userReceived);
     } else {
       const message = await response.json();
