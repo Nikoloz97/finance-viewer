@@ -2,7 +2,7 @@ import express from "express";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 
-// Allows us to utilize env variables
+// Ability to utilize env variables
 dotenv.config();
 
 const router = express.Router();

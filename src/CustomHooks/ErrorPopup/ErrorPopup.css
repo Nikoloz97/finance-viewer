@@ -1,0 +1,45 @@
+.Error-Popup-Display {
+  position: fixed !important;
+  right: 9rem;
+  bottom: 1rem;
+  width: 66%;
+  animation-duration: 0.5s;
+  text-align: center;
+  background-color: #383c43 !important;
+  color: white !important;
+  border-radius: 2rem !important;
+}
+
+.Error-Popup-Fade-In-Up {
+  animation-name: fadeInUp;
+}
+
+.Error-Popup-Fade-Out-Down {
+  animation-name: fadeOutDown;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.ui.message > .close.icon {
+  top: 1.7rem !important;
+}

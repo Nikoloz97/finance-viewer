@@ -3,6 +3,7 @@ import { Button, Checkbox, Form, Header } from "semantic-ui-react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
+import ErrorPopup from "../CustomHooks/ErrorPopup/ErrorPopup";
 
 const Login = () => {
   const { setUser } = UseContextCheck();
@@ -10,6 +11,24 @@ const Login = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState({
+    isErrorFadingIn: false,
+    isErrorFadingOut: false,
+    isErrorShowing: false,
+    message: "",
+  });
+
+  const handleErrorFadeOut = () => {
+    setError((prev) => ({ ...prev, isErrorFadingOut: true }));
+
+    setTimeout(() => {
+      setError((prev) => ({
+        ...prev,
+        isErrorShowing: false,
+        isErrorFadingOut: false,
+      }));
+    }, 500);
+  };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -22,15 +41,31 @@ const Login = () => {
       body: JSON.stringify({ username, password }),
     });
 
+    const responseJson = await response.json();
+
     if (response.ok) {
-      const userReceived = await response.json();
       // Handle login
-      setUser(userReceived);
+      setUser(responseJson);
       navigate("/");
-      console.log(userReceived);
+      console.log(responseJson);
     } else {
-      const message = await response.json();
-      console.log(message.message);
+      // Specific message
+      if (responseJson.message) {
+        setError((prev) => ({
+          ...prev,
+          isErrorShowing: true,
+          isErrorFadingIn: true,
+          message: responseJson.message,
+        }));
+        // Non-specific message
+      } else {
+        setError((prev) => ({
+          ...prev,
+          isErrorShowing: true,
+          message: "See console log for details",
+        }));
+        console.log(responseJson);
+      }
     }
   };
 
@@ -54,6 +89,8 @@ const Login = () => {
           <Button type="submit" content="Login" />
         </Form.Field>
       </Form>
+
+      <ErrorPopup error={error} onDismiss={handleErrorFadeOut} />
     </div>
   );
 };
