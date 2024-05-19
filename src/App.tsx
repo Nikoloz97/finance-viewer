@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { UserProvider } from "./UserContext";
 import Dashboard from "./Dashboard/Dashboard";
@@ -11,6 +10,7 @@ import Settings from "./Settings";
 import NotFound from "./NotFound";
 import Navbar from "./Navbar/Navbar";
 import Login from "./User/Login";
+import Signup from "./User/Signup";
 
 import "./App.css";
 
@@ -30,6 +30,7 @@ function App() {
               <Route path="/profile" Component={Profile} />
               <Route path="/settings" Component={Settings} />
               <Route path="/user/login" Component={Login} />
+              <Route path="/user/signup" Component={Signup} />
               <Route Component={NotFound} />
             </Routes>
           </div>

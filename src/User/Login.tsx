@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button, Checkbox, Form, Header } from "semantic-ui-react";
-import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import ErrorPopup from "../CustomHooks/ErrorPopup/ErrorPopup";
+import "./User.css";
 
 const Login = () => {
   const { setUser } = UseContextCheck();
@@ -17,18 +17,6 @@ const Login = () => {
     isErrorShowing: false,
     message: "",
   });
-
-  const handleErrorFadeOut = () => {
-    setError((prev) => ({ ...prev, isErrorFadingOut: true }));
-
-    setTimeout(() => {
-      setError((prev) => ({
-        ...prev,
-        isErrorShowing: false,
-        isErrorFadingOut: false,
-      }));
-    }, 500);
-  };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -83,14 +71,20 @@ const Login = () => {
         </Form.Field>
         <Form.Field className="Remember-Forgot-Container">
           <Checkbox label="Remember me" />
-          <Link to={"/forgot-password"}>Forgot Password?</Link>
+          <Link style={{ color: "white" }} to={"/user/forgot-password"}>
+            Forgot Password?
+          </Link>
         </Form.Field>
         <Form.Field className="Login-Button-Container">
           <Button type="submit" content="Login" />
         </Form.Field>
       </Form>
 
-      <ErrorPopup error={error} onDismiss={handleErrorFadeOut} />
+      <Link className="No-Account-Container" to={"/user/signup"}>
+        Don't have an account? Sign up here
+      </Link>
+
+      <ErrorPopup error={error} setError={setError} />
     </div>
   );
 };
