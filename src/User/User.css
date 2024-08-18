@@ -10,6 +10,12 @@
   color: white !important;
 }
 
+.ui.form input {
+  border-radius: 2rem !important;
+}
+
+/* Login */
+
 .Login-Form {
   display: flex;
   flex-direction: column;
@@ -31,4 +37,27 @@
   font-size: 1.1rem;
   text-align: center;
   margin-top: 30px;
+}
+
+/* Sign up */
+.Signup-Form-Group {
+  display: flex;
+  gap: 10px;
+}
+
+.Signup-File-Input-Button {
+  cursor: pointer;
+  display: flex !important;
+  width: 100%;
+  align-items: center;
+  background-color: white !important;
+  border-radius: 2rem 0 0 2rem !important;
+  height: 2.75rem;
+  margin: 0 0 0 0 !important;
+}
+
+.Profile-Photo-Cancel-Button {
+  background-color: white !important;
+  border-radius: 0 2rem 2rem 0 !important;
+  max-width: 20%;
 }
