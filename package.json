@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@azure/storage-blob": "^12.18.0",
+    "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@shadcn/ui": "^0.0.4",
     "@storybook/addon-a11y": "^8.0.6",

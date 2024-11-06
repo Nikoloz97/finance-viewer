@@ -1,5 +1,6 @@
 import "./Dashboard.css";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
+import Profile from "./Profile";
 
 const Home = () => {
   const { user } = UseContextCheck();
@@ -27,7 +28,7 @@ const Home = () => {
           </div>
           <div className="NetWorth-Container"> Net Worth</div>
         </div>
-        <div className="Profile-Container"> Profile</div>
+        <Profile />
       </div>
       <div
         style={{
