@@ -5,6 +5,8 @@
   "private": true,
   "dependencies": {
     "@azure/storage-blob": "^12.18.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@shadcn/ui": "^0.0.4",
     "@storybook/addon-a11y": "^8.0.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -15,9 +17,12 @@
     "@types/react-dom": "^18.2.23",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "lucide-react": "^0.454.0",
     "mongodb": "^6.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -27,6 +32,8 @@
     "react-scripts": "5.0.1",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.5",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -76,6 +83,7 @@
     "nodemon": "^3.1.0",
     "prop-types": "^15.8.1",
     "storybook": "^8.0.6",
+    "tailwindcss": "^3.4.14",
     "webpack": "^5.91.0"
   },
   "proxy": "http://127.0.0.1:5000"

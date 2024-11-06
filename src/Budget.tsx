@@ -1,7 +1,11 @@
 import React from "react";
 
 const Budget = () => {
-  return <div>Budget page</div>;
+  return (
+    <>
+      <div>Budget page</div>
+    </>
+  );
 };
 
 export default Budget;
