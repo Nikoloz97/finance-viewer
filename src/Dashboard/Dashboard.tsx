@@ -1,8 +1,9 @@
 import "./Dashboard.css";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import Profile from "./Profile";
+import RecentActivity from "./RecentActivity";
 
-const Home = () => {
+const Dashboard = () => {
   const { user } = UseContextCheck();
 
   return (
@@ -38,11 +39,11 @@ const Home = () => {
           gap: "20px",
         }}
       >
-        <div className="Recent-Activity-Container">Recent Activity</div>
+        <RecentActivity />
         <div className="Investment-Summary-Container"> Investments</div>
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Dashboard;
