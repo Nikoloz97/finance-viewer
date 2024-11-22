@@ -1,4 +1,3 @@
-import React from "react";
 import { ScrollArea } from "../ShadcnComponents/ScrollArea";
 import { Separator } from "../ShadcnComponents/Separator";
 import "./Dashboard.css";
@@ -11,7 +10,7 @@ const RecentActivity = () => {
   return (
     <div className="Recent-Activity-Container">
       <Header>Recent Activity</Header>
-      <ScrollArea className="h-72 w-48 rounded-md border">
+      <ScrollArea className="h-48 w-96 rounded-md border">
         <div className="p-4">
           <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
           {tags.map((tag) => (
