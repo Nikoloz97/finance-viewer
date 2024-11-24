@@ -3,19 +3,21 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../ShadcnComponents/Avatar";
+} from "../../ShadcnComponents/Avatar";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "../ShadcnComponents/Tabs";
+} from "../../ShadcnComponents/Tabs";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ShadcnComponents/Card";
+} from "../../ShadcnComponents/Card";
+import Account from "./Account";
+import Preferences from "./Preferences";
 
 const Profile = () => {
   return (
@@ -37,7 +39,7 @@ const Profile = () => {
             <CardHeader>
               <CardTitle>Account</CardTitle>
               <CardDescription>
-                Make changes to your account here
+                <Account />
               </CardDescription>
             </CardHeader>
           </Card>
@@ -47,7 +49,7 @@ const Profile = () => {
             <CardHeader>
               <CardTitle>Preferences</CardTitle>
               <CardDescription>
-                Make changes to your preferences here
+                <Preferences />
               </CardDescription>
             </CardHeader>
           </Card>
