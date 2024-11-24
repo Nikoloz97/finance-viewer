@@ -1,4 +1,4 @@
-import "./Dashboard.css";
+import "./Profile.css";
 import {
   Avatar,
   AvatarFallback,
@@ -27,16 +27,7 @@ const Profile = () => {
         </Avatar>
         <p>Guest</p>
       </div>
-      <Tabs
-        defaultValue="account"
-        className="h-full p-3 dark"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
-        }}
-      >
+      <Tabs defaultValue="account" className="h-full p-3 dark Profile-Tabs">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="account">Account</TabsTrigger>
           <TabsTrigger value="preferences">Preferences</TabsTrigger>

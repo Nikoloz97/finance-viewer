@@ -1,0 +1,22 @@
+.Profile-Container {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+.Avatar-Caption-Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Profile-Tabs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
