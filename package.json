@@ -6,9 +6,11 @@
   "dependencies": {
     "@azure/storage-blob": "^12.18.0",
     "@radix-ui/react-avatar": "^1.1.1",
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-scroll-area": "^1.2.0",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.1.1",
     "@shadcn/ui": "^0.0.4",
     "@storybook/addon-a11y": "^8.0.6",
     "@testing-library/jest-dom": "^5.17.0",

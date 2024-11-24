@@ -9,22 +9,8 @@ const Dashboard = () => {
 
   return (
     <div className="Dashboard-Container">
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          height: "50%",
-          gap: "20px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "80%",
-            gap: "20px",
-          }}
-        >
+      <div className="Welcome-Networth-Profile-Container">
+        <div className="Welcome-Networth-Container">
           <div className="Welcome-Container">
             {user ? `Welcome, ${user.firstName}` : "Welcome, guest"}
           </div>
@@ -34,16 +20,9 @@ const Dashboard = () => {
         </div>
         <Profile />
       </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "50%",
-          gap: "20px",
-        }}
-      >
+      <div className="Recent-Activity-Investments-Summary-Container">
         <RecentActivity />
-        <div className="Investment-Summary-Container"> Investments</div>
+        <div className="Investments-Summary-Container"> Investments</div>
       </div>
     </div>
   );

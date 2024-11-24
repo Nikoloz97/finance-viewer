@@ -6,6 +6,20 @@
   gap: 20px;
 }
 
+.Welcome-Networth-Profile-Container {
+  display: flex;
+  flex-direction: row;
+  height: 50%;
+  gap: 20px;
+}
+
+.Welcome-Networth-Container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  gap: 20px;
+}
+
 .Welcome-Container {
   height: 20%;
   display: flex;
@@ -28,10 +42,24 @@
 .Profile-Container {
   width: 20%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.15);
   border-radius: 10px;
+}
+
+.Avatar-Caption-Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Recent-Activity-Investments-Summary-Container {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  gap: 1em;
 }
 
 .Recent-Activity-Container {
@@ -44,7 +72,7 @@
   border-radius: 10px;
 }
 
-.Investment-Summary-Container {
+.Investments-Summary-Container {
   height: 20%;
   display: flex;
   justify-content: center;
