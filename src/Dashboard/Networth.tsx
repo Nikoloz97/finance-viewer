@@ -35,7 +35,7 @@ const Networth = () => {
     { month: "June", desktop: 214, mobile: 140 },
   ];
   return (
-    <div style={{ width: "40%" }}>
+    <div style={{ width: "50%" }}>
       <p style={{ textAlign: "center" }}>Total Net Worth</p>
       <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
         <LineChart accessibilityLayer data={chartData}>

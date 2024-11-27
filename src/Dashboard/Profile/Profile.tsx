@@ -21,9 +21,9 @@ import Preferences from "./Preferences";
 
 const Profile = () => {
   return (
-    <div className="Profile-Container">
+    <div>
       <div className="Avatar-Caption-Container">
-        <Avatar>
+        <Avatar className="m-3">
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
@@ -34,8 +34,8 @@ const Profile = () => {
           <TabsTrigger value="account">Account</TabsTrigger>
           <TabsTrigger value="preferences">Preferences</TabsTrigger>
         </TabsList>
-        <TabsContent value="account" className="h-full">
-          <Card className="h-full">
+        <TabsContent value="account">
+          <Card>
             <CardHeader>
               <CardTitle>Account</CardTitle>
               <CardDescription>
@@ -44,8 +44,8 @@ const Profile = () => {
             </CardHeader>
           </Card>
         </TabsContent>
-        <TabsContent value="preferences" className="h-full">
-          <Card className="h-full">
+        <TabsContent value="preferences">
+          <Card>
             <CardHeader>
               <CardTitle>Preferences</CardTitle>
               <CardDescription>

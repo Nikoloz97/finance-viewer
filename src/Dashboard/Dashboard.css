@@ -6,37 +6,31 @@
   gap: 20px;
 }
 
-.Welcome-Networth-Profile-Container {
+.Networth-Profile-Container {
   display: flex;
   flex-direction: row;
   height: 50%;
   gap: 20px;
 }
 
-.Welcome-Networth-Container {
+.NetWorth-Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.Profile-Container {
+  width: 20%;
   display: flex;
   flex-direction: column;
-  width: 80%;
-  gap: 20px;
-}
-
-.Welcome-Container {
-  height: 20%;
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-}
-
-.NetWorth-Container {
-  height: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
-  width: 100%;
 }
 
 .Recent-Activity-Investments-Summary-Container {

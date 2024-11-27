@@ -9,16 +9,13 @@ const Dashboard = () => {
 
   return (
     <div className="Dashboard-Container">
-      <div className="Welcome-Networth-Profile-Container">
-        <div className="Welcome-Networth-Container">
-          <div className="Welcome-Container">
-            {user ? `Welcome, ${user.firstName}` : "Welcome, guest"}
-          </div>
-          <div className="NetWorth-Container">
-            <Networth />
-          </div>
+      <div className="Networth-Profile-Container">
+        <div className="NetWorth-Container">
+          <Networth />
         </div>
-        <Profile />
+        <div className="Profile-Container">
+          <Profile />
+        </div>
       </div>
       <div className="Recent-Activity-Investments-Summary-Container">
         <RecentActivity />
