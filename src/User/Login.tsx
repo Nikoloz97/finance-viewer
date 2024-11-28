@@ -120,10 +120,7 @@ const Login = () => {
               </FormItem>
             )}
           />
-          {/* <FormField>
-            <label>Password: </label>
-            <input onChange={(e) => setPassword(e.target.value)} />
-          </FormField> */}
+
           {/* <FormField className="Remember-Forgot-Container">
             <Checkbox label="Remember me" />
             <Link style={{ color: "white" }} to={"/user/forgot-password"}>

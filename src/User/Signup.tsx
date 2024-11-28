@@ -1,21 +1,24 @@
-import React, { useState } from "react";
-import { Button, Form, Header, Icon } from "semantic-ui-react";
+import { useState } from "react";
+import { Header } from "semantic-ui-react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ShadcnComponents/Form";
 import "./User.css";
 import { useNavigate } from "react-router-dom";
 import ErrorPopup from "../CustomHooks/ErrorPopup/ErrorPopup";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "../ShadcnComponents/Button";
+import { Input } from "../ShadcnComponents/Input";
 
 const Signup = () => {
   const navigate = useNavigate();
-
-  const [signupInfo, setSignupInfo] = useState({
-    username: "",
-    password: "",
-    email: "",
-    firstName: "",
-    lastName: "",
-    occupation: "",
-    profileImageFile: "",
-  });
 
   const [error, setError] = useState({
     isErrorFadingIn: false,
@@ -24,43 +27,78 @@ const Signup = () => {
     message: "",
   });
 
-  const [profilePhotoDisplayText, setProfilePhotoDisplayText] = useState(
-    "Click here to choose a file"
-  );
+  const formSchema = z.object({
+    username: z
+      .string()
+      .min(5, {
+        message: "Username must be at least 5 characters",
+      })
+      .max(50),
+    password: z
+      .string()
+      .min(5, {
+        message: "Password must be at least 5 characters",
+      })
+      .max(50),
+    email: z
+      .string()
+      .email()
+      .min(10, {
+        message: "Please enter a valid email",
+      })
+      .max(50),
+    firstName: z
+      .string()
+      .min(5, {
+        message: "First name must be at least 5 characters",
+      })
+      .max(50),
+    lastName: z
+      .string()
+      .min(5, {
+        message: "Last name must be at least 5 characters",
+      })
+      .max(50),
+    occupation: z
+      .string()
+      .min(1, {
+        message: "Please choose an occupation",
+      })
+      .max(50),
+    profileImageFile: z.custom(
+      (filePath) => {
+        const allowedExtensions = [".jpeg", ".jpg", ".png"];
+        return allowedExtensions.some(
+          (extension) =>
+            filePath.toLowerCase().endsWith(extension) || filePath === ""
+        );
+      },
+      {
+        message: "Invalid file type",
+      }
+    ),
+  });
 
-  const [isProfilePhotoClearingDisabled, setIsProfilePhotoClearingDisabled] =
-    useState(true);
-
-  const handleFileInput = (e: any) => {
-    setSignupInfo({
-      ...signupInfo,
-      profileImageFile: e.target.files[0],
-    });
-
-    if (e.target.files.length !== 0) {
-      setProfilePhotoDisplayText(`File Chosen: ${e.target.files[0].name}`);
-      setIsProfilePhotoClearingDisabled(false);
-    }
-  };
-
-  const handleProfilePhotoClearing = () => {
-    setSignupInfo({
-      ...signupInfo,
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+      email: "",
+      firstName: "",
+      lastName: "",
+      occupation: "",
       profileImageFile: "",
-    });
+    },
+  });
 
-    setProfilePhotoDisplayText("Click here to choose a file");
-
-    setIsProfilePhotoClearingDisabled(true);
-  };
-
-  const handleSignup = async () => {
+  const handleSignup = async (signUpInfo: z.infer<typeof formSchema>) => {
     const response = await fetch("/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ signupInfo }),
+      body: JSON.stringify(signUpInfo),
     });
 
     const responseJson = await response.json();
@@ -94,90 +132,109 @@ const Signup = () => {
   return (
     <div>
       <Header textAlign="center">Welcome, New User</Header>
-      <Form onSubmit={handleSignup}>
-        <Form.Field className="Signup-Form-Group">
-          <div style={{ width: "50%" }}>
-            <label>Username: </label>
-            <input
-              onChange={(e) =>
-                setSignupInfo({ ...signupInfo, username: e.target.value })
-              }
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSignup)}>
+          <div className="Signup-Grid-Container">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username:</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="text-black" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password:</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="text-black" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email:</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="text-black" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>First Name:</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="text-black" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last Name:</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="text-black" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="occupation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Occupation:</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="text-black" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
-          <div style={{ width: "50%" }}>
-            <label>Password: </label>
-            <input
-              onChange={(e) =>
-                setSignupInfo({ ...signupInfo, password: e.target.value })
-              }
-            />
-          </div>
-        </Form.Field>
-        <Form.Field>
-          <label>Email: </label>
-          <input
-            onChange={(e) =>
-              setSignupInfo({ ...signupInfo, email: e.target.value })
-            }
+
+          <FormField
+            control={form.control}
+            name="profileImageFile"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Profile Image:</FormLabel>
+                <FormControl>
+                  <Input {...field} type="file" className="text-black" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </Form.Field>
-        <Form.Field className="Signup-Form-Group">
-          <div style={{ width: "50%" }}>
-            <label>Firstname: </label>
-            <input
-              onChange={(e) =>
-                setSignupInfo({ ...signupInfo, firstName: e.target.value })
-              }
-            />
+
+          <div className="Login-Button-Container">
+            <Button className="dark" type="submit">
+              Sign Up
+            </Button>
           </div>
-          <div style={{ width: "50%" }}>
-            <label>Lastname: </label>
-            <input
-              onChange={(e) =>
-                setSignupInfo({ ...signupInfo, lastName: e.target.value })
-              }
-            />
-          </div>
-        </Form.Field>
-        <Form.Field className="Signup-Form-Group">
-          <div style={{ width: "50%" }}>
-            <label>Occupation: </label>
-            <input
-              onChange={(e) =>
-                setSignupInfo({ ...signupInfo, occupation: e.target.value })
-              }
-            />
-          </div>
-          <div style={{ width: "50%" }}>
-            <label>Profile Image: </label>
-            <div style={{ display: "flex" }}>
-              <Button
-                as="label"
-                htmlFor="fileInput"
-                className="Signup-File-Input-Button"
-              >
-                {profilePhotoDisplayText}
-              </Button>
-              <input
-                id="fileInput"
-                type="file"
-                onChange={(e) => handleFileInput(e)}
-                style={{ display: "none" }}
-              />
-              <Button
-                className="Profile-Photo-Cancel-Button"
-                onClick={handleProfilePhotoClearing}
-                disabled={isProfilePhotoClearingDisabled}
-                icon
-              >
-                <Icon name="cancel"></Icon>
-              </Button>
-            </div>
-          </div>
-        </Form.Field>
-        <Form.Field className="Login-Button-Container">
-          <Button type="submit" content="Sign up" />
-        </Form.Field>
+        </form>
       </Form>
 
       <ErrorPopup error={error} setError={setError} />
