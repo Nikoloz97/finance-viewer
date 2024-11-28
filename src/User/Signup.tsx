@@ -3,7 +3,6 @@ import { Header } from "semantic-ui-react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -44,15 +43,15 @@ const Signup = () => {
   });
 
   const occupations = [
-    { label: "Software/IT", value: "si" },
-    { label: "Finance", value: "fn" },
-    { label: "Business", value: "bs" },
-    { label: "Medicine", value: "md" },
-    { label: "Education", value: "ed" },
-    { label: "Hospitality", value: "hs" },
-    { label: "Government", value: "gv" },
-    { label: "Aviation", value: "av" },
-    { label: "Other", value: "ot" },
+    { label: "Software/IT", value: "software" },
+    { label: "Finance", value: "finance" },
+    { label: "Business", value: "business" },
+    { label: "Medicine", value: "medicine" },
+    { label: "Education", value: "education" },
+    { label: "Hospitality", value: "hospitality" },
+    { label: "Government", value: "government" },
+    { label: "Aviation", value: "aviation" },
+    { label: "Other", value: "other" },
   ] as const;
 
   const formSchema = z.object({
@@ -90,7 +89,7 @@ const Signup = () => {
     occupation: z.string({
       required_error: "Please select an occupation.",
     }),
-    profileImageFile: z.custom(
+    profileImagePath: z.custom(
       (filePath) => {
         const allowedExtensions = [".jpeg", ".jpg", ".png"];
         return allowedExtensions.some(
@@ -113,7 +112,7 @@ const Signup = () => {
       firstName: "",
       lastName: "",
       occupation: "",
-      profileImageFile: "",
+      profileImagePath: "",
     },
   });
 
@@ -290,7 +289,7 @@ const Signup = () => {
 
           <FormField
             control={form.control}
-            name="profileImageFile"
+            name="profileImagePath"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Profile Image:</FormLabel>

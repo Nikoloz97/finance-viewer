@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/signup", async (req, res) => {
-  const { signupInfo } = req.body;
+  const signupInfo = req.body;
 
   try {
     await client.connect();
@@ -65,7 +65,7 @@ router.post("/signup", async (req, res) => {
     // const uploadBlobResponse = await blockBlobClient.uploadFile(signupInfo.profileImgUrl)
 
     // spread operator = makes properties top-level
-    const user = await users.insertOne({ ...signupInfo });
+    const user = await users.insertOne(signupInfo);
 
     if (user) {
       res.send(user);
