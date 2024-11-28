@@ -3,6 +3,7 @@ import { Header } from "semantic-ui-react";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,6 +17,21 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ShadcnComponents/Button";
 import { Input } from "../ShadcnComponents/Input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../ShadcnComponents/Popover";
+import { cn } from "../utils";
+import { Check, ChevronsUpDown } from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../ShadcnComponents/Command";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -26,6 +42,18 @@ const Signup = () => {
     isErrorShowing: false,
     message: "",
   });
+
+  const occupations = [
+    { label: "Software/IT", value: "si" },
+    { label: "Finance", value: "fn" },
+    { label: "Business", value: "bs" },
+    { label: "Medicine", value: "md" },
+    { label: "Education", value: "ed" },
+    { label: "Hospitality", value: "hs" },
+    { label: "Government", value: "gv" },
+    { label: "Aviation", value: "av" },
+    { label: "Other", value: "ot" },
+  ] as const;
 
   const formSchema = z.object({
     username: z
@@ -59,12 +87,9 @@ const Signup = () => {
         message: "Last name must be at least 5 characters",
       })
       .max(50),
-    occupation: z
-      .string()
-      .min(1, {
-        message: "Please choose an occupation",
-      })
-      .max(50),
+    occupation: z.string({
+      required_error: "Please select an occupation.",
+    }),
     profileImageFile: z.custom(
       (filePath) => {
         const allowedExtensions = [".jpeg", ".jpg", ".png"];
@@ -204,11 +229,59 @@ const Signup = () => {
               control={form.control}
               name="occupation"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex flex-col justify-end">
                   <FormLabel>Occupation:</FormLabel>
-                  <FormControl>
-                    <Input {...field} className="text-black" />
-                  </FormControl>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-full justify-between h-10 text-black",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value
+                            ? occupations.find(
+                                (occupation) => occupation.value === field.value
+                              )?.label
+                            : "Select category"}
+                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput placeholder="Search category..." />
+                        <CommandList>
+                          <CommandEmpty>No language found.</CommandEmpty>
+                          <CommandGroup>
+                            {occupations.map((occupation) => (
+                              <CommandItem
+                                value={occupation.label}
+                                key={occupation.value}
+                                className="text-black"
+                                onSelect={() => {
+                                  form.setValue("occupation", occupation.value);
+                                }}
+                              >
+                                {occupation.label}
+                                <Check
+                                  className={cn(
+                                    "ml-auto text-black",
+                                    occupation.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                   <FormMessage />
                 </FormItem>
               )}
