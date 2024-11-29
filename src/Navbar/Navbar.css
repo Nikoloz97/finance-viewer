@@ -9,7 +9,7 @@
 }
 
 .Navbar {
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: var(--primary-background-color);
   height: 90%;
   display: flex;
   flex-direction: column;

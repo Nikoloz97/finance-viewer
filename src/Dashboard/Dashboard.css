@@ -17,8 +17,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
   height: 100%;
   width: 100%;
 }
@@ -29,8 +29,8 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
 }
 
 .Recent-Activity-Investments-Summary-Container {
@@ -46,8 +46,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
 }
 
 .Investments-Summary-Container {
@@ -55,6 +55,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
 }

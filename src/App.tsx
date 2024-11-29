@@ -4,7 +4,7 @@ import Dashboard from "./Dashboard/Dashboard";
 import Budget from "./Budget";
 import Allocation from "./Allocation";
 import Debt from "./Debt";
-import Investments from "./Investments";
+import Investments from "./Investments/Investments";
 import Profile from "./Profile";
 import Settings from "./Settings";
 import NotFound from "./NotFound";
@@ -12,6 +12,7 @@ import Navbar from "./Navbar/Navbar";
 import Login from "./User/Login";
 import Signup from "./User/Signup";
 
+import "./Styles/Globals.css";
 import "./App.css";
 
 function App() {
