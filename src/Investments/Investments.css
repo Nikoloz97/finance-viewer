@@ -13,7 +13,7 @@
   width: 100%;
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
-  flex-grow: 0.3; /* Height = 1/5 of container */
+  flex-grow: 0.3; /* Height = 3/10 of container */
 }
 
 .Investments-List-Rectangle {
@@ -21,8 +21,8 @@
   justify-content: center;
   align-items: center;
   height: 50%;
-  width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  width: 95%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--primary-border-radius);
 }
 

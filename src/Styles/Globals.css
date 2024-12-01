@@ -1,4 +1,5 @@
 :root {
   --primary-background-color: rgba(0, 0, 0, 0.15);
+  --secondary-background-color: rgba(0, 0, 0, 0.3);
   --primary-border-radius: 10px;
 }
