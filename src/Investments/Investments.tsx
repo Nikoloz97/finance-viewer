@@ -2,6 +2,9 @@ import React from "react";
 import "./Investments.css";
 import { Plus } from "lucide-react";
 import { Button } from "../ShadcnComponents/Button";
+import { Card, CardDescription, CardTitle } from "../ShadcnComponents/Card";
+import { CardHeader } from "semantic-ui-react";
+import { Badge } from "../ShadcnComponents/Badge";
 
 const Investments = () => {
   const mockInvestmentReports = [
@@ -9,27 +12,28 @@ const Investments = () => {
       investmentReportId: 1,
       userId: 1,
       brokerageName: "Webull",
+      investmentType: "Stocks",
+      investmentSubtype: "Individual",
       balance: 7972.64,
       balanceDate: "10-31-2024",
     },
     {
       investmentReportId: 2,
-      brokerageName: "Vanguard",
       userId: 1,
+      brokerageName: "Vanguard",
+      investmentType: "Stocks",
+      investmentSubtype: "ETF",
       balance: 3118.64,
       balanceDate: "10-31-2024",
     },
     {
       investmentReportId: 3,
-      brokerageName: "Fidelity",
       userId: 1,
+      brokerageName: "Fidelity",
+      investmentType: "Stocks",
+      investmentSubtype: "ETF",
       balance: 2775.38,
       balanceDate: "09-30-2024",
-      prevBalanceDate: "06-30-2024",
-      prevBalanceDiff: 152.61,
-      depositAmount: 0,
-      withdrawalAmount: 0,
-      dividends: null,
     },
   ];
 
@@ -61,19 +65,41 @@ const Investments = () => {
     console.log("hello");
   };
 
+  const handleInvestmentCardClick = () => {
+    console.log("hello");
+  };
+
   return (
     <div className="Investments-Page">
       <div className="Investments-List-Container">
+        <div className="Investment-Types-Container">
+          <Badge>Stocks</Badge>
+          <Badge>Savings</Badge>
+          <Badge>Crypto</Badge>
+          <Badge>Bonds</Badge>
+          <Badge>Retirement</Badge>
+        </div>
         <div className="Investments-List-Rectangle">
           <Button
-            style={{
-              height: "90%",
-              backgroundColor: "var(--secondary-background-color)",
-            }}
+            className="Add-Investment-Button"
             onClick={handleAddInvestmentClick}
           >
             <Plus />
           </Button>
+          {mockInvestmentReports.map((report) => (
+            <Button
+              asChild
+              className="border-none"
+              onClick={handleInvestmentCardClick}
+            >
+              <Card className="Investment-Card">
+                <CardHeader>
+                  <CardTitle>{report.brokerageName}</CardTitle>
+                  <CardDescription>{`${report.investmentType} ${report.investmentSubtype ? `(${report.investmentSubtype})` : ""}`}</CardDescription>
+                </CardHeader>
+              </Card>
+            </Button>
+          ))}
         </div>
       </div>
       <div className="Investment-Display-Container">Investment Display</div>

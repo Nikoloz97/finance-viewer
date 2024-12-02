@@ -6,9 +6,16 @@
   width: 90%;
   gap: 1em;
 }
+
+.Investment-Types-Container {
+  display: flex;
+  gap: 0.5em;
+}
+
 .Investments-List-Container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
   width: 100%;
   background-color: var(--primary-background-color);
@@ -34,4 +41,17 @@
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
   flex-grow: 1; /* Height = rest of container */
+}
+
+.Add-Investment-Button {
+  height: 90%;
+  background-color: var(--secondary-background-color);
+}
+
+.Investment-Card {
+  background-color: var(--secondary-background-color);
+  text-align: center;
+  margin: 0.2em;
+  padding: 1em;
+  height: 90%;
 }
