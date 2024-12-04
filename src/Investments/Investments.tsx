@@ -1,10 +1,8 @@
-import React from "react";
-import "./Investments.css";
-import { Plus } from "lucide-react";
 import { Button } from "../ShadcnComponents/Button";
 import { Card, CardDescription, CardTitle } from "../ShadcnComponents/Card";
 import { CardHeader } from "semantic-ui-react";
 import { Badge } from "../ShadcnComponents/Badge";
+import AddInvestmentDialog from "./AddInvestmentDialog";
 
 const Investments = () => {
   const mockInvestmentReports = [
@@ -61,10 +59,6 @@ const Investments = () => {
     },
   ];
 
-  const handleAddInvestmentClick = () => {
-    console.log("hello");
-  };
-
   const handleInvestmentCardClick = () => {
     console.log("hello");
   };
@@ -80,12 +74,7 @@ const Investments = () => {
           <Badge>Retirement</Badge>
         </div>
         <div className="Investments-List-Rectangle">
-          <Button
-            className="Add-Investment-Button"
-            onClick={handleAddInvestmentClick}
-          >
-            <Plus />
-          </Button>
+          <AddInvestmentDialog />
           {mockInvestmentReports.map((report) => (
             <Button
               asChild
