@@ -2,7 +2,7 @@ import { Button } from "../ShadcnComponents/Button";
 import { Card, CardDescription, CardTitle } from "../ShadcnComponents/Card";
 import { CardHeader } from "semantic-ui-react";
 import { Badge } from "../ShadcnComponents/Badge";
-import AddInvestmentDialog from "./AddInvestmentDialog";
+import AddInvestmentCarousel from "./AddInvestmentCarousel";
 
 const Investments = () => {
   const mockInvestmentReports = [
@@ -74,7 +74,7 @@ const Investments = () => {
           <Badge>Retirement</Badge>
         </div>
         <div className="Investments-List-Rectangle">
-          <AddInvestmentDialog />
+          <AddInvestmentCarousel />
           {mockInvestmentReports.map((report) => (
             <Button
               asChild
