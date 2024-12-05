@@ -10,8 +10,11 @@ import {
 import { Button } from "../ShadcnComponents/Button";
 import { Plus } from "lucide-react";
 import "./Investments.css";
+import { useState } from "react";
 
 const AddInvestmentDialog = () => {
+  const [isAddInvestmentDisabled, setIsAddInvestmentDisabled] = useState(true);
+
   return (
     <Dialog>
       <DialogTrigger className="dark" asChild>
@@ -23,15 +26,18 @@ const AddInvestmentDialog = () => {
         <DialogHeader>
           <DialogTitle className="text-white">Add Investment</DialogTitle>
           <DialogDescription className="text-white">
-            Please choose how you would like to put in your investment details
+            Please choose how you would like to put in your investment details:
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-center space-x-6 mb-2">
           <Button>Manual</Button>
           <Button>Automatic</Button>
         </div>
+
         <DialogFooter>
-          <Button type="submit">Add Investment</Button>
+          <Button disabled={isAddInvestmentDisabled} type="submit">
+            Add Investment
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
