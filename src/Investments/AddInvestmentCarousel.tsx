@@ -22,9 +22,6 @@ import "./Investments.css";
 const AddInvestmentCarousel = () => {
   const [isManualChosen, setIsManualChosen] = useState(false);
   const [isAutomaticChosen, setIsAutomaticChosen] = useState(false);
-  const [isManualFormCompleted, setIsManualFormCompleted] = useState(false);
-  const [isAutomaticFileDropped, setIsAutomaticFileDropped] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
 
   const handleManualButtonClick = () => {
     setIsManualChosen(true);
@@ -36,18 +33,6 @@ const AddInvestmentCarousel = () => {
     setIsManualChosen(false);
   };
 
-  // TODO: see CarouselNext component
-  const handleStepIncrement = () => {
-    const tempCurrentStep = currentStep;
-    setCurrentStep(tempCurrentStep + 1);
-  };
-
-  // TODO: see CarouselPrev component
-  const handleStepDecrement = () => {
-    const tempCurrentStep = currentStep;
-    setCurrentStep(tempCurrentStep - 1);
-  };
-
   const addInvestmentSteps = [
     <div className="flex gap-4">
       <Button onClick={handleManualButtonClick} disabled={isManualChosen}>
@@ -57,25 +42,14 @@ const AddInvestmentCarousel = () => {
         Automatic
       </Button>
     </div>,
-    <div>
-      {isAutomaticChosen ? (
-        <div>Automatic file drop</div>
-      ) : (
-        <div>Manual form</div>
-      )}
-    </div>,
   ];
 
   if (isAutomaticChosen) {
+    addInvestmentSteps.push(<div>Automatic file drop</div>);
     addInvestmentSteps.push(<div>Automatic form</div>);
+  } else if (isManualChosen) {
+    addInvestmentSteps.push(<div>Manual form</div>);
   }
-
-  // TODO: see carousel next component
-  const isNextButtonEnabled =
-    (currentStep === 1 && (isManualChosen || isAutomaticChosen)) ||
-    (currentStep === 2 && isManualFormCompleted) ||
-    isAutomaticFileDropped ||
-    currentStep !== addInvestmentSteps.length;
 
   return (
     <Dialog>
@@ -108,15 +82,8 @@ const AddInvestmentCarousel = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious
-            // TODO: find way to append this to functionality
-            // onClick={handleStepDecrement}
-            />
-            <CarouselNext
-            // TODO: find way to append this to functionality
-            // disabled={!isNextButtonEnabled}
-            // onClick={handleStepIncrement}
-            />
+            <CarouselPrevious />
+            <CarouselNext />
           </Carousel>
         </div>
       </DialogContent>
