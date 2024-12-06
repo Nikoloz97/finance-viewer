@@ -28,8 +28,13 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ShadcnComponents/Calendar";
 import { Input } from "../ShadcnComponents/Input";
+import { IParsedStatementData } from "../Models/Investments";
 
-const ManualForm = () => {
+interface InvestmentAddFormProps {
+  parsedStatementData?: IParsedStatementData;
+}
+
+const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
   // Min + max possible value for type int32
   const MIN_INT32 = -(2 ** 31);
   const MAX_INT32 = 2 ** 31;
@@ -46,8 +51,8 @@ const ManualForm = () => {
 
   const investmentSubtypes = ["Individual", "ETF"];
 
-  const manualFormSchema = z.object({
-    brokerage: z.string().min(1, {
+  const addFormSchema = z.object({
+    brokerageName: z.string().min(1, {
       message: "Please select a brokerage",
     }),
     investmentType: z.string().min(1, {
@@ -80,21 +85,31 @@ const ManualForm = () => {
       }),
   });
 
-  const form = useForm<z.infer<typeof manualFormSchema>>({
-    resolver: zodResolver(manualFormSchema),
-    defaultValues: {
-      brokerage: "",
-      investmentType: "",
-      investmentSubtype: "",
-      startDate: new Date(),
-      startDateBalance: 0,
-      endDate: new Date(),
-      endDateBalance: 0,
-    },
+  const form = useForm<z.infer<typeof addFormSchema>>({
+    resolver: zodResolver(addFormSchema),
+    defaultValues: parsedStatementData
+      ? {
+          brokerageName: parsedStatementData.brokerageName,
+          investmentType: parsedStatementData.investmentType,
+          investmentSubtype: parsedStatementData.investmentSubtype,
+          startDate: parsedStatementData.startDate,
+          startDateBalance: parsedStatementData.startDateBalance,
+          endDate: parsedStatementData.endDate,
+          endDateBalance: parsedStatementData.endDateBalance,
+        }
+      : {
+          brokerageName: "",
+          investmentType: "",
+          investmentSubtype: "",
+          startDate: new Date(),
+          startDateBalance: 0,
+          endDate: new Date(),
+          endDateBalance: 0,
+        },
   });
 
   const handleAddInvestmentSubmission = async (
-    newInvestmentData: z.infer<typeof manualFormSchema>
+    newInvestmentData: z.infer<typeof addFormSchema>
   ) => {
     // TODO: create this endpoint
     const response = await fetch("/investment/addNew", {
@@ -121,13 +136,13 @@ const ManualForm = () => {
 
   return (
     <div>
-      <Header textAlign="center">Manual Investment Additional Form</Header>
+      <Header textAlign="center">Investment Add Form</Header>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleAddInvestmentSubmission)}>
           <div className="Signup-Grid-Container">
             <FormField
               control={form.control}
-              name="brokerage"
+              name="brokerageName"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-end">
                   <FormLabel>Brokerage</FormLabel>
@@ -329,4 +344,4 @@ const ManualForm = () => {
   );
 };
 
-export default ManualForm;
+export default InvestmentAddForm;

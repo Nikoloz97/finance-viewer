@@ -18,11 +18,16 @@ import {
 } from "../ShadcnComponents/Dialog";
 import { useState } from "react";
 import "./Investments.css";
-import ManualForm from "./ManualForm";
+import InvestmentAddForm from "./InvestmentAddForm";
+import AutomaticFileDrop from "./AutomaticFileDrop";
+import { IParsedStatementData } from "../Models/Investments";
 
 const AddInvestmentCarousel = () => {
   const [isManualChosen, setIsManualChosen] = useState(false);
   const [isAutomaticChosen, setIsAutomaticChosen] = useState(false);
+  const [parsedStatementData, setParsedStatementData] = useState<
+    IParsedStatementData | undefined
+  >();
 
   const handleManualButtonClick = () => {
     setIsManualChosen(true);
@@ -46,14 +51,14 @@ const AddInvestmentCarousel = () => {
   ];
 
   if (isAutomaticChosen) {
-    addInvestmentSteps.push(<div>Automatic file drop</div>);
-    addInvestmentSteps.push(<div>Automatic Form</div>);
-  } else if (isManualChosen) {
     addInvestmentSteps.push(
-      <div>
-        <ManualForm />
-      </div>
+      <AutomaticFileDrop setParsedStatementData={setParsedStatementData} />
     );
+    addInvestmentSteps.push(
+      <InvestmentAddForm parsedStatementData={parsedStatementData} />
+    );
+  } else if (isManualChosen) {
+    addInvestmentSteps.push(<InvestmentAddForm />);
   }
 
   return (
