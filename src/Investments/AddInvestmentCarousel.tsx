@@ -63,23 +63,24 @@ const AddInvestmentCarousel = () => {
           <Plus />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] dark">
+      <DialogContent className="left-[57%] dark">
         <DialogHeader>
-          <DialogTitle className="text-white">Add Investment</DialogTitle>
-          <DialogDescription className="text-white">
+          <DialogTitle className="text-white text-4xl">
+            Add Investment
+          </DialogTitle>
+          <DialogDescription className="text-white text-lg">
             Please follow along steps for adding an investment:
           </DialogDescription>
         </DialogHeader>
 
-        {/* Carousel here */}
         <div className="w-full flex justify-center">
-          <Carousel className="w-full max-w-xs">
-            <CarouselContent>
+          <Carousel className="max-w-5xl">
+            <CarouselContent style={{ height: "40rem" }}>
               {addInvestmentSteps.map((step, index) => (
                 <CarouselItem key={index}>
-                  <div className="p-1">
-                    <Card>
-                      <CardContent className="flex aspect-square items-center justify-center p-6">
+                  <div className="p-1 h-full">
+                    <Card className="h-full">
+                      <CardContent className="flex h-full w-full aspect-square items-center justify-center p-6">
                         {step}
                       </CardContent>
                     </Card>

@@ -121,7 +121,7 @@ const ManualForm = () => {
 
   return (
     <div>
-      <Header textAlign="center">Welcome, New User</Header>
+      <Header textAlign="center">Manual Investment Additional Form</Header>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleAddInvestmentSubmission)}>
           <div className="Signup-Grid-Container">
@@ -130,7 +130,7 @@ const ManualForm = () => {
               name="brokerage"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-end">
-                  <FormLabel>Brokerage:</FormLabel>
+                  <FormLabel>Brokerage</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -156,14 +156,14 @@ const ManualForm = () => {
               name="investmentType"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-end">
-                  <FormLabel>Investment Type:</FormLabel>
+                  <FormLabel>Investment Type</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select the investment type" />
+                        <SelectValue placeholder="Select Type" />
                       </SelectTrigger>
                     </FormControl>
 
@@ -184,14 +184,14 @@ const ManualForm = () => {
               name="investmentSubtype"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-end">
-                  <FormLabel>Investment Subtype:</FormLabel>
+                  <FormLabel>Investment Subtype</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a Brokerage" />
+                        <SelectValue placeholder="Select a Subtype" />
                       </SelectTrigger>
                     </FormControl>
 
@@ -253,9 +253,9 @@ const ManualForm = () => {
               name="startDateBalance"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Start Date Balance:</FormLabel>
+                  <FormLabel>Start Date Balance</FormLabel>
                   <FormControl>
-                    <Input {...field} className="text-black" />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -308,9 +308,9 @@ const ManualForm = () => {
               name="endDateBalance"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>End Date Balance:</FormLabel>
+                  <FormLabel>End Date Balance</FormLabel>
                   <FormControl>
-                    <Input {...field} className="text-black" />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -320,7 +320,7 @@ const ManualForm = () => {
 
           <div className="Login-Button-Container">
             <Button className="dark" type="submit">
-              Sign Up
+              Add
             </Button>
           </div>
         </form>
