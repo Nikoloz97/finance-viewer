@@ -18,6 +18,7 @@ import {
 } from "../ShadcnComponents/Dialog";
 import { useState } from "react";
 import "./Investments.css";
+import ManualForm from "./ManualForm";
 
 const AddInvestmentCarousel = () => {
   const [isManualChosen, setIsManualChosen] = useState(false);
@@ -46,9 +47,13 @@ const AddInvestmentCarousel = () => {
 
   if (isAutomaticChosen) {
     addInvestmentSteps.push(<div>Automatic file drop</div>);
-    addInvestmentSteps.push(<div>Automatic form</div>);
+    addInvestmentSteps.push(<div>Automatic Form</div>);
   } else if (isManualChosen) {
-    addInvestmentSteps.push(<div>Manual form</div>);
+    addInvestmentSteps.push(
+      <div>
+        <ManualForm />
+      </div>
+    );
   }
 
   return (
@@ -62,7 +67,7 @@ const AddInvestmentCarousel = () => {
         <DialogHeader>
           <DialogTitle className="text-white">Add Investment</DialogTitle>
           <DialogDescription className="text-white">
-            Please following along steps for adding and investment
+            Please follow along steps for adding an investment:
           </DialogDescription>
         </DialogHeader>
 

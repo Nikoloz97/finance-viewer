@@ -86,8 +86,8 @@ const Signup = () => {
         message: "Last name must be at least 5 characters",
       })
       .max(50),
-    occupation: z.string({
-      required_error: "Please select an occupation.",
+    occupation: z.string().min(1, {
+      message: "Please select an occupation",
     }),
     profileImagePath: z.custom(
       (filePath) => {
@@ -128,7 +128,6 @@ const Signup = () => {
     const responseJson = await response.json();
 
     if (response.ok) {
-      // Handle signup
       navigate("/user/login");
       // TODO: eventually remove this line
       console.log(responseJson);
