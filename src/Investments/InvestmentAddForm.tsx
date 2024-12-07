@@ -65,23 +65,19 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
       message: "Please select a start date",
     }),
     startDateBalance: z
-      .number()
-      .min(MIN_INT32, {
-        message: "Please select a valid balance value",
-      })
-      .max(MAX_INT32, {
-        message: "Please select a valid balance value",
+      .string()
+      .transform((value) => parseFloat(value))
+      .refine((value) => !isNaN(value), {
+        message: "Please enter a valid number",
       }),
     endDate: z.date({
       message: "Please select an end date",
     }),
     endDateBalance: z
-      .number()
-      .min(MIN_INT32, {
-        message: "Please select a valid balance value",
-      })
-      .max(MAX_INT32, {
-        message: "Please select a valid balance value",
+      .string()
+      .transform((value) => parseFloat(value))
+      .refine((value) => !isNaN(value), {
+        message: "Please enter a valid number",
       }),
   });
 
@@ -111,7 +107,6 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
   const handleAddInvestmentSubmission = async (
     newInvestmentData: z.infer<typeof addFormSchema>
   ) => {
-    // TODO: create this endpoint
     const response = await fetch("/investment/addNew", {
       method: "POST",
       headers: {
