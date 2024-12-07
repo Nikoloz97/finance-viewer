@@ -94,7 +94,7 @@ const Signup = () => {
         const allowedExtensions = [".jpeg", ".jpg", ".png"];
         return allowedExtensions.some(
           (extension) =>
-            filePath.toLowerCase().endsWith(extension) || filePath === ""
+            filePath.toLowerCase().endsWith(extension)
         );
       },
       {

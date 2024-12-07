@@ -75,8 +75,9 @@ const Investments = () => {
         </div>
         <div className="Investments-List-Rectangle">
           <AddInvestmentCarousel />
-          {mockInvestmentReports.map((report) => (
+          {mockInvestmentReports.map((report, index) => (
             <Button
+              key={index}
               asChild
               className="border-none"
               onClick={handleInvestmentCardClick}

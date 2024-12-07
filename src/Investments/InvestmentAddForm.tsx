@@ -157,8 +157,10 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
                     </FormControl>
 
                     <SelectContent>
-                      {brokerages.map((brokerage) => (
-                        <SelectItem value={brokerage}>{brokerage}</SelectItem>
+                      {brokerages.map((brokerage, index) => (
+                        <SelectItem key={index} value={brokerage}>
+                          {brokerage}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -183,8 +185,8 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
                     </FormControl>
 
                     <SelectContent>
-                      {investmentTypes.map((investmentType) => (
-                        <SelectItem value={investmentType}>
+                      {investmentTypes.map((investmentType, index) => (
+                        <SelectItem key={index} value={investmentType}>
                           {investmentType}
                         </SelectItem>
                       ))}

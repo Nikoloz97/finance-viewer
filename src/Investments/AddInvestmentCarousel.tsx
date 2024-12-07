@@ -54,9 +54,11 @@ const AddInvestmentCarousel = () => {
     addInvestmentSteps.push(
       <AutomaticFileDrop setParsedStatementData={setParsedStatementData} />
     );
-    addInvestmentSteps.push(
-      <InvestmentAddForm parsedStatementData={parsedStatementData} />
-    );
+    if (parsedStatementData) {
+      addInvestmentSteps.push(
+        <InvestmentAddForm parsedStatementData={parsedStatementData} />
+      );
+    }
   } else if (isManualChosen) {
     addInvestmentSteps.push(<InvestmentAddForm />);
   }

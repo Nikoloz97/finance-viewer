@@ -25,14 +25,13 @@ const AutomaticFileDrop = ({
   const formSchema = z.object({
     statementFilePath: z.custom(
       (filePath) => {
-        const allowedExtensions = [".jpeg", ".jpg", ".png"];
-        return allowedExtensions.some(
-          (extension) =>
-            filePath.toLowerCase().endsWith(extension) || filePath === ""
+        const allowedExtensions = [".pdf"];
+        return allowedExtensions.some((extension) =>
+          filePath.toLowerCase().endsWith(extension)
         );
       },
       {
-        message: "Invalid file type",
+        message: "Invalid file type. Allowed extensions are: pdf",
       }
     ),
   });
@@ -45,7 +44,18 @@ const AutomaticFileDrop = ({
   });
 
   const handleStatementParsing = () => {
-    console.log("Statement Parsed!");
+    // TODO: Implement parsing here
+
+    const dummyParsedStatementData = {
+      brokerageName: "Webull",
+      investmentType: "Stocks",
+      investmentSubtype: "Individual",
+      startDate: new Date(11 - 1 - 2024),
+      startDateBalance: 6000,
+      endDate: new Date(11 - 1 - 2024),
+      endDateBalance: 7000,
+    };
+    setParsedStatementData(dummyParsedStatementData);
   };
 
   return (
@@ -65,10 +75,10 @@ const AutomaticFileDrop = ({
               </FormItem>
             )}
           />
+          <Button className="dark" type="submit">
+            Add
+          </Button>
         </form>
-        <Button className="dark" type="submit">
-          Submit
-        </Button>
       </Form>
     </div>
   );
