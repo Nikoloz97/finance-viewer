@@ -7,7 +7,7 @@ import { BlobServiceClient } from "@azure/storage-blob";
 // Ability to utilize env variables
 dotenv.config();
 
-const router = express.Router();
+const userRouter = express.Router();
 const uri = process.env.MONGODB_URI;
 const blobConnectionString = process.env.AZURE_BLOB_CS;
 // Level of encryption
@@ -21,7 +21,7 @@ const client = new MongoClient(uri, {
   },
 });
 
-router.post("/login", async (req, res) => {
+userRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
     if (user) {
       res.send(user);
     } else {
-      // TODO: is there a way the server can return the specifics itself?
+      // TODO: find if theres a way  server can return specifics itself?
       res.status(400).json({ message: "Invalid username or password" });
     }
   } finally {
@@ -42,7 +42,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/signup", async (req, res) => {
+userRouter.post("/signup", async (req, res) => {
   const signupInfo = req.body;
 
   try {
@@ -64,7 +64,6 @@ router.post("/signup", async (req, res) => {
     // // TODO: implement a try-catch here
     // const uploadBlobResponse = await blockBlobClient.uploadFile(signupInfo.profileImgUrl)
 
-    // spread operator = makes properties top-level
     const user = await users.insertOne(signupInfo);
 
     if (user) {
@@ -77,4 +76,4 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-export default router;
+export default userRouter;

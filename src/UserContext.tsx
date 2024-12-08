@@ -3,6 +3,7 @@ import { useMediaQuery } from "react-responsive";
 
 //TODO: extract this into an importable file??
 type User = {
+  _id: string;
   username: string;
   password: string;
   firstName: string;

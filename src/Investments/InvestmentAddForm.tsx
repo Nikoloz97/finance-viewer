@@ -29,15 +29,19 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ShadcnComponents/Calendar";
 import { Input } from "../ShadcnComponents/Input";
 import { IParsedStatementData } from "../Models/Investments";
+import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 
 interface InvestmentAddFormProps {
   parsedStatementData?: IParsedStatementData;
 }
 
 const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
+  // TODO: work on adding this check back in
   // Min + max possible value for type int32
   const MIN_INT32 = -(2 ** 31);
   const MAX_INT32 = 2 ** 31;
+
+  const { user } = UseContextCheck();
 
   const brokerages = ["Webull", "Vanguard", "Fidelity"];
 
@@ -64,7 +68,7 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
     startDate: z.date({
       message: "Please select a start date",
     }),
-    startDateBalance: z
+    startBalance: z
       .string()
       .transform((value) => parseFloat(value))
       .refine((value) => !isNaN(value), {
@@ -73,7 +77,19 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
     endDate: z.date({
       message: "Please select an end date",
     }),
-    endDateBalance: z
+    endBalance: z
+      .string()
+      .transform((value) => parseFloat(value))
+      .refine((value) => !isNaN(value), {
+        message: "Please enter a valid number",
+      }),
+    depositAmount: z
+      .string()
+      .transform((value) => parseFloat(value))
+      .refine((value) => !isNaN(value), {
+        message: "Please enter a valid number",
+      }),
+    withdrawalAmount: z
       .string()
       .transform((value) => parseFloat(value))
       .refine((value) => !isNaN(value), {
@@ -89,30 +105,43 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
           investmentType: parsedStatementData.investmentType,
           investmentSubtype: parsedStatementData.investmentSubtype,
           startDate: parsedStatementData.startDate,
-          startDateBalance: parsedStatementData.startDateBalance,
+          startBalance: parsedStatementData.startBalance,
           endDate: parsedStatementData.endDate,
-          endDateBalance: parsedStatementData.endDateBalance,
+          endBalance: parsedStatementData.endBalance,
+          depositAmount: parsedStatementData.depositAmount,
+          withdrawalAmount: parsedStatementData.withdrawalAmount,
         }
       : {
           brokerageName: "",
           investmentType: "",
           investmentSubtype: "",
           startDate: new Date(),
-          startDateBalance: 0,
+          startBalance: 0,
           endDate: new Date(),
-          endDateBalance: 0,
+          endBalance: 0,
+          depositAmount: 0,
+          withdrawalAmount: 0,
         },
   });
 
   const handleAddInvestmentSubmission = async (
     newInvestmentData: z.infer<typeof addFormSchema>
   ) => {
-    const response = await fetch("/investment/addNew", {
+    if (!user) {
+      console.error("No user defined");
+      return;
+    }
+    const newInvestmentDataWithUserId = {
+      ...newInvestmentData,
+      userId: user._id,
+    };
+
+    const response = await fetch("/investments/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newInvestmentData),
+      body: JSON.stringify(newInvestmentDataWithUserId),
     });
 
     const responseJson = await response.json();
@@ -262,7 +291,7 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
             />
             <FormField
               control={form.control}
-              name="startDateBalance"
+              name="startBalance"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Start Date Balance</FormLabel>
@@ -317,10 +346,38 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
             />
             <FormField
               control={form.control}
-              name="endDateBalance"
+              name="endBalance"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>End Date Balance</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="endBalance"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Deposit Amount</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="endBalance"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Withdrawal Amount</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

@@ -51,9 +51,11 @@ const AutomaticFileDrop = ({
       investmentType: "Stocks",
       investmentSubtype: "Individual",
       startDate: new Date(11 - 1 - 2024),
-      startDateBalance: 6000,
+      startBalance: 6000,
       endDate: new Date(11 - 1 - 2024),
-      endDateBalance: 7000,
+      endBalance: 7000,
+      withdrawalAmount: 100,
+      depositAmount: 500,
     };
     setParsedStatementData(dummyParsedStatementData);
   };

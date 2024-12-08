@@ -3,7 +3,9 @@ export interface IParsedStatementData {
   investmentType: string;
   investmentSubtype: string;
   startDate: Date;
-  startDateBalance: number;
+  startBalance: number;
   endDate: Date;
-  endDateBalance: number;
+  endBalance: number;
+  depositAmount: number;
+  withdrawalAmount: number;
 }
