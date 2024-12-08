@@ -83,8 +83,8 @@ const AddInvestmentCarousel = () => {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="w-full flex justify-center">
-          <Carousel className="max-w-5xl">
+        <div className="w-full flex justify-center px-10">
+          <Carousel className="max-w-5xl" style={{ minWidth: "64em" }}>
             <CarouselContent style={{ height: "40rem" }}>
               {addInvestmentSteps.map((step, index) => (
                 <CarouselItem key={index}>
