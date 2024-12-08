@@ -9,3 +9,16 @@ export interface IParsedStatementData {
   depositAmount: number;
   withdrawalAmount: number;
 }
+
+export interface IInvestmentReport {
+  userId: string;
+  startBalance: number;
+  startBalanceDate: Date;
+  endBalance: number;
+  endBalanceDate: Date;
+  investmentType: string;
+  investmentSubtype: string;
+  depositAmount: number;
+  withdrawalAmount: number;
+  brokerageName: number;
+}

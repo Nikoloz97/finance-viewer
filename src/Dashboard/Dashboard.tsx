@@ -1,5 +1,4 @@
 import "./Dashboard.css";
-import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import Profile from "./Profile/Profile";
 import RecentActivity from "./RecentActivity";
 import Networth from "./Networth";

@@ -17,7 +17,31 @@ const client = new MongoClient(uri, {
   },
 });
 
-investmentsRouter.post("/add", async (req, res) => {
+investmentsRouter.get("/investmentReports", async (req, res) => {
+  const userId = req.query.userId;
+
+  try {
+    await client.connect();
+    const db = client.db("FinanceViewer");
+    const allInvestmentReports = db.collection("InvestmentReports");
+
+    const userInvestmentReports = await allInvestmentReports
+      .find({ userId: userId })
+      .toArray();
+
+    if (userInvestmentReports) {
+      res.send(userInvestmentReports);
+    } else {
+      res
+        .status(400)
+        .json({ message: "Could not find investment reports or is empty" });
+    }
+  } finally {
+    await client.close();
+  }
+});
+
+investmentsRouter.post("/addInvestmentsReport", async (req, res) => {
   const newInvestmentData = req.body;
 
   try {

@@ -3,61 +3,35 @@ import { Card, CardDescription, CardTitle } from "../ShadcnComponents/Card";
 import { CardHeader } from "semantic-ui-react";
 import { Badge } from "../ShadcnComponents/Badge";
 import AddInvestmentCarousel from "./AddInvestmentCarousel";
+import { useEffect, useState } from "react";
+import { IInvestmentReport } from "../Models/Investments";
+import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 
 const Investments = () => {
-  const mockInvestmentReports = [
-    {
-      investmentReportId: 1,
-      userId: 1,
-      brokerageName: "Webull",
-      investmentType: "Stocks",
-      investmentSubtype: "Individual",
-      balance: 7972.64,
-      balanceDate: "10-31-2024",
-    },
-    {
-      investmentReportId: 2,
-      userId: 1,
-      brokerageName: "Vanguard",
-      investmentType: "Stocks",
-      investmentSubtype: "ETF",
-      balance: 3118.64,
-      balanceDate: "10-31-2024",
-    },
-    {
-      investmentReportId: 3,
-      userId: 1,
-      brokerageName: "Fidelity",
-      investmentType: "Stocks",
-      investmentSubtype: "ETF",
-      balance: 2775.38,
-      balanceDate: "09-30-2024",
-    },
-  ];
+  const { user } = UseContextCheck();
 
-  const mockInvestmentReportDetails = [
-    {
-      investmentReportDetailId: 1,
-      investmentReportId: 1,
-      depositAmount: 0,
-      withdrawalAmount: 0,
-      dividends: 2.07,
-    },
-    {
-      investmentReportDetailId: 2,
-      investmentReportId: 2,
-      depositAmount: 0,
-      withdrawalAmount: 0,
-      dividends: 9.63,
-    },
-    {
-      investmentReportDetailId: 3,
-      investmentReportId: 3,
-      depositAmount: 0,
-      withdrawalAmount: 0,
-      dividends: null,
-    },
-  ];
+  const [investmentReports, setInvestmentReports] = useState<
+    IInvestmentReport[]
+  >([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/investments/investmentReports?userId=${user?._id}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const jsonData: IInvestmentReport[] = await response.json();
+        setInvestmentReports(jsonData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleInvestmentCardClick = () => {
     console.log("hello");
@@ -75,7 +49,7 @@ const Investments = () => {
         </div>
         <div className="Investments-List-Rectangle">
           <AddInvestmentCarousel />
-          {mockInvestmentReports.map((report, index) => (
+          {investmentReports.map((report, index) => (
             <Button
               key={index}
               asChild
