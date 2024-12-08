@@ -11,5 +11,5 @@
 .Navbar-Page-Container {
   display: flex;
   height: 100vh;
-  background-color: #282c34;
+  background-color: hsl(220, 13%, 18%);
 }

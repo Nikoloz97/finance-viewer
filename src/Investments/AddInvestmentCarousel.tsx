@@ -70,7 +70,10 @@ const AddInvestmentCarousel = () => {
           <Plus />
         </Button>
       </DialogTrigger>
-      <DialogContent className="left-[57%] dark">
+      <DialogContent
+        onInteractOutside={(event) => event.preventDefault()}
+        className="left-[57%] dark"
+      >
         <DialogHeader>
           <DialogTitle className="text-white text-4xl">
             Add Investment
