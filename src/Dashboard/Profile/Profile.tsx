@@ -18,8 +18,11 @@ import {
 } from "../../ShadcnComponents/Card";
 import Account from "./Account";
 import Preferences from "./Preferences";
+import { UseContextCheck } from "../../CustomHooks/UseContextCheck";
 
 const Profile = () => {
+  const { user } = UseContextCheck();
+
   return (
     <div>
       <div className="Avatar-Caption-Container">
@@ -27,7 +30,7 @@ const Profile = () => {
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <p>Guest</p>
+        <p>{`Welcome, ${user ? user.firstName : "Guest"}`}</p>
       </div>
       <Tabs defaultValue="account" className="h-full p-3 dark Profile-Tabs">
         <TabsList className="grid w-full grid-cols-2">

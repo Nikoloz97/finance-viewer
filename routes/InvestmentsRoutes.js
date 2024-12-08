@@ -2,7 +2,7 @@ import express from "express";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 
-// TODO: abstract this setup stuff somehow
+// TODO: abstract this setup stuff
 // Ability to utilize env variables
 dotenv.config();
 
@@ -23,14 +23,15 @@ investmentsRouter.post("/add", async (req, res) => {
   try {
     await client.connect();
     const db = client.db("FinanceViewer");
-    const investments = db.collection("InvestmentReports");
+    const investmentReports = db.collection("InvestmentReports");
 
-    const user = await investments.insertOne(newInvestmentData);
+    const newlyCreatedInvestment =
+      await investmentReports.insertOne(newInvestmentData);
 
-    if (user) {
-      res.send(user);
+    if (newlyCreatedInvestment) {
+      res.send(newlyCreatedInvestment);
     } else {
-      res.status(400).json({ message: "Error saving new investment report" });
+      res.status(400).json({ message: "Error creating new investment report" });
     }
   } finally {
     await client.close();

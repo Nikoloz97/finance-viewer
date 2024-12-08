@@ -5,8 +5,6 @@ import RecentActivity from "./RecentActivity";
 import Networth from "./Networth";
 
 const Dashboard = () => {
-  const { user } = UseContextCheck();
-
   return (
     <div className="Dashboard-Container">
       <div className="Networth-Profile-Container">

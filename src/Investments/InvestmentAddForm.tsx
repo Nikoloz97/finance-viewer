@@ -360,7 +360,7 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
 
             <FormField
               control={form.control}
-              name="endBalance"
+              name="depositAmount"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Deposit Amount</FormLabel>
@@ -374,7 +374,7 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
 
             <FormField
               control={form.control}
-              name="endBalance"
+              name="withdrawalAmount"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Withdrawal Amount</FormLabel>
