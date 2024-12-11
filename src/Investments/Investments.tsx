@@ -6,6 +6,7 @@ import AddInvestmentCarousel from "./AddInvestmentCarousel";
 import { useEffect, useState } from "react";
 import { IInvestmentReport } from "../Models/Investments";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
+import InvestmentDisplay from "./InvestmentDisplay";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -14,8 +15,11 @@ const Investments = () => {
     IInvestmentReport[]
   >([]);
 
+  const [selectedInvestment, setSelectedInvestment] =
+    useState<IInvestmentReport>();
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchLatestInvestmentReports = async () => {
       try {
         const response = await fetch(
           `/investments/investmentReports?userId=${user?._id}`
@@ -30,17 +34,19 @@ const Investments = () => {
       }
     };
 
-    fetchData();
+    fetchLatestInvestmentReports();
   }, []);
 
-  const handleInvestmentCardClick = () => {
-    console.log("hello");
+  const handleInvestmentCardClick = (report: IInvestmentReport) => {
+    setSelectedInvestment(report);
   };
 
   return (
     <div className="Investments-Page">
       <div className="Investments-List-Container">
         <div className="Investment-Types-Container">
+          <h3 className="mb-0">Filter: </h3>
+          <Badge className="dark">All</Badge>
           <Badge>Stocks</Badge>
           <Badge>Savings</Badge>
           <Badge>Crypto</Badge>
@@ -49,12 +55,13 @@ const Investments = () => {
         </div>
         <div className="Investments-List-Rectangle">
           <AddInvestmentCarousel />
+          <Button className="Add-Investment-Button text-white">All</Button>
           {investmentReports.map((report, index) => (
             <Button
               key={index}
               asChild
               className="border-none"
-              onClick={handleInvestmentCardClick}
+              onClick={() => handleInvestmentCardClick(report)}
             >
               <Card className="Investment-Card">
                 <CardHeader>
@@ -66,7 +73,9 @@ const Investments = () => {
           ))}
         </div>
       </div>
-      <div className="Investment-Display-Container">Investment Display</div>
+      <div className="Investment-Display-Container">
+        <InvestmentDisplay selectedInvestment={selectedInvestment} />
+      </div>
     </div>
   );
 };

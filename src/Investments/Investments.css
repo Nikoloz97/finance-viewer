@@ -9,6 +9,8 @@
 
 .Investment-Types-Container {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 0.5em;
 }
 
@@ -29,18 +31,9 @@
   align-items: center;
   height: 50%;
   width: 95%;
+  gap: 0.5em;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--primary-border-radius);
-}
-
-.Investment-Display-Container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  background-color: var(--primary-background-color);
-  border-radius: var(--primary-border-radius);
-  flex-grow: 1; /* Height = rest of container */
 }
 
 .Add-Investment-Button {
@@ -54,4 +47,14 @@
   margin: 0.2em;
   padding: 1em;
   height: 90%;
+}
+
+.Investment-Display-Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  flex-grow: 1; /* Height = rest of container */
 }
