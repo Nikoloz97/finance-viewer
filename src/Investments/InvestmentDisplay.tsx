@@ -1,4 +1,4 @@
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { IInvestmentReport } from "../Models/Investments";
 import {
   ChartConfig,
@@ -17,19 +17,19 @@ const InvestmentDisplay = ({ selectedInvestment }: InvestmentDisplayProps) => {
   const chartConfig = {
     vanguard: {
       label: "Vanguard",
-      color: "red",
+      color: "#eb3434",
     },
     webull: {
       label: "Webull",
-      color: "blue",
+      color: "#345feb",
     },
     fidelity: {
       label: "Fidelity",
-      color: "green",
+      color: "#34eb3a",
     },
   } satisfies ChartConfig;
 
-  // TODO: export this out in reusable file?
+  // TODO: export this out into a reusable file?
   const months = [
     "January",
     "February",
@@ -79,9 +79,14 @@ const InvestmentDisplay = ({ selectedInvestment }: InvestmentDisplayProps) => {
 
   return (
     <div style={{ width: "50%" }}>
-      <p style={{ textAlign: "center" }}>Total Investments</p>
-      <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-        <LineChart accessibilityLayer data={chartData}>
+      <div style={{ marginLeft: "2.2em", marginBottom: "1em" }}>
+        <h1 style={{ fontWeight: "500" }}>Total Investments</h1>
+        <h3
+          style={{ fontWeight: "100", opacity: "0.8", marginTop: "0" }}
+        >{`${chartData[0].month} - ${chartData[chartData.length - 1].month}`}</h3>
+      </div>
+      <ChartContainer config={chartConfig}>
+        <BarChart accessibilityLayer data={chartData}>
           <CartesianGrid vertical={false} />
           <XAxis
             dataKey="month"
@@ -90,17 +95,34 @@ const InvestmentDisplay = ({ selectedInvestment }: InvestmentDisplayProps) => {
             axisLine={false}
             tickFormatter={(value) => value.slice(0, 3)}
           />
-          <YAxis dataKey="webull" tickLine={false} tickMargin={10} />
-          <ChartTooltip content={<ChartTooltipContent />} />
-          <ChartLegend content={<ChartLegendContent />} />
-          <Line dataKey="vanguard" fill="var(--color-vanguard)" stroke="red" />
-          <Line dataKey="webull" fill="var(--color-webull)" stroke="blue" />
-          <Line
-            dataKey="fidelity"
-            fill="var(--color-fidelity)"
-            stroke="green"
+          <YAxis
+            type="number"
+            tickLine={false}
+            tickMargin={10}
+            domain={[10000, 15000]}
           />
-        </LineChart>
+          {/* TODO: fix the white background this gives (or just get rid of it) */}
+          {/* <ChartTooltip content={<ChartTooltipContent />} /> */}
+          <ChartLegend content={<ChartLegendContent />} />
+          <Bar
+            dataKey="vanguard"
+            stackId="a"
+            fill="var(--color-vanguard)"
+            radius={[0, 0, 4, 4]}
+          />
+          <Bar
+            dataKey="webull"
+            stackId="a"
+            fill="var(--color-webull)"
+            radius={[4, 4, 0, 0]}
+          />
+          <Bar
+            dataKey="fidelity"
+            stackId="a"
+            fill="var(--color-fidelity)"
+            radius={[4, 4, 0, 0]}
+          />
+        </BarChart>
       </ChartContainer>
     </div>
   );
