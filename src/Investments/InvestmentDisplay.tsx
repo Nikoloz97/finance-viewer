@@ -1,4 +1,5 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { months } from "../Shared/Months";
 import { IInvestmentReport } from "../Models/Investments";
 import {
   ChartConfig,
@@ -10,10 +11,10 @@ import {
 } from "../ShadcnComponents/Chart";
 
 interface InvestmentDisplayProps {
-  selectedInvestment: IInvestmentReport | undefined;
+  selectedInvestments: IInvestmentReport[] | undefined;
 }
 
-const InvestmentDisplay = ({ selectedInvestment }: InvestmentDisplayProps) => {
+const InvestmentDisplay = ({ selectedInvestments }: InvestmentDisplayProps) => {
   const chartConfig = {
     vanguard: {
       label: "Vanguard",
@@ -28,22 +29,6 @@ const InvestmentDisplay = ({ selectedInvestment }: InvestmentDisplayProps) => {
       color: "#34eb3a",
     },
   } satisfies ChartConfig;
-
-  // TODO: export this out into a reusable file?
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   // TODO: make this a global variable?
   const date = new Date();

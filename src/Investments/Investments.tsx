@@ -11,12 +11,12 @@ import InvestmentDisplay from "./InvestmentDisplay";
 const Investments = () => {
   const { user } = UseContextCheck();
 
-  const [investmentReports, setInvestmentReports] = useState<
+  const [fetchedInvestmentReports, setFetchedInvestmentReports] = useState<
     IInvestmentReport[]
   >([]);
 
-  const [selectedInvestment, setSelectedInvestment] =
-    useState<IInvestmentReport>();
+  const [selectedInvestmentReports, setSelectedInvestmentReports] =
+    useState<IInvestmentReport[]>();
 
   useEffect(() => {
     const fetchLatestInvestmentReports = async () => {
@@ -28,17 +28,20 @@ const Investments = () => {
           throw new Error("Network response was not ok");
         }
         const jsonData: IInvestmentReport[] = await response.json();
-        setInvestmentReports(jsonData);
+        setFetchedInvestmentReports(jsonData);
+        setSelectedInvestmentReports(jsonData);
       } catch (err) {
         console.error(err);
       }
     };
 
     fetchLatestInvestmentReports();
-  }, []);
+  }, [user?._id]);
 
   const handleInvestmentCardClick = (report: IInvestmentReport) => {
-    setSelectedInvestment(report);
+    const selectedInvestmentReportsToUpdate = [...fetchedInvestmentReports];
+    selectedInvestmentReportsToUpdate.push(report);
+    setSelectedInvestmentReports(selectedInvestmentReportsToUpdate);
   };
 
   return (
@@ -56,7 +59,7 @@ const Investments = () => {
         <div className="Investments-List-Rectangle">
           <AddInvestmentCarousel />
           <Button className="Add-Investment-Button text-white">All</Button>
-          {investmentReports.map((report, index) => (
+          {fetchedInvestmentReports.map((report, index) => (
             <Button
               key={index}
               asChild
@@ -74,7 +77,8 @@ const Investments = () => {
         </div>
       </div>
       <div className="Investment-Display-Container">
-        <InvestmentDisplay selectedInvestment={selectedInvestment} />
+        <div style={{ width: "25%" }}>Append Investment</div>
+        <InvestmentDisplay selectedInvestments={selectedInvestmentReports} />
       </div>
     </div>
   );
