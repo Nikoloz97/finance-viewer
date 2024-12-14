@@ -41,16 +41,45 @@ investmentsRouter.get("/investmentReports", async (req, res) => {
   }
 });
 
-investmentsRouter.post("/addInvestmentsReport", async (req, res) => {
-  const newInvestmentData = req.body;
+investmentsRouter.post("/addInvestment", async (req, res) => {
+  const {
+    brokerageName,
+    investmentType,
+    investmentSubtype,
+    userId,
+    startDate,
+    startBalance,
+    endDate,
+    endBalance,
+    depositAmount,
+    withdrawalAmount,
+  } = req.body;
+
+  const newInvestmentReportData = {
+    brokerageName,
+    investmentType,
+    investmentSubtype,
+    userId,
+    statements: [
+      {
+        startDate,
+        startBalance,
+        endDate,
+        endBalance,
+        depositAmount,
+        withdrawalAmount,
+      },
+    ],
+  };
 
   try {
     await client.connect();
     const db = client.db("FinanceViewer");
     const investmentReports = db.collection("InvestmentReports");
 
-    const newlyCreatedInvestment =
-      await investmentReports.insertOne(newInvestmentData);
+    const newlyCreatedInvestment = await investmentReports.insertOne(
+      newInvestmentReportData
+    );
 
     if (newlyCreatedInvestment) {
       res.send(newlyCreatedInvestment);

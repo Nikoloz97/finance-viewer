@@ -77,7 +77,7 @@ const Investments = () => {
         </div>
       </div>
       <div className="Investment-Display-Container">
-        <div style={{ width: "25%" }}>Append Investment</div>
+        <div style={{ width: "25%" }}>Add to Investment</div>
         <InvestmentDisplay selectedInvestments={selectedInvestmentReports} />
       </div>
     </div>

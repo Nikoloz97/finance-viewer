@@ -136,7 +136,7 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
       userId: user._id,
     };
 
-    const response = await fetch("/investments/addInvestmentsReport", {
+    const response = await fetch("/investments/addInvestment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
