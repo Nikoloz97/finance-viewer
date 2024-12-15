@@ -17,10 +17,14 @@ const client = new MongoClient(uri, {
   },
 });
 
-// TODO: move this to an exports file
-function formatDecimal(value) {
-  const formattedValue = Number(value).toFixed(2);
+// TODO: move these to a formatter file
+function toDollarAmount(number) {
+  const formattedValue = Number(number).toFixed(2);
   return Decimal128.fromString(formattedValue);
+}
+
+function toDateOnly(dateTime) {
+  return dateTime.split("T")[0];
 }
 
 investmentsRouter.get("/investmentReports", async (req, res) => {
@@ -68,12 +72,12 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     userId,
     statements: [
       {
-        startDate,
-        startBalance: formatDecimal(startBalance.toString()),
-        endDate,
-        endBalance: formatDecimal(endBalance.toString()),
-        depositAmount: formatDecimal(depositAmount.toString()),
-        withdrawalAmount: formatDecimal(withdrawalAmount.toString()),
+        startDate: toDateOnly(startDate),
+        startBalance: toDollarAmount(startBalance.toString()),
+        endDate: toDateOnly(endDate),
+        endBalance: toDollarAmount(endBalance.toString()),
+        depositAmount: toDollarAmount(depositAmount.toString()),
+        withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
       },
     ],
   };
