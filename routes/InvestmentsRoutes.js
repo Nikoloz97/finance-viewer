@@ -1,8 +1,7 @@
 import express from "express";
-import { MongoClient } from "mongodb";
+import { Decimal128, MongoClient } from "mongodb";
 import dotenv from "dotenv";
 
-// test2
 // TODO: abstract this setup stuff
 // Ability to utilize env variables
 dotenv.config();
@@ -17,6 +16,12 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
+
+// TODO: move this to an exports file
+function formatDecimal(value) {
+  const formattedValue = Number(value).toFixed(2);
+  return Decimal128.fromString(formattedValue);
+}
 
 investmentsRouter.get("/investmentReports", async (req, res) => {
   const userId = req.query.userId;
@@ -64,11 +69,11 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     statements: [
       {
         startDate,
-        startBalance,
+        startBalance: formatDecimal(startBalance.toString()),
         endDate,
-        endBalance,
-        depositAmount,
-        withdrawalAmount,
+        endBalance: formatDecimal(endBalance.toString()),
+        depositAmount: formatDecimal(depositAmount.toString()),
+        withdrawalAmount: formatDecimal(withdrawalAmount.toString()),
       },
     ],
   };

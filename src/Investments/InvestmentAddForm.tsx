@@ -237,8 +237,8 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
                     </FormControl>
 
                     <SelectContent>
-                      {investmentSubtypes.map((investmentSubtype) => (
-                        <SelectItem value={investmentSubtype}>
+                      {investmentSubtypes.map((investmentSubtype, index) => (
+                        <SelectItem key={index} value={investmentSubtype}>
                           {investmentSubtype}
                         </SelectItem>
                       ))}
