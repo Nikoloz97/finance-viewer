@@ -2,6 +2,7 @@ import express from "express";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 
+// test
 // TODO: abstract this setup stuff
 // Ability to utilize env variables
 dotenv.config();
