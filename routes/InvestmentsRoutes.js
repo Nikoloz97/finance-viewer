@@ -27,6 +27,63 @@ function toDateOnly(dateTime) {
   return dateTime.split("T")[0];
 }
 
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+investmentsRouter.get("/investmentChartData", async (req, res) => {
+  const userId = req.query.userId;
+
+  try {
+    await client.connect();
+    const db = client.db("FinanceViewer");
+    const allInvestmentReports = db.collection("InvestmentReports");
+
+    const userInvestmentReports = await allInvestmentReports
+      .find({ userId: userId })
+      .toArray();
+
+    const date = new Date();
+
+    let newChartData = [
+      { month: months[date.getMonth() - 4] },
+      { month: months[date.getMonth() - 3] },
+      { month: months[date.getMonth() - 2] },
+    ];
+
+    userInvestmentReports.forEach((investment) => {
+      newChartData.forEach((chartData) => {
+        if (chartData.month === investment.startMonth) {
+          chartData[investment.brokerageName] = investment.startBalance;
+        } else if (chartData.month === investment.endMonth) {
+          chartData[investment.brokerageName] = investment.endBalance;
+        }
+      });
+    });
+
+    if (userInvestmentReports) {
+      res.send(userInvestmentReports);
+    } else {
+      res
+        .status(400)
+        .json({ message: "Could not find investment reports or is empty" });
+    }
+  } finally {
+    await client.close();
+  }
+});
+
 investmentsRouter.get("/investmentReports", async (req, res) => {
   const userId = req.query.userId;
 
