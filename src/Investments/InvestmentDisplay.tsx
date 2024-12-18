@@ -18,15 +18,15 @@ const InvestmentDisplay = ({
   selectedInvestmentsChartData,
 }: InvestmentDisplayProps) => {
   const chartConfig = {
-    vanguard: {
+    Vanguard: {
       label: "Vanguard",
       color: "#eb3434",
     },
-    webull: {
+    Webull: {
       label: "Webull",
       color: "#345feb",
     },
-    fidelity: {
+    Fidelity: {
       label: "Fidelity",
       color: "#34eb3a",
     },
@@ -93,21 +93,21 @@ const InvestmentDisplay = ({
           {/* <ChartTooltip content={<ChartTooltipContent />} /> */}
           <ChartLegend content={<ChartLegendContent />} />
           <Bar
-            dataKey="vanguard"
+            dataKey="Vanguard"
             stackId="a"
-            fill="var(--color-vanguard)"
+            fill="var(--color-Vanguard)"
             radius={[0, 0, 4, 4]}
           />
           <Bar
-            dataKey="webull"
+            dataKey="Webull"
             stackId="a"
-            fill="var(--color-webull)"
+            fill="var(--color-Webull)"
             radius={[4, 4, 0, 0]}
           />
           <Bar
-            dataKey="fidelity"
+            dataKey="Fidelity"
             stackId="a"
-            fill="var(--color-fidelity)"
+            fill="var(--color-Fidelity)"
             radius={[4, 4, 0, 0]}
           />
         </BarChart>

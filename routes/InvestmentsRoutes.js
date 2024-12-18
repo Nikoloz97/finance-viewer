@@ -27,6 +27,7 @@ function toDateOnly(dateTime) {
   return dateTime.split("T")[0];
 }
 
+// TODO: move this to shared file
 const months = [
   "January",
   "February",
@@ -63,17 +64,23 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
     ];
 
     userInvestmentReports.forEach((investment) => {
-      newChartData.forEach((chartData) => {
-        if (chartData.month === investment.startMonth) {
-          chartData[investment.brokerageName] = investment.startBalance;
-        } else if (chartData.month === investment.endMonth) {
-          chartData[investment.brokerageName] = investment.endBalance;
-        }
+      investment.statements.forEach((statement) => {
+        newChartData.forEach((chartData) => {
+          if (chartData.month === statement.startMonth) {
+            chartData[investment.brokerageName] = parseFloat(
+              statement.startBalance.toString()
+            );
+          } else if (chartData.month === statement.endMonth) {
+            chartData[investment.brokerageName] = parseFloat(
+              statement.endBalance.toString()
+            );
+          }
+        });
       });
     });
 
     if (userInvestmentReports) {
-      res.send(userInvestmentReports);
+      res.send(newChartData);
     } else {
       res
         .status(400)
