@@ -1,4 +1,3 @@
-import { Badge } from "lucide-react";
 import AddInvestmentCarousel from "./AddInvestmentCarousel";
 import { Button } from "../ShadcnComponents/Button";
 import {
@@ -8,6 +7,7 @@ import {
   CardTitle,
 } from "../ShadcnComponents/Card";
 import { IInvestmentReport } from "../Models/Investments";
+import { Badge } from "../ShadcnComponents/Badge";
 
 interface InvestmentsListProps {
   handleAllClick: () => void;

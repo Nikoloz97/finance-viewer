@@ -1,8 +1,3 @@
-import { Button } from "../ShadcnComponents/Button";
-import { Card, CardDescription, CardTitle } from "../ShadcnComponents/Card";
-import { CardHeader } from "semantic-ui-react";
-import { Badge } from "../ShadcnComponents/Badge";
-import AddInvestmentCarousel from "./AddInvestmentCarousel";
 import { useEffect, useState } from "react";
 import { IInvestmentChartData, IInvestmentReport } from "../Models/Investments";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
