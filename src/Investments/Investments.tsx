@@ -4,19 +4,41 @@ import { CardHeader } from "semantic-ui-react";
 import { Badge } from "../ShadcnComponents/Badge";
 import AddInvestmentCarousel from "./AddInvestmentCarousel";
 import { useEffect, useState } from "react";
-import { IInvestmentChartData } from "../Models/Investments";
+import { IInvestmentChartData, IInvestmentReport } from "../Models/Investments";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import InvestmentDisplay from "./InvestmentDisplay";
 
 const Investments = () => {
   const { user } = UseContextCheck();
 
+  const [investmentReports, setInvestmentReports] = useState<
+    IInvestmentReport[]
+  >([]);
   const [fetchedInvestmentChartData, setFetchedInvestmentChartData] = useState<
     IInvestmentChartData[]
   >([]);
 
   const [selectedInvestmentChartData, setSelectedInvestmentChartData] =
     useState<IInvestmentChartData[]>();
+
+  useEffect(() => {
+    const fetchInvestmentReports = async () => {
+      try {
+        const response = await fetch(
+          `/investments/investmentReports?userId=${user?._id}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const jsonData: IInvestmentReport[] = await response.json();
+        setInvestmentReports(jsonData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchInvestmentReports();
+  }, []);
 
   useEffect(() => {
     const fetchInvestmentChartData = async () => {
@@ -36,12 +58,22 @@ const Investments = () => {
     };
 
     fetchInvestmentChartData();
-  }, [user?._id]);
+  }, [investmentReports]);
 
-  const handleInvestmentCardClick = (chartData: IInvestmentChartData) => {
-    const selectedInvestmentReportsToUpdate = [...fetchedInvestmentChartData];
-    selectedInvestmentReportsToUpdate.push(chartData);
-    setSelectedInvestmentChartData(selectedInvestmentReportsToUpdate);
+  const handleInvestmentCardClick = (report: IInvestmentReport) => {
+    const filteredInvestmentChartData = fetchedInvestmentChartData?.map(
+      (chartData) => {
+        return {
+          month: chartData.month,
+          [report.brokerageName]: chartData[report.brokerageName],
+        };
+      }
+    );
+    setSelectedInvestmentChartData(filteredInvestmentChartData);
+  };
+
+  const handleAllClick = () => {
+    setSelectedInvestmentChartData(fetchedInvestmentChartData);
   };
 
   return (
@@ -58,8 +90,13 @@ const Investments = () => {
         </div>
         <div className="Investments-List-Rectangle">
           <AddInvestmentCarousel />
-          <Button className="Add-Investment-Button text-white">All</Button>
-          {fetchedInvestmentChartData.map((report, index) => (
+          <Button
+            className="Add-Investment-Button text-white"
+            onClick={() => handleAllClick()}
+          >
+            All
+          </Button>
+          {investmentReports.map((report, index) => (
             <Button
               key={index}
               asChild

@@ -43,6 +43,31 @@ const months = [
   "December",
 ];
 
+investmentsRouter.get("/investmentReports", async (req, res) => {
+  const userId = req.query.userId;
+
+  try {
+    await client.connect();
+    const db = client.db("FinanceViewer");
+    const allInvestmentReports = db.collection("InvestmentReports");
+
+    const userInvestmentReports = await allInvestmentReports
+      .find({ userId: userId })
+      .toArray();
+
+    if (userInvestmentReports) {
+      res.send(userInvestmentReports);
+    } else {
+      res
+        .status(400)
+        .json({ message: "Could not find investment reports or is empty" });
+    }
+  } finally {
+    // TODO: consolidate this and investmentChartData get requests
+    // await client.close();
+  }
+});
+
 investmentsRouter.get("/investmentChartData", async (req, res) => {
   const userId = req.query.userId;
 
@@ -81,30 +106,6 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
 
     if (userInvestmentReports) {
       res.send(newChartData);
-    } else {
-      res
-        .status(400)
-        .json({ message: "Could not find investment reports or is empty" });
-    }
-  } finally {
-    await client.close();
-  }
-});
-
-investmentsRouter.get("/investmentReports", async (req, res) => {
-  const userId = req.query.userId;
-
-  try {
-    await client.connect();
-    const db = client.db("FinanceViewer");
-    const allInvestmentReports = db.collection("InvestmentReports");
-
-    const userInvestmentReports = await allInvestmentReports
-      .find({ userId: userId })
-      .toArray();
-
-    if (userInvestmentReports) {
-      res.send(userInvestmentReports);
     } else {
       res
         .status(400)
