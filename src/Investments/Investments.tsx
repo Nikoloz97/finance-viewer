@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { IInvestmentChartData, IInvestmentReport } from "../Models/Investments";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import InvestmentDisplay from "./InvestmentDisplay";
+import InvestmentsList from "./InvestmentsList";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -78,41 +79,11 @@ const Investments = () => {
 
   return (
     <div className="Investments-Page">
-      <div className="Investments-List-Container">
-        <div className="Investment-Types-Container">
-          <h3 className="mb-0">Filter: </h3>
-          <Badge className="dark">All</Badge>
-          <Badge>Stocks</Badge>
-          <Badge>Savings</Badge>
-          <Badge>Crypto</Badge>
-          <Badge>Bonds</Badge>
-          <Badge>Retirement</Badge>
-        </div>
-        <div className="Investments-List-Rectangle">
-          <AddInvestmentCarousel />
-          <Button
-            className="Add-Investment-Button text-white"
-            onClick={() => handleAllClick()}
-          >
-            All
-          </Button>
-          {investmentReports.map((report, index) => (
-            <Button
-              key={index}
-              asChild
-              className="border-none"
-              onClick={() => handleInvestmentCardClick(report)}
-            >
-              <Card className="Investment-Card">
-                <CardHeader>
-                  <CardTitle>{report.brokerageName}</CardTitle>
-                  <CardDescription>{`${report.investmentType} ${report.investmentSubtype ? `(${report.investmentSubtype})` : ""}`}</CardDescription>
-                </CardHeader>
-              </Card>
-            </Button>
-          ))}
-        </div>
-      </div>
+      <InvestmentsList
+        handleAllClick={handleAllClick}
+        investmentReports={investmentReports}
+        handleInvestmentCardClick={handleInvestmentCardClick}
+      />
       <div className="Investment-Display-Container">
         <div style={{ width: "25%" }}>Add to Investment</div>
         <InvestmentDisplay
