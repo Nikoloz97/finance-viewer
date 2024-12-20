@@ -3,6 +3,7 @@ import { IInvestmentChartData, IInvestmentReport } from "../Models/Investments";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import InvestmentDisplay from "./InvestmentDisplay";
 import InvestmentsList from "./InvestmentsList";
+import InvestmentGrid from "./InvestmentGrid";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -80,7 +81,7 @@ const Investments = () => {
         handleInvestmentCardClick={handleInvestmentCardClick}
       />
       <div className="Investment-Display-Container">
-        <div style={{ width: "25%" }}>Add to Investment</div>
+        <InvestmentGrid />
         <InvestmentDisplay
           selectedInvestmentsChartData={selectedInvestmentChartData}
         />
