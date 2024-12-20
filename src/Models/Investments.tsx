@@ -11,7 +11,7 @@ interface IStatement {
 
 export interface IInvestmentReport {
   userId: string;
-  brokerageName: number;
+  brokerageName: string;
   investmentType: string;
   investmentSubtype: string;
   statements: IStatement[];
