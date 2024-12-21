@@ -41,7 +41,9 @@ const InvestmentDisplay = ({
     <div style={{ width: "50%" }}>
       <div style={{ marginLeft: "2.2em", marginBottom: "1em" }}>
         <h1 style={{ fontWeight: "500" }}>
-          {selectedInvestment?.brokerageName}
+          {selectedInvestment?.brokerageName
+            ? selectedInvestment?.brokerageName
+            : "All Investments"}
         </h1>
         <p style={{ fontWeight: "100", fontSize: "0.7em", opacity: "0.8" }}>
           {selectedInvestment?.investmentType}
