@@ -9,6 +9,7 @@ import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import InvestmentDisplay from "./InvestmentDisplay";
 import InvestmentsList from "./InvestmentsList";
 import InvestmentGrid from "./InvestmentGrid";
+import { areSimpleTypeObjectsEqual } from "../Utils/General";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -26,14 +27,43 @@ const Investments = () => {
   const [selectedInvestment, setSelectedInvestment] =
     useState<ISelectedInvestment | null>(null);
 
-  const flattenedInvestmentStatements = investmentReports.flatMap((report) =>
-    report.statements.map((statement) => ({
-      brokerageName: report.brokerageName,
-      investmentType: report.investmentType,
-      investmentSubtype: report.investmentSubtype,
-      ...statement,
-    }))
-  );
+  let flattenedInvestmentStatements: IFlattenedInvestmentStatement[] | null =
+    null;
+
+  if (selectedInvestment) {
+    flattenedInvestmentStatements = investmentReports
+      .filter((report) =>
+        areSimpleTypeObjectsEqual(
+          {
+            brokerageName: report.brokerageName,
+            investmentType: report.investmentType,
+            investmentSubtype: report.investmentSubtype,
+          },
+          {
+            brokerageName: selectedInvestment.brokerageName,
+            investmentType: selectedInvestment.investmentType,
+            investmentSubtype: selectedInvestment.investmentSubtype,
+          }
+        )
+      )
+      .flatMap((report) =>
+        report.statements.map((statement) => ({
+          brokerageName: report.brokerageName,
+          investmentType: report.investmentType,
+          investmentSubtype: report.investmentSubtype,
+          ...statement,
+        }))
+      );
+  } else {
+    flattenedInvestmentStatements = investmentReports.flatMap((report) =>
+      report.statements.map((statement) => ({
+        brokerageName: report.brokerageName,
+        investmentType: report.investmentType,
+        investmentSubtype: report.investmentSubtype,
+        ...statement,
+      }))
+    );
+  }
 
   const fetchInvestmentReports = async () => {
     try {
