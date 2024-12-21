@@ -1,6 +1,8 @@
 import express from "express";
-import { Decimal128, MongoClient } from "mongodb";
+import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
+import { months } from "./RoutesShared/Months.js";
+import { toDateOnly, toDollarAmount } from "./RoutesShared/Formatters.js";
 
 // TODO: abstract this setup stuff
 // Ability to utilize env variables
@@ -17,32 +19,6 @@ const client = new MongoClient(uri, {
   },
 });
 
-// TODO: move these to a formatter file
-function toDollarAmount(number) {
-  const formattedValue = Number(number).toFixed(2);
-  return Decimal128.fromString(formattedValue);
-}
-
-function toDateOnly(dateTime) {
-  return dateTime.split("T")[0];
-}
-
-// TODO: move this to shared file
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
 investmentsRouter.get("/investmentReports", async (req, res) => {
   const userId = req.query.userId;
 
@@ -56,6 +32,23 @@ investmentsRouter.get("/investmentReports", async (req, res) => {
       .toArray();
 
     if (userInvestmentReports) {
+      userInvestmentReports.forEach((investment) => {
+        investment.statements.forEach((statement) => {
+          statement.depositAmount = parseFloat(
+            statement.depositAmount.toString()
+          );
+          statement.startBalanceDate = statement.startDate.toString();
+          statement.endBalanceDate = statement.endDate.toString();
+          statement.endBalance = parseFloat(statement.endBalance.toString());
+          statement.startBalance = parseFloat(
+            statement.startBalance.toString()
+          );
+          statement.withdrawalAmount = parseFloat(
+            statement.withdrawalAmount.toString()
+          );
+        });
+      });
+
       res.send(userInvestmentReports);
     } else {
       res

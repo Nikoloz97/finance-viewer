@@ -87,7 +87,9 @@ const Investments = () => {
         selectedInvestmentName={selectedInvestmentName}
       />
       <div className="Investment-Display-Container">
-        <InvestmentGrid />
+        {investmentReports.length && (
+          <InvestmentGrid statements={investmentReports[0].statements} />
+        )}
         <InvestmentDisplay
           selectedInvestmentsChartData={selectedInvestmentChartData}
           selectedInvestmentName={selectedInvestmentName}

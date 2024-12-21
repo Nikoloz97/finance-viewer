@@ -1,4 +1,4 @@
-interface IStatement {
+export interface IStatement {
   startBalance: number;
   startBalanceDate: Date;
   endBalance: number;
