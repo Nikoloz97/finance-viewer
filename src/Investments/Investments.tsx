@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { IInvestmentChartData, IInvestmentReport } from "../Models/Investments";
+import {
+  IFlattenedInvestmentStatement,
+  IInvestmentChartData,
+  IInvestmentReport,
+  ISelectedInvestment,
+} from "../Models/Investments";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import InvestmentDisplay from "./InvestmentDisplay";
 import InvestmentsList from "./InvestmentsList";
@@ -18,45 +23,54 @@ const Investments = () => {
   const [selectedInvestmentChartData, setSelectedInvestmentChartData] =
     useState<IInvestmentChartData[]>();
 
-  const [selectedInvestmentName, setSelectedInvestmentName] =
-    useState<string>("All Investments");
+  const [selectedInvestment, setSelectedInvestment] =
+    useState<ISelectedInvestment | null>(null);
+
+  const flattenedInvestmentStatements = investmentReports.flatMap((report) =>
+    report.statements.map((statement) => ({
+      brokerageName: report.brokerageName,
+      investmentType: report.investmentType,
+      investmentSubtype: report.investmentSubtype,
+      ...statement,
+    }))
+  );
+
+  const fetchInvestmentReports = async () => {
+    try {
+      const response = await fetch(
+        `/investments/investmentReports?userId=${user?._id}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const jsonData: IInvestmentReport[] = await response.json();
+      setInvestmentReports(jsonData);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchInvestmentChartData = async () => {
+    try {
+      const response = await fetch(
+        `/investments/investmentChartData?userId=${user?._id}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const jsonData: IInvestmentChartData[] = await response.json();
+      setFetchedInvestmentChartData(jsonData);
+      setSelectedInvestmentChartData(jsonData);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
-    const fetchInvestmentReports = async () => {
-      try {
-        const response = await fetch(
-          `/investments/investmentReports?userId=${user?._id}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const jsonData: IInvestmentReport[] = await response.json();
-        setInvestmentReports(jsonData);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     fetchInvestmentReports();
   }, []);
 
   useEffect(() => {
-    const fetchInvestmentChartData = async () => {
-      try {
-        const response = await fetch(
-          `/investments/investmentChartData?userId=${user?._id}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const jsonData: IInvestmentChartData[] = await response.json();
-        setFetchedInvestmentChartData(jsonData);
-        setSelectedInvestmentChartData(jsonData);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     fetchInvestmentChartData();
   }, [investmentReports]);
 
@@ -70,12 +84,16 @@ const Investments = () => {
       }
     );
     setSelectedInvestmentChartData(filteredInvestmentChartData);
-    setSelectedInvestmentName(report.brokerageName);
+    setSelectedInvestment({
+      brokerageName: report.brokerageName,
+      investmentType: report.investmentType,
+      investmentSubtype: report.investmentSubtype,
+    });
   };
 
   const handleAllClick = () => {
     setSelectedInvestmentChartData(fetchedInvestmentChartData);
-    setSelectedInvestmentName("All Investments");
+    setSelectedInvestment(null);
   };
 
   return (
@@ -84,15 +102,15 @@ const Investments = () => {
         handleAllClick={handleAllClick}
         investmentReports={investmentReports}
         handleInvestmentCardClick={handleInvestmentCardClick}
-        selectedInvestmentName={selectedInvestmentName}
+        selectedInvestment={selectedInvestment}
       />
       <div className="Investment-Display-Container">
         {investmentReports.length && (
-          <InvestmentGrid statements={investmentReports[0].statements} />
+          <InvestmentGrid statements={flattenedInvestmentStatements} />
         )}
         <InvestmentDisplay
           selectedInvestmentsChartData={selectedInvestmentChartData}
-          selectedInvestmentName={selectedInvestmentName}
+          selectedInvestment={selectedInvestment}
         />
       </div>
     </div>

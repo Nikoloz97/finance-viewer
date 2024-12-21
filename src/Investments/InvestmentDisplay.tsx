@@ -1,5 +1,8 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { IInvestmentChartData } from "../Models/Investments";
+import {
+  IInvestmentChartData,
+  ISelectedInvestment,
+} from "../Models/Investments";
 import {
   ChartConfig,
   ChartContainer,
@@ -11,12 +14,12 @@ import {
 
 interface InvestmentDisplayProps {
   selectedInvestmentsChartData: IInvestmentChartData[] | undefined;
-  selectedInvestmentName: string | null;
+  selectedInvestment: ISelectedInvestment | null;
 }
 
 const InvestmentDisplay = ({
   selectedInvestmentsChartData,
-  selectedInvestmentName,
+  selectedInvestment,
 }: InvestmentDisplayProps) => {
   // TODO: give user ability to build this out as they add investments
   const chartConfig = {
@@ -37,7 +40,16 @@ const InvestmentDisplay = ({
   return (
     <div style={{ width: "50%" }}>
       <div style={{ marginLeft: "2.2em", marginBottom: "1em" }}>
-        <h1 style={{ fontWeight: "500" }}>{selectedInvestmentName}</h1>
+        <h1 style={{ fontWeight: "500" }}>
+          {selectedInvestment?.brokerageName}
+        </h1>
+        <h1 style={{ fontWeight: "500" }}>
+          {selectedInvestment?.investmentType}
+        </h1>
+        <h1 style={{ fontWeight: "500" }}>
+          {selectedInvestment?.investmentSubtype}
+        </h1>
+
         {/* TODO: fix this eventually */}
         {/* <h3
           style={{ fontWeight: "100", opacity: "0.8", marginTop: "0" }}

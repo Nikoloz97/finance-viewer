@@ -1,7 +1,19 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { IStatement } from "../Models/Investments";
+import { IFlattenedInvestmentStatement } from "../Models/Investments";
 
-export const InvestmentsColumns: ColumnDef<IStatement>[] = [
+export const InvestmentsColumns: ColumnDef<IFlattenedInvestmentStatement>[] = [
+  {
+    accessorKey: "brokerageName",
+    header: "Brokerage Name",
+  },
+  {
+    accessorKey: "investmentType",
+    header: "Investment Type",
+  },
+  {
+    accessorKey: "investmentSubtype",
+    header: "Investment Subtype",
+  },
   {
     accessorKey: "startBalance",
     header: "Start Balance",

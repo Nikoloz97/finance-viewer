@@ -6,21 +6,23 @@ import {
   CardHeader,
   CardTitle,
 } from "../ShadcnComponents/Card";
-import { IInvestmentReport } from "../Models/Investments";
+import { IInvestmentReport, ISelectedInvestment } from "../Models/Investments";
 import { Badge } from "../ShadcnComponents/Badge";
+import { report } from "process";
+import { areSimpleTypeObjectsEqual } from "../Utils/General";
 
 interface InvestmentsListProps {
   handleAllClick: () => void;
   investmentReports: IInvestmentReport[];
   handleInvestmentCardClick: (report: IInvestmentReport) => void;
-  selectedInvestmentName: string | null;
+  selectedInvestment: ISelectedInvestment | null;
 }
 
 const InvestmentsList = ({
   handleAllClick,
   investmentReports,
   handleInvestmentCardClick,
-  selectedInvestmentName,
+  selectedInvestment,
 }: InvestmentsListProps) => {
   return (
     <div className="Investments-List-Container">
@@ -36,7 +38,7 @@ const InvestmentsList = ({
       <div className="Investments-List-Rectangle">
         <AddInvestmentCarousel />
         <Button
-          className={`Add-Investment-Button text-white ${selectedInvestmentName === "All Investments" ? "Selected-Investment-Card" : ""}`}
+          className={`Add-Investment-Button text-white ${selectedInvestment ? "" : "Selected-Investment-Card"}`}
           onClick={handleAllClick}
         >
           All
@@ -45,7 +47,7 @@ const InvestmentsList = ({
           <Button
             key={index}
             asChild
-            className={`border-none ${selectedInvestmentName === report.brokerageName ? "Selected-Investment-Card" : ""}`}
+            className={`border-none ${selectedInvestment ? (areSimpleTypeObjectsEqual(selectedInvestment, { brokerageName: report.brokerageName, investmentType: report.investmentType, investmentSubtype: report.investmentSubtype }) ? "Selected-Investment-Card" : "") : ""}`}
             onClick={() => handleInvestmentCardClick(report)}
           >
             <Card className="Investment-Card">
