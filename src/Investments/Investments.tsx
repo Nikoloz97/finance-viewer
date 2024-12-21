@@ -18,9 +18,8 @@ const Investments = () => {
   const [selectedInvestmentChartData, setSelectedInvestmentChartData] =
     useState<IInvestmentChartData[]>();
 
-  const [selectedInvestmentName, setSelectedInvestmentName] = useState<
-    string | null
-  >(null);
+  const [selectedInvestmentName, setSelectedInvestmentName] =
+    useState<string>("All Investments");
 
   useEffect(() => {
     const fetchInvestmentReports = async () => {
@@ -76,7 +75,7 @@ const Investments = () => {
 
   const handleAllClick = () => {
     setSelectedInvestmentChartData(fetchedInvestmentChartData);
-    setSelectedInvestmentName(null);
+    setSelectedInvestmentName("All Investments");
   };
 
   return (
@@ -85,6 +84,7 @@ const Investments = () => {
         handleAllClick={handleAllClick}
         investmentReports={investmentReports}
         handleInvestmentCardClick={handleInvestmentCardClick}
+        selectedInvestmentName={selectedInvestmentName}
       />
       <div className="Investment-Display-Container">
         <InvestmentGrid />

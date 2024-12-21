@@ -13,12 +13,14 @@ interface InvestmentsListProps {
   handleAllClick: () => void;
   investmentReports: IInvestmentReport[];
   handleInvestmentCardClick: (report: IInvestmentReport) => void;
+  selectedInvestmentName: string | null;
 }
 
 const InvestmentsList = ({
   handleAllClick,
   investmentReports,
   handleInvestmentCardClick,
+  selectedInvestmentName,
 }: InvestmentsListProps) => {
   return (
     <div className="Investments-List-Container">
@@ -34,8 +36,8 @@ const InvestmentsList = ({
       <div className="Investments-List-Rectangle">
         <AddInvestmentCarousel />
         <Button
-          className="Add-Investment-Button text-white"
-          onClick={() => handleAllClick()}
+          className={`Add-Investment-Button text-white ${selectedInvestmentName === "All Investments" ? "Selected-Investment-Card" : ""}`}
+          onClick={handleAllClick}
         >
           All
         </Button>
@@ -43,7 +45,7 @@ const InvestmentsList = ({
           <Button
             key={index}
             asChild
-            className="border-none"
+            className={`border-none ${selectedInvestmentName === report.brokerageName ? "Selected-Investment-Card" : ""}`}
             onClick={() => handleInvestmentCardClick(report)}
           >
             <Card className="Investment-Card">

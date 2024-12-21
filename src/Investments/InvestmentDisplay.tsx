@@ -37,9 +37,7 @@ const InvestmentDisplay = ({
   return (
     <div style={{ width: "50%" }}>
       <div style={{ marginLeft: "2.2em", marginBottom: "1em" }}>
-        <h1 style={{ fontWeight: "500" }}>
-          {selectedInvestmentName ? selectedInvestmentName : "All Investments"}
-        </h1>
+        <h1 style={{ fontWeight: "500" }}>{selectedInvestmentName}</h1>
         {/* TODO: fix this eventually */}
         {/* <h3
           style={{ fontWeight: "100", opacity: "0.8", marginTop: "0" }}
