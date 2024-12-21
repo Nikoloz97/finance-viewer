@@ -8,7 +8,7 @@ interface InvestmentGridProps {
 
 const InvestmentGrid = ({ statements }: InvestmentGridProps) => {
   return (
-    <div>
+    <div className="text-center">
       <InvestmentsTable columns={InvestmentsColumns} data={statements} />
     </div>
   );
