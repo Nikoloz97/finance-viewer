@@ -43,12 +43,12 @@ const InvestmentDisplay = ({
         <h1 style={{ fontWeight: "500" }}>
           {selectedInvestment?.brokerageName}
         </h1>
-        <h1 style={{ fontWeight: "500" }}>
+        <p style={{ fontWeight: "100", fontSize: "0.7em", opacity: "0.8" }}>
           {selectedInvestment?.investmentType}
-        </h1>
-        <h1 style={{ fontWeight: "500" }}>
-          {selectedInvestment?.investmentSubtype}
-        </h1>
+          {selectedInvestment?.investmentSubtype
+            ? ` (${selectedInvestment?.investmentSubtype})`
+            : ""}
+        </p>
 
         {/* TODO: fix this eventually */}
         {/* <h3
