@@ -1,5 +1,5 @@
 import express from "express";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
 import { months } from "./Utils/Months.js";
 import { toDateOnly, toDollarAmount } from "./Utils/Formatters.js";
@@ -158,5 +158,124 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     await client.close();
   }
 });
+
+// TODO: test this
+investmentsRouter.post("/addStatement", async (req, res) => {
+  const {
+    investmentReportId,
+    startDate,
+    startBalance,
+    endDate,
+    endBalance,
+    depositAmount,
+    withdrawalAmount,
+  } = req.body;
+
+  const newStatementData = {
+    id: new ObjectId(),
+    startDate: toDateOnly(startDate),
+    startBalance: toDollarAmount(startBalance.toString()),
+    endDate: toDateOnly(endDate),
+    endBalance: toDollarAmount(endBalance.toString()),
+    depositAmount: toDollarAmount(depositAmount.toString()),
+    withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
+  };
+
+  try {
+    await client.connect();
+    const db = client.db("FinanceViewer");
+    const allInvestmentReports = db.collection("InvestmentReports");
+
+    const investmentReportToAddStatement = await allInvestmentReports.findOne({
+      investmentReportId: investmentReportId,
+    });
+
+    const newlyAddedStatement =
+      await investmentReportToAddStatement.statements.insertOne(
+        newStatementData
+      );
+
+    if (newlyAddedStatement) {
+      res.send(newlyAddedStatement);
+    } else {
+      res
+        .status(400)
+        .json({ message: "Error adding statement to investment report" });
+    }
+  } finally {
+    await client.close();
+  }
+});
+
+// TODO: build out his put endpoint
+// investmentsRouter.put("/statement", async (req, res) => {
+//   const investmentReportId = req.query.investmentReportId;
+//   const statementId = req.query.statementId;
+
+//   try {
+//     await client.connect();
+//     const db = client.db("FinanceViewer");
+//     const investmentReports = db.collection("InvestmentReports");
+
+//     const newlyCreatedInvestment = await investmentReports.insertOne(
+//       newInvestmentReportData
+//     );
+
+//     if (newlyCreatedInvestment) {
+//       res.send(newlyCreatedInvestment);
+//     } else {
+//       res.status(400).json({ message: "Error creating new investment report" });
+//     }
+//   } finally {
+//     await client.close();
+//   }
+// });
+
+// TODO: build out his delete endpoint
+// investmentsRouter.delete("/statement", async (req, res) => {
+//   const investmentReportId = req.query.investmentReportId;
+//   const statementId = req.query.statementId;
+
+//   try {
+//     await client.connect();
+//     const db = client.db("FinanceViewer");
+//     const investmentReports = db.collection("InvestmentReports");
+
+//     const newlyCreatedInvestment = await investmentReports.insertOne(
+//       newInvestmentReportData
+//     );
+
+//     if (newlyCreatedInvestment) {
+//       res.send(newlyCreatedInvestment);
+//     } else {
+//       res.status(400).json({ message: "Error creating new investment report" });
+//     }
+//   } finally {
+//     await client.close();
+//   }
+// });
+
+// TODO: build out his delete endpoint
+// investmentsRouter.delete("/investment", async (req, res) => {
+//   const investmentReportId = req.query.investmentReportId;
+
+//   try {
+//     await client.connect();
+//     const db = client.db("FinanceViewer");
+//     const investmentReports = db.collection("InvestmentReports");
+
+//     const newlyCreatedInvestment = await investmentReports.insertOne(
+//       newInvestmentReportData
+//     );
+
+//     if (newlyCreatedInvestment) {
+//       res.send(newlyCreatedInvestment);
+//     } else {
+//       res.status(400).json({ message: "Error creating new investment report" });
+//     }
+//   } finally {
+//     await client.close();
+//   }
+// });
 
 export default investmentsRouter;

@@ -1,4 +1,14 @@
+export interface IInvestmentReport {
+  _id: string;
+  userId: string;
+  brokerageName: string;
+  investmentType: string;
+  investmentSubtype: string;
+  statements: IInvestmentStatement[];
+}
+
 export interface IInvestmentStatement {
+  statementId: string;
   startBalance: number;
   startBalanceDate: Date;
   endBalance: number;
@@ -10,17 +20,10 @@ export interface IInvestmentStatement {
 }
 
 export interface IFlattenedInvestmentStatement extends IInvestmentStatement {
+  investmentId: string;
   brokerageName: string;
   investmentType: string;
   investmentSubtype: string;
-}
-
-export interface IInvestmentReport {
-  userId: string;
-  brokerageName: string;
-  investmentType: string;
-  investmentSubtype: string;
-  statements: IInvestmentStatement[];
 }
 
 export interface IInvestmentChartData {
@@ -30,6 +33,7 @@ export interface IInvestmentChartData {
 }
 
 export interface ISelectedInvestment {
+  investmentId: string;
   brokerageName: string;
   investmentType: string;
   investmentSubtype: string;

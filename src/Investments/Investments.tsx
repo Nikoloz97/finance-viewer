@@ -32,22 +32,10 @@ const Investments = () => {
 
   if (selectedInvestment) {
     flattenedInvestmentStatements = investmentReports
-      .filter((report) =>
-        areSimpleTypeObjectsEqual(
-          {
-            brokerageName: report.brokerageName,
-            investmentType: report.investmentType,
-            investmentSubtype: report.investmentSubtype,
-          },
-          {
-            brokerageName: selectedInvestment.brokerageName,
-            investmentType: selectedInvestment.investmentType,
-            investmentSubtype: selectedInvestment.investmentSubtype,
-          }
-        )
-      )
+      .filter((report) => report._id === selectedInvestment.investmentId)
       .flatMap((report) =>
         report.statements.map((statement) => ({
+          investmentId: report._id,
           brokerageName: report.brokerageName,
           investmentType: report.investmentType,
           investmentSubtype: report.investmentSubtype,
@@ -57,6 +45,7 @@ const Investments = () => {
   } else {
     flattenedInvestmentStatements = investmentReports.flatMap((report) =>
       report.statements.map((statement) => ({
+        investmentId: report._id,
         brokerageName: report.brokerageName,
         investmentType: report.investmentType,
         investmentSubtype: report.investmentSubtype,
@@ -115,6 +104,7 @@ const Investments = () => {
     );
     setSelectedInvestmentChartData(filteredInvestmentChartData);
     setSelectedInvestment({
+      investmentId: report._id,
       brokerageName: report.brokerageName,
       investmentType: report.investmentType,
       investmentSubtype: report.investmentSubtype,

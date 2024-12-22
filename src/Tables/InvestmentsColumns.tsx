@@ -1,5 +1,33 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { IFlattenedInvestmentStatement } from "../Models/Investments";
+import { Button } from "../ShadcnComponents/Button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "../ShadcnComponents/Dropdown";
+import { MoreHorizontal } from "lucide-react";
+
+const handleStatementEdit = () => {};
+
+// const handleStatementDelete = async (statementId: string) => {
+//   // eslint-disable-next-line no-restricted-globals
+//   if (confirm("Are you sure you want to delete this statement?")) {
+//     try {
+//       const response =
+//         await delete `/investments/investmentReports?userId=${user?._id}`;
+//       if (!response.ok) {
+//         throw new Error("Network response was not ok");
+//       }
+//       const jsonData: IInvestmentReport[] = await response.json();
+//       setInvestmentReports(jsonData);
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   }
+// };
 
 export const InvestmentsColumns: ColumnDef<IFlattenedInvestmentStatement>[] = [
   {
@@ -101,5 +129,41 @@ export const InvestmentsColumns: ColumnDef<IFlattenedInvestmentStatement>[] = [
   {
     accessorKey: "endMonth",
     header: "End Month",
+  },
+  {
+    accessorKey: "statementId",
+    header: "Statement ID",
+  },
+  {
+    accessorKey: "investmentId",
+    header: "Investment ID",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const statement = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem onClick={handleStatementEdit}>
+              Edit statement
+            </DropdownMenuItem>
+            <DropdownMenuItem
+            // onClick={() => handleStatementDelete(statement.id)}
+            >
+              Delete Statement
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
   },
 ];
