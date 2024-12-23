@@ -9,7 +9,6 @@ import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import InvestmentDisplay from "./InvestmentDisplay";
 import InvestmentsList from "./InvestmentsList";
 import InvestmentGrid from "./InvestmentGrid";
-import { areSimpleTypeObjectsEqual } from "../Utils/General";
 
 const Investments = () => {
   const { user } = UseContextCheck();
