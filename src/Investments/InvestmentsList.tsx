@@ -46,7 +46,7 @@ const InvestmentsList = ({
           <Button
             key={index}
             asChild
-            className={`border-none ${selectedInvestment ? (areSimpleTypeObjectsEqual(selectedInvestment, { brokerageName: report.brokerageName, investmentType: report.investmentType, investmentSubtype: report.investmentSubtype }) ? "Selected-Investment-Card" : "") : ""}`}
+            className={`border-none ${selectedInvestment ? (selectedInvestment.investmentId === report._id ? "Selected-Investment-Card" : "") : ""}`}
             onClick={() => handleInvestmentCardClick(report)}
           >
             <Card className="Investment-Card">

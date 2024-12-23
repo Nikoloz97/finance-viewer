@@ -162,23 +162,27 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
 // TODO: test this
 investmentsRouter.post("/addStatement", async (req, res) => {
   const {
-    investmentReportId,
+    investmentId,
     startDate,
     startBalance,
     endDate,
     endBalance,
     depositAmount,
     withdrawalAmount,
+    startMonth,
+    endMonth,
   } = req.body;
 
   const newStatementData = {
-    id: new ObjectId(),
+    statementId: new ObjectId(),
     startDate: toDateOnly(startDate),
     startBalance: toDollarAmount(startBalance.toString()),
     endDate: toDateOnly(endDate),
     endBalance: toDollarAmount(endBalance.toString()),
     depositAmount: toDollarAmount(depositAmount.toString()),
     withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
+    startMonth: startMonth,
+    endMonth: endMonth,
   };
 
   try {
@@ -187,7 +191,7 @@ investmentsRouter.post("/addStatement", async (req, res) => {
     const allInvestmentReports = db.collection("InvestmentReports");
 
     const investmentReportToAddStatement = await allInvestmentReports.findOne({
-      investmentReportId: investmentReportId,
+      investmentReportId: investmentId,
     });
 
     const newlyAddedStatement =
@@ -207,75 +211,120 @@ investmentsRouter.post("/addStatement", async (req, res) => {
   }
 });
 
-// TODO: build out his put endpoint
-// investmentsRouter.put("/statement", async (req, res) => {
-//   const investmentReportId = req.query.investmentReportId;
-//   const statementId = req.query.statementId;
+// TODO: test this
+investmentsRouter.put("/editStatement", async (req, res) => {
+  const {
+    investmentId,
+    statementId,
+    startBalance,
+    startBalanceDate,
+    endBalance,
+    endBalanceDate,
+    depositAmount,
+    withdrawalAmount,
+    startMonth,
+    endMonth,
+  } = req.body;
 
-//   try {
-//     await client.connect();
-//     const db = client.db("FinanceViewer");
-//     const investmentReports = db.collection("InvestmentReports");
+  try {
+    await client.connect();
+    const db = client.db("FinanceViewer");
+    const allInvestmentReports = db.collection("InvestmentReports");
 
-//     const newlyCreatedInvestment = await investmentReports.insertOne(
-//       newInvestmentReportData
-//     );
+    const updateResult = await allInvestmentReports.updateOne(
+      {
+        _id: investmentId,
+        "statements.statementId": statementId,
+      },
+      {
+        $set: {
+          "statements.$.startDate": toDateOnly(startBalanceDate),
+          "statements.$.startBalance": toDollarAmount(startBalance),
+          "statements.$.endDate": toDateOnly(endBalanceDate),
+          "statements.$.endBalance": toDollarAmount(endBalance),
+          "statements.$.depositAmount": toDollarAmount(depositAmount),
+          "statements.$.withdrawalAmount": toDollarAmount(withdrawalAmount),
+          "statements.$.startMonth": startMonth,
+          "statements.$.endMonth": endMonth,
+        },
+      }
+    );
 
-//     if (newlyCreatedInvestment) {
-//       res.send(newlyCreatedInvestment);
-//     } else {
-//       res.status(400).json({ message: "Error creating new investment report" });
-//     }
-//   } finally {
-//     await client.close();
-//   }
-// });
+    if (updateResult.modifiedCount === 0) {
+      res
+        .status(404)
+        .send("No statement found with the given investment or statement ID.");
+    } else {
+      res.status(200).send("Statement updated successfully.");
+    }
+  } catch (error) {
+    console.error("Failed to update statement:", error);
+    res.status(500).send("Error updating statement.");
+  } finally {
+    await client.close();
+  }
+});
 
-// TODO: build out his delete endpoint
-// investmentsRouter.delete("/statement", async (req, res) => {
-//   const investmentReportId = req.query.investmentReportId;
-//   const statementId = req.query.statementId;
+// TODO: Test this
+investmentsRouter.delete("/statement", async (req, res) => {
+  const investmentReportId = req.query.investmentReportId;
+  const statementId = req.query.statementId;
 
-//   try {
-//     await client.connect();
-//     const db = client.db("FinanceViewer");
-//     const investmentReports = db.collection("InvestmentReports");
+  try {
+    await client.connect();
+    const db = client.db("FinanceViewer");
+    const investmentReports = db.collection("InvestmentReports");
 
-//     const newlyCreatedInvestment = await investmentReports.insertOne(
-//       newInvestmentReportData
-//     );
+    const result = await investmentReports.updateOne(
+      // Might not need to create ObjectId instance?
+      { _id: new ObjectId(investmentReportId) }, // Filter by investmentReportId
+      // Might not need to create ObjectId instance?
+      { $pull: { statements: { statementId: new ObjectId(statementId) } } } // Pull (remove) the statement from the array
+    );
 
-//     if (newlyCreatedInvestment) {
-//       res.send(newlyCreatedInvestment);
-//     } else {
-//       res.status(400).json({ message: "Error creating new investment report" });
-//     }
-//   } finally {
-//     await client.close();
-//   }
-// });
+    if (result.modifiedCount === 0) {
+      res.status(404).json({
+        message:
+          "No investment report found with the given investment Id, or no statement found with the given statement Id",
+      });
+    } else {
+      res.json({ message: "Statement deleted successfully" });
+    }
+  } catch (error) {
+    console.error("Error deleting statement:", error);
+    res.status(500).json({ message: "Failed to delete the statement" });
+  } finally {
+    await client.close();
+  }
+});
 
-// TODO: build out his delete endpoint
-// investmentsRouter.delete("/investment", async (req, res) => {
-//   const investmentReportId = req.query.investmentReportId;
+// TODO: Test this
+investmentsRouter.delete("/investmentReport", async (req, res) => {
+  const investmentReportId = req.query.investmentReportId;
 
-//   try {
-//     await client.connect();
-//     const db = client.db("FinanceViewer");
-//     const investmentReports = db.collection("InvestmentReports");
+  try {
+    await client.connect();
+    const db = client.db("FinanceViewer");
+    const investmentReports = db.collection("InvestmentReports");
 
-//     const newlyCreatedInvestment = await investmentReports.insertOne(
-//       newInvestmentReportData
-//     );
+    const result = await investmentReports.deleteOne({
+      _id: new ObjectId(investmentReportId),
+    });
 
-//     if (newlyCreatedInvestment) {
-//       res.send(newlyCreatedInvestment);
-//     } else {
-//       res.status(400).json({ message: "Error creating new investment report" });
-//     }
-//   } finally {
-//     await client.close();
-//   }
-// });
+    if (result.deletedCount === 0) {
+      res.status(404).json({
+        message:
+          "No investment report found with the given investment report Id",
+      });
+    } else {
+      res.json({ message: "Investment report deleted successfully" });
+    }
+  } catch (error) {
+    console.error("Error deleting investment report:", error);
+    res.status(500).json({ message: "Failed to delete the investment report" });
+  } finally {
+    await client.close();
+  }
+});
 
 export default investmentsRouter;
