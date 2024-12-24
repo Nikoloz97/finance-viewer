@@ -137,10 +137,13 @@ const Investments = () => {
 
   return (
     <div className="Investments-Page">
-      <EditStatementDialog
-        isEditStatementDialogOpen={isEditStatementDialogOpen}
-        currentStatement={currentStatement}
-      />
+      {currentStatement && (
+        <EditStatementDialog
+          isEditStatementDialogOpen={isEditStatementDialogOpen}
+          setIsEditStatementDialogOpen={setIsEditStatementDialogOpen}
+          currentStatement={currentStatement}
+        />
+      )}
       <InvestmentsList
         handleAllClick={handleAllClick}
         investmentReports={investmentReports}

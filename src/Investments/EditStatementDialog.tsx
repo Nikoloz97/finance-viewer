@@ -41,12 +41,14 @@ import { Input } from "../ShadcnComponents/Input";
 import { IFlattenedInvestmentStatement } from "../Models/Investments";
 
 interface EditStatementDialogProps {
+  setIsEditStatementDialogOpen: (isOpen: boolean) => void;
   isEditStatementDialogOpen: boolean;
-  currentStatement: IFlattenedInvestmentStatement | null;
+  currentStatement: IFlattenedInvestmentStatement;
 }
 
 const EditStatementDialog = ({
   isEditStatementDialogOpen,
+  setIsEditStatementDialogOpen,
   currentStatement,
 }: EditStatementDialogProps) => {
   const { user } = UseContextCheck();
@@ -83,10 +85,6 @@ const EditStatementDialog = ({
     investmentSubtype: z.string().min(1, {
       message: "Please select an investment subtype",
     }),
-
-    startDate: z.date({
-      message: "Please select a start date",
-    }),
     startBalance: z
       .string()
       .transform((value) => parseFloat(value))
@@ -94,9 +92,6 @@ const EditStatementDialog = ({
         message: "Please enter a valid number",
       }),
     startBalanceDate: z.date({
-      message: "Please select a valid date",
-    }),
-    endDate: z.date({
       message: "Please select a valid date",
     }),
     endBalance: z
@@ -133,19 +128,19 @@ const EditStatementDialog = ({
   const form = useForm<z.infer<typeof editFormSchema>>({
     resolver: zodResolver(editFormSchema),
     defaultValues: {
-      investmentId: currentStatement?.investmentId,
-      brokerageName: currentStatement?.brokerageName,
-      investmentType: currentStatement?.investmentType,
-      investmentSubtype: currentStatement?.investmentSubtype,
-      statementId: currentStatement?.statementId,
-      startBalance: currentStatement?.startBalance,
-      startBalanceDate: currentStatement?.startBalanceDate,
-      endBalance: currentStatement?.endBalance,
-      endBalanceDate: currentStatement?.endBalanceDate,
-      depositAmount: currentStatement?.depositAmount,
-      withdrawalAmount: currentStatement?.withdrawalAmount,
-      startMonth: currentStatement?.startMonth,
-      endMonth: currentStatement?.endMonth,
+      investmentId: currentStatement.investmentId,
+      brokerageName: currentStatement.brokerageName,
+      investmentType: currentStatement.investmentType,
+      investmentSubtype: currentStatement.investmentSubtype,
+      statementId: currentStatement.statementId,
+      startBalance: currentStatement.startBalance,
+      startBalanceDate: currentStatement.startBalanceDate,
+      endBalance: currentStatement.endBalance,
+      endBalanceDate: currentStatement.endBalanceDate,
+      depositAmount: currentStatement.depositAmount,
+      withdrawalAmount: currentStatement.withdrawalAmount,
+      startMonth: currentStatement.startMonth,
+      endMonth: currentStatement.endMonth,
     },
   });
 
@@ -276,7 +271,7 @@ const EditStatementDialog = ({
                 />
                 <FormField
                   control={form.control}
-                  name="startDate"
+                  name="startBalanceDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel>Statement Start Date</FormLabel>
@@ -331,7 +326,7 @@ const EditStatementDialog = ({
 
                 <FormField
                   control={form.control}
-                  name="endDate"
+                  name="endBalanceDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel>Statement End Date</FormLabel>
@@ -417,10 +412,14 @@ const EditStatementDialog = ({
                 <Button className="dark" type="submit">
                   Submit
                 </Button>
-                {/* TODO: fix the close X button */}
-                <DialogClose>
-                  <Button className="dark">Cancel</Button>
-                </DialogClose>
+                {/* TODO: Apply this to the X-button and get rid of this (or get rid of X) */}
+                {/* TODO: Prevent this from triggering zod error messages */}
+                <Button
+                  onClick={() => setIsEditStatementDialogOpen(false)}
+                  className="dark"
+                >
+                  Cancel
+                </Button>
               </div>
             </form>
           </Form>

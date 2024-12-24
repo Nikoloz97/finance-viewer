@@ -37,8 +37,8 @@ investmentsRouter.get("/investmentReports", async (req, res) => {
           statement.depositAmount = parseFloat(
             statement.depositAmount.toString()
           );
-          statement.startBalanceDate = statement.startDate.toString();
-          statement.endBalanceDate = statement.endDate.toString();
+          statement.startBalanceDate = statement.startBalanceDate.toString();
+          statement.endBalanceDate = statement.endBalanceDate.toString();
           statement.endBalance = parseFloat(statement.endBalance.toString());
           statement.startBalance = parseFloat(
             statement.startBalance.toString()
@@ -115,9 +115,9 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     investmentType,
     investmentSubtype,
     userId,
-    startDate,
+    startBalanceDate,
     startBalance,
-    endDate,
+    endBalanceDate,
     endBalance,
     depositAmount,
     withdrawalAmount,
@@ -130,9 +130,9 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     userId,
     statements: [
       {
-        startDate: toDateOnly(startDate),
+        startBalanceDate: toDateOnly(startBalanceDate),
         startBalance: toDollarAmount(startBalance.toString()),
-        endDate: toDateOnly(endDate),
+        endBalanceDate: toDateOnly(endBalanceDate),
         endBalance: toDollarAmount(endBalance.toString()),
         depositAmount: toDollarAmount(depositAmount.toString()),
         withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
@@ -163,9 +163,9 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
 investmentsRouter.post("/addStatement", async (req, res) => {
   const {
     investmentId,
-    startDate,
+    startBalanceDate,
     startBalance,
-    endDate,
+    endBalanceDate,
     endBalance,
     depositAmount,
     withdrawalAmount,
@@ -175,9 +175,9 @@ investmentsRouter.post("/addStatement", async (req, res) => {
 
   const newStatementData = {
     statementId: new ObjectId(),
-    startDate: toDateOnly(startDate),
+    startBalanceDate: toDateOnly(startBalanceDate),
     startBalance: toDollarAmount(startBalance.toString()),
-    endDate: toDateOnly(endDate),
+    endBalanceDate: toDateOnly(endBalanceDate),
     endBalance: toDollarAmount(endBalance.toString()),
     depositAmount: toDollarAmount(depositAmount.toString()),
     withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
@@ -238,9 +238,9 @@ investmentsRouter.put("/editStatement", async (req, res) => {
       },
       {
         $set: {
-          "statements.$.startDate": toDateOnly(startBalanceDate),
+          "statements.$.startBalanceDate": toDateOnly(startBalanceDate),
           "statements.$.startBalance": toDollarAmount(startBalance),
-          "statements.$.endDate": toDateOnly(endBalanceDate),
+          "statements.$.endBalanceDate": toDateOnly(endBalanceDate),
           "statements.$.endBalance": toDollarAmount(endBalance),
           "statements.$.depositAmount": toDollarAmount(depositAmount),
           "statements.$.withdrawalAmount": toDollarAmount(withdrawalAmount),

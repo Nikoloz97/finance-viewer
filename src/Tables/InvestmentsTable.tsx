@@ -106,11 +106,11 @@ export function InvestmentsTable({
       accessorKey: "depositAmount",
       header: "Deposit Amount",
       cell: ({ row }) => {
-        const startBalance = parseFloat(row.getValue("startBalance"));
+        const depositAmount = parseFloat(row.getValue("depositAmount"));
         const formatted = new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",
-        }).format(startBalance);
+        }).format(depositAmount);
 
         return <div>{formatted}</div>;
       },
@@ -119,11 +119,11 @@ export function InvestmentsTable({
       accessorKey: "withdrawalAmount",
       header: "Withdrawal Amount",
       cell: ({ row }) => {
-        const startBalance = parseFloat(row.getValue("startBalance"));
+        const withdrawalAmount = parseFloat(row.getValue("withdrawalAmount"));
         const formatted = new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",
-        }).format(startBalance);
+        }).format(withdrawalAmount);
 
         return <div>{formatted}</div>;
       },
