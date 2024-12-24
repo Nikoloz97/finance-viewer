@@ -34,6 +34,7 @@ const InvestmentsList = ({
         <Badge>Retirement</Badge>
       </div>
       <div className="Investments-List-Rectangle">
+        {/* TODO: move carousel component out to investments? Get rid of trigger element in it */}
         <AddInvestmentCarousel />
         <Button
           className={`Add-Investment-Button text-white ${selectedInvestment ? "" : "Selected-Investment-Card"}`}

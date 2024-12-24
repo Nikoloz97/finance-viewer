@@ -9,6 +9,7 @@ import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import InvestmentDisplay from "./InvestmentDisplay";
 import InvestmentsList from "./InvestmentsList";
 import InvestmentGrid from "./InvestmentGrid";
+import EditStatementDialog from "./EditStatementDialog";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -25,6 +26,12 @@ const Investments = () => {
 
   const [selectedInvestment, setSelectedInvestment] =
     useState<ISelectedInvestment | null>(null);
+
+  const [isEditStatementDialogOpen, setIsEditStatementDialogOpen] =
+    useState<boolean>(false);
+
+  const [currentStatement, setCurrentStatement] =
+    useState<IFlattenedInvestmentStatement | null>(null);
 
   let flattenedInvestmentStatements: IFlattenedInvestmentStatement[] | null =
     null;
@@ -84,6 +91,19 @@ const Investments = () => {
     }
   };
 
+  const handleStatementEdit = (
+    currentStatement: IFlattenedInvestmentStatement
+  ) => {
+    setCurrentStatement(currentStatement);
+  };
+
+  // TODO: find a way to do this w/out useEffect
+  useEffect(() => {
+    if (currentStatement) {
+      setIsEditStatementDialogOpen(true);
+    }
+  }, [currentStatement]);
+
   useEffect(() => {
     fetchInvestmentReports();
   }, []);
@@ -117,6 +137,10 @@ const Investments = () => {
 
   return (
     <div className="Investments-Page">
+      <EditStatementDialog
+        isEditStatementDialogOpen={isEditStatementDialogOpen}
+        currentStatement={currentStatement}
+      />
       <InvestmentsList
         handleAllClick={handleAllClick}
         investmentReports={investmentReports}
@@ -125,7 +149,10 @@ const Investments = () => {
       />
       <div className="Investment-Display-Container">
         {investmentReports.length && (
-          <InvestmentGrid statements={flattenedInvestmentStatements} />
+          <InvestmentGrid
+            handleStatementEdit={handleStatementEdit}
+            statements={flattenedInvestmentStatements}
+          />
         )}
         <InvestmentDisplay
           selectedInvestmentsChartData={selectedInvestmentChartData}
