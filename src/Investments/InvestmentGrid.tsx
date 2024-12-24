@@ -1,5 +1,4 @@
 import { IFlattenedInvestmentStatement } from "../Models/Investments";
-import { InvestmentsColumns } from "../Tables/InvestmentsColumns";
 import { InvestmentsTable } from "../Tables/InvestmentsTable";
 
 interface InvestmentGridProps {
@@ -7,9 +6,33 @@ interface InvestmentGridProps {
 }
 
 const InvestmentGrid = ({ statements }: InvestmentGridProps) => {
+  const handleStatementEdit = async (
+    updatedStatement: IFlattenedInvestmentStatement
+  ) => {
+    const response = await fetch("/investments/addInvestment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedStatement),
+    });
+
+    const responseJson = await response.json();
+
+    if (response.ok) {
+      console.log(responseJson);
+    } else {
+      if (responseJson.message) {
+      } else {
+      }
+    }
+  };
   return (
     <div className="text-center">
-      <InvestmentsTable columns={InvestmentsColumns} data={statements} />
+      <InvestmentsTable
+        handleStatementEdit={handleStatementEdit}
+        data={statements}
+      />
     </div>
   );
 };

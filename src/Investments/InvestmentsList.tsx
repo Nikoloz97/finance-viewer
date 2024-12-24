@@ -8,7 +8,6 @@ import {
 } from "../ShadcnComponents/Card";
 import { IInvestmentReport, ISelectedInvestment } from "../Models/Investments";
 import { Badge } from "../ShadcnComponents/Badge";
-import { areSimpleTypeObjectsEqual } from "../Utils/General";
 
 interface InvestmentsListProps {
   handleAllClick: () => void;
