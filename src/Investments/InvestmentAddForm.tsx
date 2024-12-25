@@ -68,33 +68,65 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
     startDate: z.date({
       message: "Please select a start date",
     }),
-    startBalance: z
-      .string()
-      .transform((value) => parseFloat(value))
-      .refine((value) => !isNaN(value), {
-        message: "Please enter a valid number",
-      }),
+    startBalance: z.preprocess(
+      (input) => {
+        if (typeof input === "number") {
+          return input.toString();
+        }
+        return input;
+      },
+      z
+        .string()
+        .transform((value) => parseFloat(value))
+        .refine((value) => !isNaN(value), {
+          message: "Please enter a valid number",
+        })
+    ),
     endDate: z.date({
       message: "Please select an end date",
     }),
-    endBalance: z
-      .string()
-      .transform((value) => parseFloat(value))
-      .refine((value) => !isNaN(value), {
-        message: "Please enter a valid number",
-      }),
-    depositAmount: z
-      .string()
-      .transform((value) => parseFloat(value))
-      .refine((value) => !isNaN(value), {
-        message: "Please enter a valid number",
-      }),
-    withdrawalAmount: z
-      .string()
-      .transform((value) => parseFloat(value))
-      .refine((value) => !isNaN(value), {
-        message: "Please enter a valid number",
-      }),
+    endBalance: z.preprocess(
+      (input) => {
+        if (typeof input === "number") {
+          return input.toString();
+        }
+        return input;
+      },
+      z
+        .string()
+        .transform((value) => parseFloat(value))
+        .refine((value) => !isNaN(value), {
+          message: "Please enter a valid number",
+        })
+    ),
+    depositAmount: z.preprocess(
+      (input) => {
+        if (typeof input === "number") {
+          return input.toString();
+        }
+        return input;
+      },
+      z
+        .string()
+        .transform((value) => parseFloat(value))
+        .refine((value) => !isNaN(value), {
+          message: "Please enter a valid number",
+        })
+    ),
+    withdrawalAmount: z.preprocess(
+      (input) => {
+        if (typeof input === "number") {
+          return input.toString();
+        }
+        return input;
+      },
+      z
+        .string()
+        .transform((value) => parseFloat(value))
+        .refine((value) => !isNaN(value), {
+          message: "Please enter a valid number",
+        })
+    ),
   });
 
   const form = useForm<z.infer<typeof addFormSchema>>({
