@@ -65,7 +65,7 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
     investmentSubtype: z.string().min(1, {
       message: "Please select an investment subtype",
     }),
-    startDate: z.date({
+    startBalanceDate: z.date({
       message: "Please select a start date",
     }),
     startBalance: z.preprocess(
@@ -82,7 +82,7 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
           message: "Please enter a valid number",
         })
     ),
-    endDate: z.date({
+    endBalanceDate: z.date({
       message: "Please select an end date",
     }),
     endBalance: z.preprocess(
@@ -136,9 +136,9 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
           brokerageName: parsedStatementData.brokerageName,
           investmentType: parsedStatementData.investmentType,
           investmentSubtype: parsedStatementData.investmentSubtype,
-          startDate: parsedStatementData.startDate,
+          startBalanceDate: parsedStatementData.startBalanceDate,
           startBalance: parsedStatementData.startBalance,
-          endDate: parsedStatementData.endDate,
+          endBalanceDate: parsedStatementData.endBalanceDate,
           endBalance: parsedStatementData.endBalance,
           depositAmount: parsedStatementData.depositAmount,
           withdrawalAmount: parsedStatementData.withdrawalAmount,
@@ -147,9 +147,9 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
           brokerageName: "",
           investmentType: "",
           investmentSubtype: "",
-          startDate: new Date(),
+          startBalanceDate: new Date(),
           startBalance: 0,
-          endDate: new Date(),
+          endBalanceDate: new Date(),
           endBalance: 0,
           depositAmount: 0,
           withdrawalAmount: 0,
@@ -282,7 +282,7 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
             />
             <FormField
               control={form.control}
-              name="startDate"
+              name="startBalanceDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Statement Start Date</FormLabel>
@@ -337,7 +337,7 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
 
             <FormField
               control={form.control}
-              name="endDate"
+              name="endBalanceDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Statement End Date</FormLabel>

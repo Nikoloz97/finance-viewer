@@ -10,6 +10,7 @@ import InvestmentDisplay from "./InvestmentDisplay";
 import InvestmentsList from "./InvestmentsList";
 import InvestmentGrid from "./InvestmentGrid";
 import EditStatementDialog from "./EditStatementDialog";
+import { Button } from "../ShadcnComponents/Button";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -179,6 +180,14 @@ const Investments = () => {
       />
       <div className="Investment-Display-Container">
         <div className="Investment-Add-Delete-Table-Container">
+          <Button
+            disabled={selectedInvestment == null}
+            // onClick={handleInvestmentDelete}
+          >
+            Delete Investment
+          </Button>
+          <Button disabled={selectedInvestment == null}>Add Statement</Button>
+
           {investmentReports.length && (
             <InvestmentGrid
               handleStatementEdit={handleStatementEdit}
