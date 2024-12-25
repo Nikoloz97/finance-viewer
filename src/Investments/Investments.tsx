@@ -30,7 +30,7 @@ const Investments = () => {
   const [isEditStatementDialogOpen, setIsEditStatementDialogOpen] =
     useState<boolean>(false);
 
-  const [currentStatement, setCurrentStatement] =
+  const [selectedStatement, setSelectedStatement] =
     useState<IFlattenedInvestmentStatement | null>(null);
 
   let flattenedInvestmentStatements: IFlattenedInvestmentStatement[] | null =
@@ -94,15 +94,15 @@ const Investments = () => {
   const handleStatementEdit = (
     currentStatement: IFlattenedInvestmentStatement
   ) => {
-    setCurrentStatement(currentStatement);
+    setSelectedStatement(currentStatement);
   };
 
   // TODO: find a way to do this w/out useEffect
   useEffect(() => {
-    if (currentStatement) {
+    if (selectedStatement) {
       setIsEditStatementDialogOpen(true);
     }
-  }, [currentStatement]);
+  }, [selectedStatement]);
 
   useEffect(() => {
     fetchInvestmentReports();
@@ -153,6 +153,7 @@ const Investments = () => {
 
     if (response.ok) {
       console.log(response);
+      setSelectedStatement(null);
       fetchInvestmentReports();
     } else {
       console.log("response was not okay");
@@ -161,12 +162,13 @@ const Investments = () => {
 
   return (
     <div className="Investments-Page">
-      {currentStatement && (
+      {selectedStatement && (
         <EditStatementDialog
           handleEditStatementSubmission={handleEditStatementSubmission}
           isEditStatementDialogOpen={isEditStatementDialogOpen}
           setIsEditStatementDialogOpen={setIsEditStatementDialogOpen}
-          currentStatement={currentStatement}
+          selectedStatement={selectedStatement}
+          setSelectedStatement={setSelectedStatement}
         />
       )}
       <InvestmentsList

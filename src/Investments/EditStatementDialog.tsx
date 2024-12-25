@@ -43,7 +43,10 @@ import { IFlattenedInvestmentStatement } from "../Models/Investments";
 interface EditStatementDialogProps {
   setIsEditStatementDialogOpen: (isOpen: boolean) => void;
   isEditStatementDialogOpen: boolean;
-  currentStatement: IFlattenedInvestmentStatement;
+  selectedStatement: IFlattenedInvestmentStatement;
+  setSelectedStatement: (
+    statement: IFlattenedInvestmentStatement | null
+  ) => void;
   handleEditStatementSubmission: (
     updatedStatementData: IFlattenedInvestmentStatement
   ) => void;
@@ -52,7 +55,8 @@ interface EditStatementDialogProps {
 const EditStatementDialog = ({
   isEditStatementDialogOpen,
   setIsEditStatementDialogOpen,
-  currentStatement,
+  selectedStatement,
+  setSelectedStatement,
   handleEditStatementSubmission,
 }: EditStatementDialogProps) => {
   const brokerages = ["Webull", "Vanguard", "Fidelity"];
@@ -64,6 +68,11 @@ const EditStatementDialog = ({
     "Bonds",
     "Retirement",
   ];
+
+  const handleCancelEditStatement = () => {
+    setIsEditStatementDialogOpen(false);
+    setSelectedStatement(null);
+  };
 
   const investmentSubtypes = ["Individual", "ETF"];
 
@@ -179,19 +188,19 @@ const EditStatementDialog = ({
   const form = useForm<z.infer<typeof editFormSchema>>({
     resolver: zodResolver(editFormSchema),
     defaultValues: {
-      investmentId: currentStatement.investmentId,
-      brokerageName: currentStatement.brokerageName,
-      investmentType: currentStatement.investmentType,
-      investmentSubtype: currentStatement.investmentSubtype,
-      statementId: currentStatement.statementId,
-      startBalance: currentStatement.startBalance,
-      startBalanceDate: currentStatement.startBalanceDate,
-      endBalance: currentStatement.endBalance,
-      endBalanceDate: currentStatement.endBalanceDate,
-      depositAmount: currentStatement.depositAmount,
-      withdrawalAmount: currentStatement.withdrawalAmount,
-      startMonth: currentStatement.startMonth,
-      endMonth: currentStatement.endMonth,
+      investmentId: selectedStatement.investmentId,
+      brokerageName: selectedStatement.brokerageName,
+      investmentType: selectedStatement.investmentType,
+      investmentSubtype: selectedStatement.investmentSubtype,
+      statementId: selectedStatement.statementId,
+      startBalance: selectedStatement.startBalance,
+      startBalanceDate: selectedStatement.startBalanceDate,
+      endBalance: selectedStatement.endBalance,
+      endBalanceDate: selectedStatement.endBalanceDate,
+      depositAmount: selectedStatement.depositAmount,
+      withdrawalAmount: selectedStatement.withdrawalAmount,
+      startMonth: selectedStatement.startMonth,
+      endMonth: selectedStatement.endMonth,
     },
   });
 
@@ -441,10 +450,7 @@ const EditStatementDialog = ({
             </form>
           </Form>
           {/* TODO: Apply this to the X-button and get rid of this (or get rid of X) */}
-          <Button
-            onClick={() => setIsEditStatementDialogOpen(false)}
-            className="dark"
-          >
+          <Button onClick={handleCancelEditStatement} className="dark">
             Cancel
           </Button>
         </div>
