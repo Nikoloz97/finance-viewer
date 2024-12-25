@@ -135,10 +135,38 @@ const Investments = () => {
     setSelectedInvestment(null);
   };
 
+  const handleEditStatementSubmission = async (
+    updatedStatementData: IFlattenedInvestmentStatement
+  ) => {
+    if (!user) {
+      console.error("No user defined");
+      return;
+    }
+
+    const response = await fetch("/investments/editStatement", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedStatementData),
+    });
+
+    const responseJson = await response.json();
+
+    if (response.ok) {
+      console.log(responseJson);
+    } else {
+      if (responseJson.message) {
+      } else {
+      }
+    }
+  };
+
   return (
     <div className="Investments-Page">
       {currentStatement && (
         <EditStatementDialog
+          handleEditStatementSubmission={handleEditStatementSubmission}
           isEditStatementDialogOpen={isEditStatementDialogOpen}
           setIsEditStatementDialogOpen={setIsEditStatementDialogOpen}
           currentStatement={currentStatement}

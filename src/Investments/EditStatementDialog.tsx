@@ -44,15 +44,17 @@ interface EditStatementDialogProps {
   setIsEditStatementDialogOpen: (isOpen: boolean) => void;
   isEditStatementDialogOpen: boolean;
   currentStatement: IFlattenedInvestmentStatement;
+  handleEditStatementSubmission: (
+    updatedStatementData: IFlattenedInvestmentStatement
+  ) => void;
 }
 
 const EditStatementDialog = ({
   isEditStatementDialogOpen,
   setIsEditStatementDialogOpen,
   currentStatement,
+  handleEditStatementSubmission,
 }: EditStatementDialogProps) => {
-  const { user } = UseContextCheck();
-
   const brokerages = ["Webull", "Vanguard", "Fidelity"];
 
   const investmentTypes = [
@@ -67,7 +69,7 @@ const EditStatementDialog = ({
 
   const editFormSchema = z.object({
     // TODO: Prevent from being edited
-    // Or remove being displayed entirely?
+    // Or remove from being displayed entirely?
     investmentId: z.string().min(1, {
       message: "Please enter a valid Id",
     }),
@@ -85,36 +87,85 @@ const EditStatementDialog = ({
     investmentSubtype: z.string().min(1, {
       message: "Please select an investment subtype",
     }),
-    startBalance: z
-      .string()
-      .transform((value) => parseFloat(value))
-      .refine((value) => !isNaN(value), {
-        message: "Please enter a valid number",
-      }),
-    startBalanceDate: z.date({
-      message: "Please select a valid date",
-    }),
-    endBalance: z
-      .string()
-      .transform((value) => parseFloat(value))
-      .refine((value) => !isNaN(value), {
-        message: "Please enter a valid number",
-      }),
-    endBalanceDate: z.date({
-      message: "Please select a valid date",
-    }),
-    depositAmount: z
-      .string()
-      .transform((value) => parseFloat(value))
-      .refine((value) => !isNaN(value), {
-        message: "Please enter a valid number",
-      }),
-    withdrawalAmount: z
-      .string()
-      .transform((value) => parseFloat(value))
-      .refine((value) => !isNaN(value), {
-        message: "Please enter a valid number",
-      }),
+    startBalance: z.preprocess(
+      (input) => {
+        if (typeof input === "number") {
+          return input.toString();
+        }
+        return input;
+      },
+      z
+        .string()
+        .transform((value) => parseFloat(value))
+        .refine((value) => !isNaN(value), {
+          message: "Please enter a valid number",
+        })
+    ),
+    startBalanceDate: z.preprocess(
+      (input) => {
+        if (typeof input === "string") {
+          return new Date(input);
+        }
+        return input;
+      },
+
+      z.date({
+        message: "Please select a valid date",
+      })
+    ),
+    endBalance: z.preprocess(
+      (input) => {
+        if (typeof input === "number") {
+          return input.toString();
+        }
+        return input;
+      },
+      z
+        .string()
+        .transform((value) => parseFloat(value))
+        .refine((value) => !isNaN(value), {
+          message: "Please enter a valid number",
+        })
+    ),
+    endBalanceDate: z.preprocess(
+      (input) => {
+        if (typeof input === "string") {
+          return new Date(input);
+        }
+        return input;
+      },
+      z.date({
+        message: "Please select a valid date",
+      })
+    ),
+    depositAmount: z.preprocess(
+      (input) => {
+        if (typeof input === "number") {
+          return input.toString();
+        }
+        return input;
+      },
+      z
+        .string()
+        .transform((value) => parseFloat(value))
+        .refine((value) => !isNaN(value), {
+          message: "Please enter a valid number",
+        })
+    ),
+    withdrawalAmount: z.preprocess(
+      (input) => {
+        if (typeof input === "number") {
+          return input.toString();
+        }
+        return input;
+      },
+      z
+        .string()
+        .transform((value) => parseFloat(value))
+        .refine((value) => !isNaN(value), {
+          message: "Please enter a valid number",
+        })
+    ),
 
     // TODO: Prevented from being edited? Remove from being displayed?
     startMonth: z.string().min(1, {
@@ -144,32 +195,6 @@ const EditStatementDialog = ({
     },
   });
 
-  const handleEditStatementSubmission = async (
-    updatedStatementData: z.infer<typeof editFormSchema>
-  ) => {
-    if (!user) {
-      console.error("No user defined");
-      return;
-    }
-
-    const response = await fetch("/investments/addInvestment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedStatementData),
-    });
-
-    const responseJson = await response.json();
-
-    if (response.ok) {
-      console.log(responseJson);
-    } else {
-      if (responseJson.message) {
-      } else {
-      }
-    }
-  };
   return (
     <Dialog open={isEditStatementDialogOpen}>
       <DialogContent className="dark">
@@ -412,17 +437,16 @@ const EditStatementDialog = ({
                 <Button className="dark" type="submit">
                   Submit
                 </Button>
-                {/* TODO: Apply this to the X-button and get rid of this (or get rid of X) */}
-                {/* TODO: Prevent this from triggering zod error messages */}
-                <Button
-                  onClick={() => setIsEditStatementDialogOpen(false)}
-                  className="dark"
-                >
-                  Cancel
-                </Button>
               </div>
             </form>
           </Form>
+          {/* TODO: Apply this to the X-button and get rid of this (or get rid of X) */}
+          <Button
+            onClick={() => setIsEditStatementDialogOpen(false)}
+            className="dark"
+          >
+            Cancel
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

@@ -233,8 +233,8 @@ investmentsRouter.put("/editStatement", async (req, res) => {
 
     const updateResult = await allInvestmentReports.updateOne(
       {
-        _id: investmentId,
-        "statements.statementId": statementId,
+        _id: new ObjectId(investmentId),
+        "statements.statementId": new ObjectId(statementId),
       },
       {
         $set: {
