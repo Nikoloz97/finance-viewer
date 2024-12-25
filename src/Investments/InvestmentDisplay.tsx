@@ -38,7 +38,7 @@ const InvestmentDisplay = ({
   } satisfies ChartConfig;
 
   return (
-    <div style={{ width: "50%" }}>
+    <div>
       <div style={{ marginLeft: "2.2em", marginBottom: "1em" }}>
         <h1 style={{ fontWeight: "500" }}>
           {selectedInvestment?.brokerageName

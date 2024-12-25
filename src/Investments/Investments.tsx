@@ -178,16 +178,20 @@ const Investments = () => {
         selectedInvestment={selectedInvestment}
       />
       <div className="Investment-Display-Container">
-        {investmentReports.length && (
-          <InvestmentGrid
-            handleStatementEdit={handleStatementEdit}
-            statements={flattenedInvestmentStatements}
+        <div className="Investment-Add-Delete-Table-Container">
+          {investmentReports.length && (
+            <InvestmentGrid
+              handleStatementEdit={handleStatementEdit}
+              statements={flattenedInvestmentStatements}
+            />
+          )}
+        </div>
+        <div style={{ width: "50%" }}>
+          <InvestmentDisplay
+            selectedInvestmentsChartData={selectedInvestmentChartData}
+            selectedInvestment={selectedInvestment}
           />
-        )}
-        <InvestmentDisplay
-          selectedInvestmentsChartData={selectedInvestmentChartData}
-          selectedInvestment={selectedInvestment}
-        />
+        </div>
       </div>
     </div>
   );

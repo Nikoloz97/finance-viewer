@@ -61,5 +61,10 @@
   width: 100%;
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
+  padding: 1em;
   flex-grow: 1; /* Height = rest of container */
+}
+
+.Investment-Add-Delete-Table-Container {
+  width: 50%;
 }
