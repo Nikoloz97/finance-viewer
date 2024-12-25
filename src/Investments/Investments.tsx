@@ -151,14 +151,11 @@ const Investments = () => {
       body: JSON.stringify(updatedStatementData),
     });
 
-    const responseJson = await response.json();
-
     if (response.ok) {
-      console.log(responseJson);
+      console.log(response);
+      fetchInvestmentReports();
     } else {
-      if (responseJson.message) {
-      } else {
-      }
+      console.log("response was not okay");
     }
   };
 
