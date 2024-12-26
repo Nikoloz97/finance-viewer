@@ -28,14 +28,21 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ShadcnComponents/Calendar";
 import { Input } from "../ShadcnComponents/Input";
-import { IParsedStatementData } from "../Models/Investments";
+import {
+  INewInvestmentReport,
+  IParsedStatementData,
+} from "../Models/Investments";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 
 interface InvestmentAddFormProps {
   parsedStatementData?: IParsedStatementData;
+  handleAddInvestment: (newInvestmentReport: INewInvestmentReport) => void;
 }
 
-const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
+const InvestmentAddForm = ({
+  parsedStatementData,
+  handleAddInvestment,
+}: InvestmentAddFormProps) => {
   // TODO: work on adding this check back in
   // Min + max possible value for type int32
   const MIN_INT32 = -(2 ** 31);
@@ -156,45 +163,11 @@ const InvestmentAddForm = ({ parsedStatementData }: InvestmentAddFormProps) => {
         },
   });
 
-  const handleAddInvestmentSubmission = async (
-    newInvestmentData: z.infer<typeof addFormSchema>
-  ) => {
-    if (!user) {
-      console.error("No user defined");
-      return;
-    }
-    const newInvestmentDataWithUserId = {
-      ...newInvestmentData,
-      userId: user._id,
-    };
-
-    const response = await fetch("/investments/addInvestment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newInvestmentDataWithUserId),
-    });
-
-    const responseJson = await response.json();
-
-    if (response.ok) {
-      // TODO: eventually remove this line
-      console.log(responseJson);
-    } else {
-      // Specific message
-      if (responseJson.message) {
-        // Non-specific message
-      } else {
-      }
-    }
-  };
-
   return (
     <div>
       <Header textAlign="center">Investment Add Form</Header>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleAddInvestmentSubmission)}>
+        <form onSubmit={form.handleSubmit(handleAddInvestment)}>
           <div className="Signup-Grid-Container">
             <FormField
               control={form.control}

@@ -20,9 +20,18 @@ import { useState } from "react";
 import "./Investments.css";
 import InvestmentAddForm from "./InvestmentAddForm";
 import AutomaticFileDrop from "./AutomaticFileDrop";
-import { IParsedStatementData } from "../Models/Investments";
+import {
+  INewInvestmentReport,
+  IParsedStatementData,
+} from "../Models/Investments";
 
-const AddInvestmentCarousel = () => {
+interface AddInvestmentCarouselProps {
+  handleAddInvestment: (newInvestmentReport: INewInvestmentReport) => void;
+}
+
+const AddInvestmentCarousel = ({
+  handleAddInvestment,
+}: AddInvestmentCarouselProps) => {
   const [isManualChosen, setIsManualChosen] = useState(false);
   const [isAutomaticChosen, setIsAutomaticChosen] = useState(false);
   const [parsedStatementData, setParsedStatementData] = useState<
@@ -56,11 +65,16 @@ const AddInvestmentCarousel = () => {
     );
     if (parsedStatementData) {
       addInvestmentSteps.push(
-        <InvestmentAddForm parsedStatementData={parsedStatementData} />
+        <InvestmentAddForm
+          parsedStatementData={parsedStatementData}
+          handleAddInvestment={handleAddInvestment}
+        />
       );
     }
   } else if (isManualChosen) {
-    addInvestmentSteps.push(<InvestmentAddForm />);
+    addInvestmentSteps.push(
+      <InvestmentAddForm handleAddInvestment={handleAddInvestment} />
+    );
   }
 
   return (

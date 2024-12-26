@@ -4,6 +4,7 @@ import {
   IFlattenedInvestmentStatement,
   IInvestmentChartData,
   IInvestmentReport,
+  INewInvestmentReport,
   ISelectedInvestment,
 } from "../Models/Investments";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
@@ -72,6 +73,39 @@ const Investments = () => {
       const jsonData: IInvestmentReport[] = await response.json();
       setInvestmentReports(jsonData);
       setSelectedInvestment(null);
+    }
+  };
+
+  const handleAddInvestment = async (
+    newInvestmentData: INewInvestmentReport
+  ) => {
+    if (!user) {
+      console.error("No user defined");
+      return;
+    }
+    const newInvestmentDataWithUserId = {
+      ...newInvestmentData,
+      userId: user._id,
+    };
+
+    const response = await fetch("/investments/addInvestment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newInvestmentDataWithUserId),
+    });
+
+    const responseJson = await response.json();
+
+    if (response.ok) {
+      fetchInvestmentReports();
+    } else {
+      // Specific message
+      if (responseJson.message) {
+        // Non-specific message
+      } else {
+      }
     }
   };
 
@@ -191,6 +225,7 @@ const Investments = () => {
         investmentReports={investmentReports}
         handleInvestmentCardClick={handleInvestmentCardClick}
         selectedInvestment={selectedInvestment}
+        handleAddInvestment={handleAddInvestment}
       />
       <div className="Investment-Display-Container">
         <div className="Investment-Add-Delete-Table-Container">

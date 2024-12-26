@@ -6,7 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from "../ShadcnComponents/Card";
-import { IInvestmentReport, ISelectedInvestment } from "../Models/Investments";
+import {
+  IInvestmentReport,
+  INewInvestmentReport,
+  ISelectedInvestment,
+} from "../Models/Investments";
 import { Badge } from "../ShadcnComponents/Badge";
 
 interface InvestmentsListProps {
@@ -14,6 +18,7 @@ interface InvestmentsListProps {
   investmentReports: IInvestmentReport[];
   handleInvestmentCardClick: (report: IInvestmentReport) => void;
   selectedInvestment: ISelectedInvestment | null;
+  handleAddInvestment: (newInvestmentReport: INewInvestmentReport) => void;
 }
 
 const InvestmentsList = ({
@@ -21,6 +26,7 @@ const InvestmentsList = ({
   investmentReports,
   handleInvestmentCardClick,
   selectedInvestment,
+  handleAddInvestment,
 }: InvestmentsListProps) => {
   return (
     <div className="Investments-List-Container">
@@ -35,7 +41,7 @@ const InvestmentsList = ({
       </div>
       <div className="Investments-List-Rectangle">
         {/* TODO: move carousel component out to investments? Get rid of trigger element in it */}
-        <AddInvestmentCarousel />
+        <AddInvestmentCarousel handleAddInvestment={handleAddInvestment} />
         <Button
           className={`Add-Investment-Button text-white ${selectedInvestment ? "" : "Selected-Investment-Card"}`}
           onClick={handleAllClick}
