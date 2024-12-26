@@ -19,6 +19,7 @@ export interface IInvestmentStatement {
   endMonth: string;
 }
 
+// TODO: rename ALL instances of investmentId to investmentReportId
 export interface IFlattenedInvestmentStatement extends IInvestmentStatement {
   investmentId: string;
   brokerageName: string;

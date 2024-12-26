@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { useEffect, useState } from "react";
 import {
   IFlattenedInvestmentStatement,
@@ -62,33 +63,28 @@ const Investments = () => {
   }
 
   const fetchInvestmentReports = async () => {
-    try {
-      const response = await fetch(
-        `/investments/investmentReports?userId=${user?._id}`
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+    const response = await fetch(
+      `/investments/investmentReports?userId=${user?._id}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch Investment Reports");
+    } else {
       const jsonData: IInvestmentReport[] = await response.json();
       setInvestmentReports(jsonData);
-    } catch (err) {
-      console.error(err);
+      setSelectedInvestment(null);
     }
   };
 
   const fetchInvestmentChartData = async () => {
-    try {
-      const response = await fetch(
-        `/investments/investmentChartData?userId=${user?._id}`
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+    const response = await fetch(
+      `/investments/investmentChartData?userId=${user?._id}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch Investment Chart Data");
+    } else {
       const jsonData: IInvestmentChartData[] = await response.json();
       setFetchedInvestmentChartData(jsonData);
       setSelectedInvestmentChartData(jsonData);
-    } catch (err) {
-      console.error(err);
     }
   };
 
@@ -96,6 +92,24 @@ const Investments = () => {
     currentStatement: IFlattenedInvestmentStatement
   ) => {
     setSelectedStatement(currentStatement);
+  };
+
+  const handleInvestmentDelete = async (
+    investmentReportId: string | undefined
+  ) => {
+    if (confirm("Delete investment? This action cannot be undone")) {
+      const response = await fetch(
+        `/investments/investmentReport?investmentReportId=${investmentReportId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete the investment");
+      } else {
+        fetchInvestmentReports();
+      }
+    }
   };
 
   // TODO: find a way to do this w/out useEffect
@@ -144,7 +158,7 @@ const Investments = () => {
       return;
     }
 
-    const response = await fetch("/investments/editStatement", {
+    const response = await fetch("/investments/statement", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -182,7 +196,9 @@ const Investments = () => {
         <div className="Investment-Add-Delete-Table-Container">
           <Button
             disabled={selectedInvestment == null}
-            // onClick={handleInvestmentDelete}
+            onClick={() =>
+              handleInvestmentDelete(selectedInvestment?.investmentId)
+            }
           >
             Delete Investment
           </Button>

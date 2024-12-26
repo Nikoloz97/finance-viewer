@@ -130,6 +130,7 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     userId,
     statements: [
       {
+        statementId: new ObjectId(),
         startBalanceDate: toDateOnly(startBalanceDate),
         startBalance: toDollarAmount(startBalance.toString()),
         endBalanceDate: toDateOnly(endBalanceDate),
@@ -211,8 +212,7 @@ investmentsRouter.post("/addStatement", async (req, res) => {
   }
 });
 
-// TODO: test this
-investmentsRouter.put("/editStatement", async (req, res) => {
+investmentsRouter.put("/statement", async (req, res) => {
   const {
     investmentId,
     statementId,
@@ -276,9 +276,7 @@ investmentsRouter.delete("/statement", async (req, res) => {
     const investmentReports = db.collection("InvestmentReports");
 
     const result = await investmentReports.updateOne(
-      // Might not need to create ObjectId instance?
-      { _id: new ObjectId(investmentReportId) }, // Filter by investmentReportId
-      // Might not need to create ObjectId instance?
+      { _id: new ObjectId(investmentReportId) },
       { $pull: { statements: { statementId: new ObjectId(statementId) } } } // Pull (remove) the statement from the array
     );
 
