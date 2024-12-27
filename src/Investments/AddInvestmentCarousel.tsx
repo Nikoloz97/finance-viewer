@@ -1,4 +1,3 @@
-import { Plus } from "lucide-react";
 import { Button } from "../ShadcnComponents/Button";
 import { Card, CardContent } from "../ShadcnComponents/Card";
 import {
@@ -14,7 +13,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../ShadcnComponents/Dialog";
 import { useState } from "react";
 import "./Investments.css";
@@ -26,11 +24,15 @@ import {
 } from "../Models/Investments";
 
 interface AddInvestmentCarouselProps {
+  isAddInvestmentCarouselOpen: boolean;
   handleAddInvestment: (newInvestmentReport: INewInvestmentReport) => void;
+  setIsAddInvestmentCarouselOpen: (isOpen: boolean) => void;
 }
 
 const AddInvestmentCarousel = ({
+  isAddInvestmentCarouselOpen,
   handleAddInvestment,
+  setIsAddInvestmentCarouselOpen,
 }: AddInvestmentCarouselProps) => {
   const [isManualChosen, setIsManualChosen] = useState(false);
   const [isAutomaticChosen, setIsAutomaticChosen] = useState(false);
@@ -78,12 +80,10 @@ const AddInvestmentCarousel = ({
   }
 
   return (
-    <Dialog>
-      <DialogTrigger className="dark" asChild>
-        <Button className="Add-Investment-Button text-white">
-          <Plus />
-        </Button>
-      </DialogTrigger>
+    <Dialog
+      open={isAddInvestmentCarouselOpen}
+      onOpenChange={setIsAddInvestmentCarouselOpen}
+    >
       <DialogContent
         onInteractOutside={(event) => event.preventDefault()}
         className="left-[57%] dark"

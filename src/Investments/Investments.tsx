@@ -13,6 +13,7 @@ import InvestmentsList from "./InvestmentsList";
 import InvestmentGrid from "./InvestmentGrid";
 import EditStatementDialog from "./EditStatementDialog";
 import { Button } from "../ShadcnComponents/Button";
+import AddInvestmentCarousel from "./AddInvestmentCarousel";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -35,6 +36,9 @@ const Investments = () => {
 
   const [selectedStatement, setSelectedStatement] =
     useState<IFlattenedInvestmentStatement | null>(null);
+
+  const [isAddInvestmentCarouselOpen, setIsAddInvestmentCarouselOpen] =
+    useState<boolean>(false);
 
   let flattenedInvestmentStatements: IFlattenedInvestmentStatement[] | null =
     null;
@@ -211,6 +215,11 @@ const Investments = () => {
 
   return (
     <div className="Investments-Page">
+      <AddInvestmentCarousel
+        isAddInvestmentCarouselOpen={isAddInvestmentCarouselOpen}
+        setIsAddInvestmentCarouselOpen={setIsAddInvestmentCarouselOpen}
+        handleAddInvestment={handleAddInvestment}
+      />
       {selectedStatement && (
         <EditStatementDialog
           handleEditStatementSubmission={handleEditStatementSubmission}
@@ -226,6 +235,7 @@ const Investments = () => {
         handleInvestmentCardClick={handleInvestmentCardClick}
         selectedInvestment={selectedInvestment}
         handleAddInvestment={handleAddInvestment}
+        setIsAddInvestmentCarouselOpen={setIsAddInvestmentCarouselOpen}
       />
       <div className="Investment-Display-Container">
         <div className="Investment-Add-Delete-Table-Container">

@@ -12,6 +12,7 @@ import {
   ISelectedInvestment,
 } from "../Models/Investments";
 import { Badge } from "../ShadcnComponents/Badge";
+import { Plus } from "lucide-react";
 
 interface InvestmentsListProps {
   handleAllClick: () => void;
@@ -19,6 +20,7 @@ interface InvestmentsListProps {
   handleInvestmentCardClick: (report: IInvestmentReport) => void;
   selectedInvestment: ISelectedInvestment | null;
   handleAddInvestment: (newInvestmentReport: INewInvestmentReport) => void;
+  setIsAddInvestmentCarouselOpen: (isOpen: boolean) => void;
 }
 
 const InvestmentsList = ({
@@ -27,6 +29,7 @@ const InvestmentsList = ({
   handleInvestmentCardClick,
   selectedInvestment,
   handleAddInvestment,
+  setIsAddInvestmentCarouselOpen,
 }: InvestmentsListProps) => {
   return (
     <div className="Investments-List-Container">
@@ -40,8 +43,12 @@ const InvestmentsList = ({
         <Badge>Retirement</Badge>
       </div>
       <div className="Investments-List-Rectangle">
-        {/* TODO: move carousel component out to investments? Get rid of trigger element in it */}
-        <AddInvestmentCarousel handleAddInvestment={handleAddInvestment} />
+        <Button
+          onClick={() => setIsAddInvestmentCarouselOpen(true)}
+          className="dark Add-Investment-Button text-white"
+        >
+          <Plus />
+        </Button>
         <Button
           className={`Add-Investment-Button text-white ${selectedInvestment ? "" : "Selected-Investment-Card"}`}
           onClick={handleAllClick}
