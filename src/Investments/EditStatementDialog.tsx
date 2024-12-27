@@ -1,18 +1,15 @@
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../ShadcnComponents/Dialog";
 import { Button } from "../ShadcnComponents/Button";
 import "./Investments.css";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import {
   Form,
   FormControl,
@@ -205,7 +202,10 @@ const EditStatementDialog = ({
   });
 
   return (
-    <Dialog open={isEditStatementDialogOpen}>
+    <Dialog
+      open={isEditStatementDialogOpen}
+      onOpenChange={handleCancelEditStatement}
+    >
       <DialogContent className="dark">
         <DialogHeader>
           <DialogTitle className="text-white">Edit Statement</DialogTitle>
@@ -449,10 +449,6 @@ const EditStatementDialog = ({
               </div>
             </form>
           </Form>
-          {/* TODO: Apply this to the X-button and get rid of this (or get rid of X) */}
-          <Button onClick={handleCancelEditStatement} className="dark">
-            Cancel
-          </Button>
         </div>
       </DialogContent>
     </Dialog>
