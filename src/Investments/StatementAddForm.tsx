@@ -12,13 +12,6 @@ import {
 } from "../ShadcnComponents/Form";
 import { Button } from "../ShadcnComponents/Button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ShadcnComponents/Select";
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -28,21 +21,15 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ShadcnComponents/Calendar";
 import { Input } from "../ShadcnComponents/Input";
-import {
-  INewInvestmentReport,
-  IParsedInvestmentData,
-} from "../Models/Investments";
+import { INewStatement, IParsedInvestmentData } from "../Models/Investments";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 
-interface InvestmentAddFormProps {
+interface StatementAddFormProps {
   parsedData?: IParsedInvestmentData;
-  handleAdd: (newInvestmentReport: INewInvestmentReport) => void;
+  handleAdd: (newStatement: INewStatement) => void;
 }
 
-const InvestmentAddForm = ({
-  parsedData,
-  handleAdd,
-}: InvestmentAddFormProps) => {
+const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
   // TODO: work on adding this check back in
   // Min + max possible value for type int32
   const MIN_INT32 = -(2 ** 31);
@@ -63,15 +50,6 @@ const InvestmentAddForm = ({
   const investmentSubtypes = ["Individual", "ETF"];
 
   const addFormSchema = z.object({
-    brokerageName: z.string().min(1, {
-      message: "Please select a brokerage",
-    }),
-    investmentType: z.string().min(1, {
-      message: "Please select an investment type",
-    }),
-    investmentSubtype: z.string().min(1, {
-      message: "Please select an investment subtype",
-    }),
     startBalanceDate: z.date({
       message: "Please select a start date",
     }),
@@ -140,9 +118,6 @@ const InvestmentAddForm = ({
     resolver: zodResolver(addFormSchema),
     defaultValues: parsedData
       ? {
-          brokerageName: parsedData.brokerageName,
-          investmentType: parsedData.investmentType,
-          investmentSubtype: parsedData.investmentSubtype,
           startBalanceDate: parsedData.startBalanceDate,
           startBalance: parsedData.startBalance,
           endBalanceDate: parsedData.endBalanceDate,
@@ -151,9 +126,6 @@ const InvestmentAddForm = ({
           withdrawalAmount: parsedData.withdrawalAmount,
         }
       : {
-          brokerageName: "",
-          investmentType: "",
-          investmentSubtype: "",
           startBalanceDate: new Date(),
           startBalance: 0,
           endBalanceDate: new Date(),
@@ -165,94 +137,10 @@ const InvestmentAddForm = ({
 
   return (
     <div>
-      <Header textAlign="center">Investment Add Form</Header>
+      <Header textAlign="center">Statement Add Form</Header>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleAdd)}>
           <div className="Signup-Grid-Container">
-            <FormField
-              control={form.control}
-              name="brokerageName"
-              render={({ field }) => (
-                <FormItem className="flex flex-col justify-end">
-                  <FormLabel>Brokerage</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a Brokerage" />
-                      </SelectTrigger>
-                    </FormControl>
-
-                    <SelectContent>
-                      {brokerages.map((brokerage, index) => (
-                        <SelectItem key={index} value={brokerage}>
-                          {brokerage}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="investmentType"
-              render={({ field }) => (
-                <FormItem className="flex flex-col justify-end">
-                  <FormLabel>Investment Type</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select Type" />
-                      </SelectTrigger>
-                    </FormControl>
-
-                    <SelectContent>
-                      {investmentTypes.map((investmentType, index) => (
-                        <SelectItem key={index} value={investmentType}>
-                          {investmentType}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="investmentSubtype"
-              render={({ field }) => (
-                <FormItem className="flex flex-col justify-end">
-                  <FormLabel>Investment Subtype</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a Subtype" />
-                      </SelectTrigger>
-                    </FormControl>
-
-                    <SelectContent>
-                      {investmentSubtypes.map((investmentSubtype, index) => (
-                        <SelectItem key={index} value={investmentSubtype}>
-                          {investmentSubtype}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="startBalanceDate"
@@ -403,4 +291,4 @@ const InvestmentAddForm = ({
   );
 };
 
-export default InvestmentAddForm;
+export default StatementAddForm;

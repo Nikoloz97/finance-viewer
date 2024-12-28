@@ -296,7 +296,6 @@ investmentsRouter.delete("/statement", async (req, res) => {
   }
 });
 
-// TODO: Test this
 investmentsRouter.delete("/investmentReport", async (req, res) => {
   const investmentReportId = req.query.investmentReportId;
 

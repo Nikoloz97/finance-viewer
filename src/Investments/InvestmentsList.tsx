@@ -14,7 +14,7 @@ interface InvestmentsListProps {
   investmentReports: IInvestmentReport[];
   handleInvestmentCardClick: (report: IInvestmentReport) => void;
   selectedInvestment: ISelectedInvestment | null;
-  setIsAddDialogCarouselOpen: (isOpen: boolean) => void;
+  setIsInvestmentAddDialogCarouselOpen: (isOpen: boolean) => void;
 }
 
 const InvestmentsList = ({
@@ -22,7 +22,7 @@ const InvestmentsList = ({
   investmentReports,
   handleInvestmentCardClick,
   selectedInvestment,
-  setIsAddDialogCarouselOpen,
+  setIsInvestmentAddDialogCarouselOpen,
 }: InvestmentsListProps) => {
   return (
     <div className="Investments-List-Container">
@@ -37,7 +37,7 @@ const InvestmentsList = ({
       </div>
       <div className="Investments-List-Rectangle">
         <Button
-          onClick={() => setIsAddDialogCarouselOpen(true)}
+          onClick={() => setIsInvestmentAddDialogCarouselOpen(true)}
           className="dark Add-Investment-Button text-white"
         >
           <Plus />

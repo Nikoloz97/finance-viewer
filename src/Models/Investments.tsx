@@ -19,6 +19,15 @@ export interface IInvestmentStatement {
   endMonth: string;
 }
 
+export interface INewStatement {
+  startBalance: number;
+  startBalanceDate: Date;
+  endBalance: number;
+  endBalanceDate: Date;
+  depositAmount: number;
+  withdrawalAmount: number;
+}
+
 // TODO: replace ALL instances of investmentId to investmentReportId (or vice versa??)
 export interface IFlattenedInvestmentStatement extends IInvestmentStatement {
   investmentId: string;
@@ -52,7 +61,7 @@ export interface ISelectedInvestment {
   investmentSubtype: string;
 }
 
-export interface IParsedStatementData {
+export interface IParsedInvestmentData {
   brokerageName: string;
   investmentType: string;
   investmentSubtype: string;

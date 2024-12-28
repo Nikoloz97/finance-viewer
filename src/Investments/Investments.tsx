@@ -5,6 +5,7 @@ import {
   IInvestmentChartData,
   IInvestmentReport,
   INewInvestmentReport,
+  INewStatement,
   ISelectedInvestment,
 } from "../Models/Investments";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
@@ -13,7 +14,8 @@ import InvestmentsList from "./InvestmentsList";
 import InvestmentGrid from "./InvestmentGrid";
 import EditStatementDialog from "./EditStatementDialog";
 import { Button } from "../ShadcnComponents/Button";
-import AddDialogCarousel from "./AddDialogCarousel";
+import AddInvestmentDialogCarousel from "./AddDialogCarousel";
+import AddStatementDialogCarousel from "./AddDialogCarousel";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -37,8 +39,15 @@ const Investments = () => {
   const [selectedStatement, setSelectedStatement] =
     useState<IFlattenedInvestmentStatement | null>(null);
 
-  const [isAddDialogCarouselOpen, setIsAddDialogCarouselOpen] =
-    useState<boolean>(false);
+  const [
+    isInvestmentAddDialogCarouselOpen,
+    setIsInvestmentAddDialogCarouselOpen,
+  ] = useState<boolean>(false);
+
+  const [
+    isStatementAddDialogCarouselOpen,
+    setIsStatementAddDialogCarouselOpen,
+  ] = useState<boolean>(false);
 
   let flattenedInvestmentStatements: IFlattenedInvestmentStatement[] | null =
     null;
@@ -81,7 +90,7 @@ const Investments = () => {
   };
 
   const handleAddInvestment = async (
-    newInvestmentData: INewInvestmentReport
+    newInvestmentData: INewInvestmentReport | INewStatement
   ) => {
     if (!user) {
       console.error("No user defined");
@@ -104,7 +113,7 @@ const Investments = () => {
 
     if (response.ok) {
       fetchInvestmentReports();
-      setIsAddDialogCarouselOpen(false);
+      setIsInvestmentAddDialogCarouselOpen(false);
     } else {
       // Specific message
       if (responseJson.message) {
@@ -150,21 +159,6 @@ const Investments = () => {
       }
     }
   };
-
-  // TODO: find a way to do this w/out useEffect
-  useEffect(() => {
-    if (selectedStatement) {
-      setIsEditStatementDialogOpen(true);
-    }
-  }, [selectedStatement]);
-
-  useEffect(() => {
-    fetchInvestmentReports();
-  }, []);
-
-  useEffect(() => {
-    fetchInvestmentChartData();
-  }, [investmentReports]);
 
   const handleInvestmentCardClick = (report: IInvestmentReport) => {
     const filteredInvestmentChartData = fetchedInvestmentChartData?.map(
@@ -214,14 +208,72 @@ const Investments = () => {
     }
   };
 
-  const handleAddStatement = () => {};
+  const handleAddStatement = async (
+    newStatementData: INewStatement | INewInvestmentReport
+  ) => {
+    if (!selectedInvestment) {
+      console.error("No investment was selected");
+      return;
+    }
+    const newStatementDataWithInvestmentId = {
+      ...newStatementData,
+      investmentId: selectedInvestment.investmentId,
+    };
+
+    const response = await fetch("/investments/addStatement", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newStatementDataWithInvestmentId),
+    });
+
+    const responseJson = await response.json();
+
+    if (response.ok) {
+      fetchInvestmentReports();
+      setIsStatementAddDialogCarouselOpen(false);
+    } else {
+      // Specific message
+      if (responseJson.message) {
+        // Non-specific message
+      } else {
+      }
+    }
+  };
+
+  // TODO: find a way to do this w/out useEffect
+  useEffect(() => {
+    if (selectedStatement) {
+      setIsEditStatementDialogOpen(true);
+    }
+  }, [selectedStatement]);
+
+  useEffect(() => {
+    fetchInvestmentReports();
+  }, []);
+
+  useEffect(() => {
+    fetchInvestmentChartData();
+  }, [investmentReports]);
 
   return (
     <div className="Investments-Page">
-      <AddDialogCarousel
-        isAddDialogCarouselOpen={isAddDialogCarouselOpen}
-        setIsAddDialogCarouselOpen={setIsAddDialogCarouselOpen}
-        handleAddInvestment={handleAddInvestment}
+      <AddStatementDialogCarousel
+        type="Statement"
+        isAddDialogCarouselOpen={isStatementAddDialogCarouselOpen}
+        setIsAddDialogCarouselOpen={setIsStatementAddDialogCarouselOpen}
+        handleAdd={handleAddStatement}
+        header="Add Statement"
+        subheader="Please follow along steps for adding a statement:"
+      />
+      <AddInvestmentDialogCarousel
+        type="Investment"
+        isAddDialogCarouselOpen={isInvestmentAddDialogCarouselOpen}
+        setIsAddDialogCarouselOpen={setIsInvestmentAddDialogCarouselOpen}
+        handleAdd={handleAddInvestment}
+        header="Add Investment"
+        subheader="Please follow along steps for adding an investment:"
       />
       {selectedStatement && (
         <EditStatementDialog
@@ -237,7 +289,9 @@ const Investments = () => {
         investmentReports={investmentReports}
         handleInvestmentCardClick={handleInvestmentCardClick}
         selectedInvestment={selectedInvestment}
-        setIsAddDialogCarouselOpen={setIsAddDialogCarouselOpen}
+        setIsInvestmentAddDialogCarouselOpen={
+          setIsInvestmentAddDialogCarouselOpen
+        }
       />
       <div className="Investment-Display-Container">
         <div className="Investment-Add-Delete-Table-Container">
@@ -251,7 +305,7 @@ const Investments = () => {
           </Button>
           <Button
             disabled={selectedInvestment === null}
-            onClick={() => handleAddStatement()}
+            onClick={() => setIsStatementAddDialogCarouselOpen(true)}
           >
             Add Statement
           </Button>

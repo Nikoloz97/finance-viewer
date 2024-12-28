@@ -8,19 +8,19 @@ import {
   FormMessage,
 } from "../ShadcnComponents/Form";
 import { Input } from "../ShadcnComponents/Input";
-import { IParsedStatementData } from "../Models/Investments";
+import { IParsedInvestmentData } from "../Models/Investments";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ShadcnComponents/Button";
 
 interface AutomaticFileDropProps {
-  setParsedStatementData: React.Dispatch<
-    React.SetStateAction<IParsedStatementData | undefined>
+  setParsedInvestmentData: React.Dispatch<
+    React.SetStateAction<IParsedInvestmentData | undefined>
   >;
 }
 
 const AutomaticFileDrop = ({
-  setParsedStatementData,
+  setParsedInvestmentData,
 }: AutomaticFileDropProps) => {
   const formSchema = z.object({
     statementFilePath: z.custom(
@@ -57,7 +57,7 @@ const AutomaticFileDrop = ({
       withdrawalAmount: 100,
       depositAmount: 500,
     };
-    setParsedStatementData(dummyParsedStatementData);
+    setParsedInvestmentData(dummyParsedStatementData);
   };
 
   return (

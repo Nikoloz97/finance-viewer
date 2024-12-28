@@ -20,24 +20,32 @@ import InvestmentAddForm from "./InvestmentAddForm";
 import AutomaticFileDrop from "./AutomaticFileDrop";
 import {
   INewInvestmentReport,
-  IParsedStatementData,
+  INewStatement,
+  IParsedInvestmentData,
 } from "../Models/Investments";
+import StatementAddForm from "./StatementAddForm";
 
 interface AddDialogCarouselProps {
   isAddDialogCarouselOpen: boolean;
-  handleAddInvestment: (newInvestmentReport: INewInvestmentReport) => void;
+  handleAdd: (newData: INewInvestmentReport | INewStatement) => void;
   setIsAddDialogCarouselOpen: (isOpen: boolean) => void;
+  type: "Statement" | "Investment";
+  header: string;
+  subheader: string;
 }
 
 const AddDialogCarousel = ({
   isAddDialogCarouselOpen,
-  handleAddInvestment,
+  handleAdd,
   setIsAddDialogCarouselOpen,
+  type,
+  header,
+  subheader,
 }: AddDialogCarouselProps) => {
   const [isManualChosen, setIsManualChosen] = useState(false);
   const [isAutomaticChosen, setIsAutomaticChosen] = useState(false);
-  const [parsedStatementData, setParsedStatementData] = useState<
-    IParsedStatementData | undefined
+  const [parsedInvestmentData, setParsedInvestmentData] = useState<
+    IParsedInvestmentData | undefined
   >();
 
   const handleManualButtonClick = () => {
@@ -63,20 +71,32 @@ const AddDialogCarousel = ({
 
   if (isAutomaticChosen) {
     addInvestmentSteps.push(
-      <AutomaticFileDrop setParsedStatementData={setParsedStatementData} />
+      <AutomaticFileDrop setParsedInvestmentData={setParsedInvestmentData} />
     );
-    if (parsedStatementData) {
+  }
+
+  if (type === "Investment") {
+    if (parsedInvestmentData) {
       addInvestmentSteps.push(
         <InvestmentAddForm
-          parsedStatementData={parsedStatementData}
-          handleAddInvestment={handleAddInvestment}
+          parsedData={parsedInvestmentData}
+          handleAdd={handleAdd}
         />
       );
+    } else if (isManualChosen) {
+      addInvestmentSteps.push(<InvestmentAddForm handleAdd={handleAdd} />);
     }
-  } else if (isManualChosen) {
-    addInvestmentSteps.push(
-      <InvestmentAddForm handleAddInvestment={handleAddInvestment} />
-    );
+  } else if (type === "Statement") {
+    if (parsedInvestmentData) {
+      addInvestmentSteps.push(
+        <StatementAddForm
+          parsedData={parsedInvestmentData}
+          handleAdd={handleAdd}
+        />
+      );
+    } else if (isManualChosen) {
+      addInvestmentSteps.push(<StatementAddForm handleAdd={handleAdd} />);
+    }
   }
 
   return (
@@ -89,11 +109,9 @@ const AddDialogCarousel = ({
         className="left-[57%] dark"
       >
         <DialogHeader>
-          <DialogTitle className="text-white text-4xl">
-            Add Investment
-          </DialogTitle>
+          <DialogTitle className="text-white text-4xl">{header}</DialogTitle>
           <DialogDescription className="text-white text-lg">
-            Please follow along steps for adding an investment:
+            {subheader}
           </DialogDescription>
         </DialogHeader>
 
