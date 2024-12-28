@@ -13,7 +13,7 @@ import InvestmentsList from "./InvestmentsList";
 import InvestmentGrid from "./InvestmentGrid";
 import EditStatementDialog from "./EditStatementDialog";
 import { Button } from "../ShadcnComponents/Button";
-import AddInvestmentCarousel from "./AddInvestmentCarousel";
+import AddDialogCarousel from "./AddDialogCarousel";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -37,7 +37,7 @@ const Investments = () => {
   const [selectedStatement, setSelectedStatement] =
     useState<IFlattenedInvestmentStatement | null>(null);
 
-  const [isAddInvestmentCarouselOpen, setIsAddInvestmentCarouselOpen] =
+  const [isAddDialogCarouselOpen, setIsAddDialogCarouselOpen] =
     useState<boolean>(false);
 
   let flattenedInvestmentStatements: IFlattenedInvestmentStatement[] | null =
@@ -213,11 +213,13 @@ const Investments = () => {
     }
   };
 
+  const handleAddStatement = () => {};
+
   return (
     <div className="Investments-Page">
-      <AddInvestmentCarousel
-        isAddInvestmentCarouselOpen={isAddInvestmentCarouselOpen}
-        setIsAddInvestmentCarouselOpen={setIsAddInvestmentCarouselOpen}
+      <AddDialogCarousel
+        isAddDialogCarouselOpen={isAddDialogCarouselOpen}
+        setIsAddDialogCarouselOpen={setIsAddDialogCarouselOpen}
         handleAddInvestment={handleAddInvestment}
       />
       {selectedStatement && (
@@ -234,20 +236,24 @@ const Investments = () => {
         investmentReports={investmentReports}
         handleInvestmentCardClick={handleInvestmentCardClick}
         selectedInvestment={selectedInvestment}
-        handleAddInvestment={handleAddInvestment}
-        setIsAddInvestmentCarouselOpen={setIsAddInvestmentCarouselOpen}
+        setIsAddDialogCarouselOpen={setIsAddDialogCarouselOpen}
       />
       <div className="Investment-Display-Container">
         <div className="Investment-Add-Delete-Table-Container">
           <Button
-            disabled={selectedInvestment == null}
+            disabled={selectedInvestment === null}
             onClick={() =>
               handleInvestmentDelete(selectedInvestment?.investmentId)
             }
           >
             Delete Investment
           </Button>
-          <Button disabled={selectedInvestment == null}>Add Statement</Button>
+          <Button
+            disabled={selectedInvestment === null}
+            onClick={() => handleAddStatement()}
+          >
+            Add Statement
+          </Button>
 
           {investmentReports.length && (
             <InvestmentGrid

@@ -1,4 +1,3 @@
-import AddInvestmentCarousel from "./AddInvestmentCarousel";
 import { Button } from "../ShadcnComponents/Button";
 import {
   Card,
@@ -19,8 +18,7 @@ interface InvestmentsListProps {
   investmentReports: IInvestmentReport[];
   handleInvestmentCardClick: (report: IInvestmentReport) => void;
   selectedInvestment: ISelectedInvestment | null;
-  handleAddInvestment: (newInvestmentReport: INewInvestmentReport) => void;
-  setIsAddInvestmentCarouselOpen: (isOpen: boolean) => void;
+  setIsAddDialogCarouselOpen: (isOpen: boolean) => void;
 }
 
 const InvestmentsList = ({
@@ -28,8 +26,7 @@ const InvestmentsList = ({
   investmentReports,
   handleInvestmentCardClick,
   selectedInvestment,
-  handleAddInvestment,
-  setIsAddInvestmentCarouselOpen,
+  setIsAddDialogCarouselOpen,
 }: InvestmentsListProps) => {
   return (
     <div className="Investments-List-Container">
@@ -44,7 +41,7 @@ const InvestmentsList = ({
       </div>
       <div className="Investments-List-Rectangle">
         <Button
-          onClick={() => setIsAddInvestmentCarouselOpen(true)}
+          onClick={() => setIsAddDialogCarouselOpen(true)}
           className="dark Add-Investment-Button text-white"
         >
           <Plus />

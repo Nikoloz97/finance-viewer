@@ -23,17 +23,17 @@ import {
   IParsedStatementData,
 } from "../Models/Investments";
 
-interface AddInvestmentCarouselProps {
-  isAddInvestmentCarouselOpen: boolean;
+interface AddDialogCarouselProps {
+  isAddDialogCarouselOpen: boolean;
   handleAddInvestment: (newInvestmentReport: INewInvestmentReport) => void;
-  setIsAddInvestmentCarouselOpen: (isOpen: boolean) => void;
+  setIsAddDialogCarouselOpen: (isOpen: boolean) => void;
 }
 
-const AddInvestmentCarousel = ({
-  isAddInvestmentCarouselOpen,
+const AddDialogCarousel = ({
+  isAddDialogCarouselOpen,
   handleAddInvestment,
-  setIsAddInvestmentCarouselOpen,
-}: AddInvestmentCarouselProps) => {
+  setIsAddDialogCarouselOpen,
+}: AddDialogCarouselProps) => {
   const [isManualChosen, setIsManualChosen] = useState(false);
   const [isAutomaticChosen, setIsAutomaticChosen] = useState(false);
   const [parsedStatementData, setParsedStatementData] = useState<
@@ -81,8 +81,8 @@ const AddInvestmentCarousel = ({
 
   return (
     <Dialog
-      open={isAddInvestmentCarouselOpen}
-      onOpenChange={setIsAddInvestmentCarouselOpen}
+      open={isAddDialogCarouselOpen}
+      onOpenChange={setIsAddDialogCarouselOpen}
     >
       <DialogContent
         onInteractOutside={(event) => event.preventDefault()}
@@ -121,4 +121,4 @@ const AddInvestmentCarousel = ({
   );
 };
 
-export default AddInvestmentCarousel;
+export default AddDialogCarousel;
