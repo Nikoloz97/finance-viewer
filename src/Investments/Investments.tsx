@@ -104,6 +104,7 @@ const Investments = () => {
 
     if (response.ok) {
       fetchInvestmentReports();
+      setIsAddDialogCarouselOpen(false);
     } else {
       // Specific message
       if (responseJson.message) {

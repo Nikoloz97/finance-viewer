@@ -5,11 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ShadcnComponents/Card";
-import {
-  IInvestmentReport,
-  INewInvestmentReport,
-  ISelectedInvestment,
-} from "../Models/Investments";
+import { IInvestmentReport, ISelectedInvestment } from "../Models/Investments";
 import { Badge } from "../ShadcnComponents/Badge";
 import { Plus } from "lucide-react";
 
