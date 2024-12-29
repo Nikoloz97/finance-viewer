@@ -160,7 +160,6 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
   }
 });
 
-// TODO: test this
 investmentsRouter.post("/addStatement", async (req, res) => {
   const {
     investmentId,
@@ -191,14 +190,12 @@ investmentsRouter.post("/addStatement", async (req, res) => {
     const db = client.db("FinanceViewer");
     const allInvestmentReports = db.collection("InvestmentReports");
 
-    const investmentReportToAddStatement = await allInvestmentReports.findOne({
-      investmentReportId: investmentId,
-    });
+    const investmentReportObjectId = new ObjectId(investmentId);
 
-    const newlyAddedStatement =
-      await investmentReportToAddStatement.statements.insertOne(
-        newStatementData
-      );
+    const newlyAddedStatement = await allInvestmentReports.updateOne(
+      { _id: investmentReportObjectId },
+      { $push: { statements: newStatementData } }
+    );
 
     if (newlyAddedStatement) {
       res.send(newlyAddedStatement);
@@ -252,7 +249,7 @@ investmentsRouter.put("/statement", async (req, res) => {
 
     if (updateResult.modifiedCount === 0) {
       res
-        .status(404)
+        .status(400)
         .send("No statement found with the given investment or statement ID.");
     } else {
       res.status(200).send("Statement updated successfully.");
