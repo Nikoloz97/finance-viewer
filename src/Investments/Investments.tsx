@@ -153,7 +153,26 @@ const Investments = () => {
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to delete the investment");
+        throw new Error("Failed to delete investment");
+      } else {
+        fetchInvestmentReports();
+      }
+    }
+  };
+
+  const handleStatementDelete = async (
+    investmentId: string | undefined,
+    statementId: string | undefined
+  ) => {
+    if (confirm("Delete statement? This action cannot be undone")) {
+      const response = await fetch(
+        `/investments/statement?investmentId=${investmentId}&statementId=${statementId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete statement");
       } else {
         fetchInvestmentReports();
       }
@@ -310,10 +329,12 @@ const Investments = () => {
             Add Statement
           </Button>
 
+          {/* TODO: remove investment grid? Seems like unnecessary layer */}
           {investmentReports.length && (
             <InvestmentGrid
-              handleStatementEdit={handleStatementEdit}
               statements={flattenedInvestmentStatements}
+              handleStatementEdit={handleStatementEdit}
+              handleStatementDelete={handleStatementDelete}
             />
           )}
         </div>

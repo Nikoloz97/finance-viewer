@@ -2,21 +2,24 @@ import { IFlattenedInvestmentStatement } from "../Models/Investments";
 import { InvestmentsTable } from "../Tables/InvestmentsTable";
 
 interface InvestmentGridProps {
+  statements: IFlattenedInvestmentStatement[];
   handleStatementEdit: (
     updatedStatement: IFlattenedInvestmentStatement
   ) => void;
-  statements: IFlattenedInvestmentStatement[];
+  handleStatementDelete: (investmentId: string, statementId: string) => void;
 }
 
 const InvestmentGrid = ({
-  handleStatementEdit,
   statements,
+  handleStatementEdit,
+  handleStatementDelete,
 }: InvestmentGridProps) => {
   return (
     <div className="text-center">
       <InvestmentsTable
-        handleStatementEdit={handleStatementEdit}
         data={statements}
+        handleStatementEdit={handleStatementEdit}
+        handleStatementDelete={handleStatementDelete}
       />
     </div>
   );

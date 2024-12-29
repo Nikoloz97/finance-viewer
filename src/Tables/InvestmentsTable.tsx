@@ -28,12 +28,16 @@ import { MoreHorizontal } from "lucide-react";
 
 interface DataTableProps {
   data: IFlattenedInvestmentStatement[];
-  handleStatementEdit: (statement: IFlattenedInvestmentStatement) => void;
+  handleStatementEdit: (
+    flattenedInvestmentStatement: IFlattenedInvestmentStatement
+  ) => void;
+  handleStatementDelete: (investmentId: string, statementId: string) => void;
 }
 
 export function InvestmentsTable({
   data,
   handleStatementEdit,
+  handleStatementDelete,
 }: DataTableProps) {
   const InvestmentsColumns: ColumnDef<IFlattenedInvestmentStatement>[] = [
     {
@@ -147,7 +151,7 @@ export function InvestmentsTable({
     {
       id: "actions",
       cell: ({ row }) => {
-        const statement = row.original;
+        const flattenedInvestmentStatement = row.original;
 
         return (
           <DropdownMenu>
@@ -159,11 +163,20 @@ export function InvestmentsTable({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => handleStatementEdit(statement)}>
+              <DropdownMenuItem
+                onClick={() =>
+                  handleStatementEdit(flattenedInvestmentStatement)
+                }
+              >
                 Edit statement
               </DropdownMenuItem>
               <DropdownMenuItem
-              // onClick={() => handleStatementDelete(statement.statementId)}
+                onClick={() =>
+                  handleStatementDelete(
+                    flattenedInvestmentStatement.investmentId,
+                    flattenedInvestmentStatement.statementId
+                  )
+                }
               >
                 Delete Statement
               </DropdownMenuItem>

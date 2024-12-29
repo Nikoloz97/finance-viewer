@@ -262,10 +262,8 @@ investmentsRouter.put("/statement", async (req, res) => {
   }
 });
 
-// TODO: Test this
 investmentsRouter.delete("/statement", async (req, res) => {
-  const investmentReportId = req.query.investmentReportId;
-  const statementId = req.query.statementId;
+  const { investmentId, statementId } = req.query;
 
   try {
     await client.connect();
@@ -273,7 +271,7 @@ investmentsRouter.delete("/statement", async (req, res) => {
     const investmentReports = db.collection("InvestmentReports");
 
     const result = await investmentReports.updateOne(
-      { _id: new ObjectId(investmentReportId) },
+      { _id: new ObjectId(investmentId) },
       { $pull: { statements: { statementId: new ObjectId(statementId) } } } // Pull (remove) the statement from the array
     );
 
@@ -306,7 +304,7 @@ investmentsRouter.delete("/investmentReport", async (req, res) => {
     });
 
     if (result.deletedCount === 0) {
-      res.status(404).json({
+      res.status(400).json({
         message:
           "No investment report found with the given investment report Id",
       });
