@@ -15,8 +15,6 @@ export interface IInvestmentStatement {
   endBalanceDate: Date;
   depositAmount: number;
   withdrawalAmount: number;
-  startMonth: string;
-  endMonth: string;
 }
 
 export interface INewStatement {

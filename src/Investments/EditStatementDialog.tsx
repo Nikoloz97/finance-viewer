@@ -172,14 +172,6 @@ const EditStatementDialog = ({
           message: "Please enter a valid number",
         })
     ),
-
-    // TODO: Prevented from being edited? Remove from being displayed?
-    startMonth: z.string().min(1, {
-      message: "Please select a brokerage",
-    }),
-    endMonth: z.string().min(1, {
-      message: "Please select a brokerage",
-    }),
   });
 
   const form = useForm<z.infer<typeof editFormSchema>>({
@@ -196,8 +188,6 @@ const EditStatementDialog = ({
       endBalanceDate: selectedStatement.endBalanceDate,
       depositAmount: selectedStatement.depositAmount,
       withdrawalAmount: selectedStatement.withdrawalAmount,
-      startMonth: selectedStatement.startMonth,
-      endMonth: selectedStatement.endMonth,
     },
   });
 

@@ -169,8 +169,6 @@ investmentsRouter.post("/addStatement", async (req, res) => {
     endBalance,
     depositAmount,
     withdrawalAmount,
-    startMonth,
-    endMonth,
   } = req.body;
 
   const newStatementData = {
@@ -181,8 +179,6 @@ investmentsRouter.post("/addStatement", async (req, res) => {
     endBalance: toDollarAmount(endBalance.toString()),
     depositAmount: toDollarAmount(depositAmount.toString()),
     withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
-    startMonth: startMonth,
-    endMonth: endMonth,
   };
 
   try {
@@ -219,8 +215,6 @@ investmentsRouter.put("/statement", async (req, res) => {
     endBalanceDate,
     depositAmount,
     withdrawalAmount,
-    startMonth,
-    endMonth,
   } = req.body;
 
   try {
@@ -241,8 +235,6 @@ investmentsRouter.put("/statement", async (req, res) => {
           "statements.$.endBalance": toDollarAmount(endBalance),
           "statements.$.depositAmount": toDollarAmount(depositAmount),
           "statements.$.withdrawalAmount": toDollarAmount(withdrawalAmount),
-          "statements.$.startMonth": startMonth,
-          "statements.$.endMonth": endMonth,
         },
       }
     );

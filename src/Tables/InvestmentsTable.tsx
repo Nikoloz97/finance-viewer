@@ -133,14 +133,6 @@ export function InvestmentsTable({
       },
     },
     {
-      accessorKey: "startMonth",
-      header: "Start Month",
-    },
-    {
-      accessorKey: "endMonth",
-      header: "End Month",
-    },
-    {
       accessorKey: "statementId",
       header: "Statement ID",
     },
