@@ -194,7 +194,7 @@ export function InvestmentsTable({
   });
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border text-center">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

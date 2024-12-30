@@ -11,11 +11,11 @@ import {
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import InvestmentDisplay from "./InvestmentDisplay";
 import InvestmentsList from "./InvestmentsList";
-import InvestmentGrid from "./InvestmentGrid";
 import EditStatementDialog from "./EditStatementDialog";
 import { Button } from "../ShadcnComponents/Button";
 import AddInvestmentDialogCarousel from "./AddDialogCarousel";
 import AddStatementDialogCarousel from "./AddDialogCarousel";
+import { InvestmentsTable } from "../Tables/InvestmentsTable";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -329,10 +329,9 @@ const Investments = () => {
             Add Statement
           </Button>
 
-          {/* TODO: remove investment grid? Seems like unnecessary layer */}
           {investmentReports.length && (
-            <InvestmentGrid
-              statements={flattenedInvestmentStatements}
+            <InvestmentsTable
+              data={flattenedInvestmentStatements}
               handleStatementEdit={handleStatementEdit}
               handleStatementDelete={handleStatementDelete}
             />
