@@ -31,6 +31,7 @@ investmentsRouter.get("/investmentReports", async (req, res) => {
       .find({ userId: userId })
       .toArray();
 
+    // TODO: parsing seems unnecessary (maybe store them as strings in the first place?)
     if (userInvestmentReports) {
       userInvestmentReports.forEach((investment) => {
         investment.statements.forEach((statement) => {
