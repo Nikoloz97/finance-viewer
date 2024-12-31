@@ -72,10 +72,10 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
     const db = client.db("FinanceViewer");
     const allInvestmentReports = db.collection("InvestmentReports");
 
-    const latestEndBalanceDate = await allInvestmentReports
+    const latestEndBalanceDateObject = await allInvestmentReports
       .aggregate([
         { $match: { userId: userId } },
-        { $unwind: "$statements" },
+        { $unwind: "$statements" }, // creates investment out of each statement item
         {
           $group: {
             _id: null, // Group all documents into a single group
@@ -83,11 +83,10 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
           },
         },
       ])
-      // TODO: change this (we don't want an array; see code below)
-      .toArray();
+      .next(); // grabs the first item
 
     const latestMonthIndex = getMonthIndex(
-      latestEndBalanceDate[0].latestEndBalanceDate
+      latestEndBalanceDateObject.latestEndBalanceDate
     );
 
     let newChartData = [
