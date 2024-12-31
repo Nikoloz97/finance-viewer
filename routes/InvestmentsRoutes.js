@@ -1,6 +1,7 @@
 import express from "express";
 import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
+import { getMonthIndex } from "./Utils/Dates.js";
 import { months } from "./Utils/Months.js";
 import { toDateOnly, toDollarAmount } from "./Utils/Formatters.js";
 
@@ -71,26 +72,50 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
     const db = client.db("FinanceViewer");
     const allInvestmentReports = db.collection("InvestmentReports");
 
-    const userInvestmentReports = await allInvestmentReports
-      .find({ userId: userId })
+    const latestEndBalanceDate = await allInvestmentReports
+      .aggregate([
+        { $match: { userId: userId } },
+        { $unwind: "$statements" },
+        {
+          $group: {
+            _id: null, // Group all documents into a single group
+            latestEndBalanceDate: { $max: "$statements.endBalanceDate" },
+          },
+        },
+      ])
+      // TODO: change this (we don't want an array; see code below)
       .toArray();
 
-    const date = new Date();
+    const latestMonthIndex = getMonthIndex(
+      latestEndBalanceDate[0].latestEndBalanceDate
+    );
 
     let newChartData = [
-      { month: months[date.getMonth() - 4] },
-      { month: months[date.getMonth() - 3] },
-      { month: months[date.getMonth() - 2] },
+      { month: months[latestMonthIndex - 2] },
+      { month: months[latestMonthIndex - 1] },
+      { month: months[latestMonthIndex] },
     ];
+
+    // TODO: For each UserInvestmentReport, filter out statement objects where endBalanceDates are less than latestMonthIndex - 2
+    const userInvestmentReports = await allInvestmentReports
+      .find({
+        userId: userId,
+      })
+      .toArray();
 
     userInvestmentReports.forEach((investment) => {
       investment.statements.forEach((statement) => {
         newChartData.forEach((chartData) => {
-          if (chartData.month === statement.startMonth) {
+          if (
+            chartData.month ===
+            months[getMonthIndex(statement.startBalanceDate)]
+          ) {
             chartData[investment.brokerageName] = parseFloat(
               statement.startBalance.toString()
             );
-          } else if (chartData.month === statement.endMonth) {
+          } else if (
+            chartData.month === months[getMonthIndex(statement.endBalanceDate)]
+          ) {
             chartData[investment.brokerageName] = parseFloat(
               statement.endBalance.toString()
             );

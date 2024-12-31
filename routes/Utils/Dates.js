@@ -1,5 +1,5 @@
-export const determineMonthIndex = (dateInput: string) => {
-  // Parse the input date (TODO: is this necessary? )
+export const getMonthIndex = (dateInput) => {
+  // TODO: Weird conversion problem - 10-31-2024 got converted to October 30th
   const date = new Date(dateInput);
 
   if (isNaN(date.getTime())) {
@@ -15,7 +15,7 @@ export const determineMonthIndex = (dateInput: string) => {
   if (day >= startBound) {
     return month;
   } else if (day <= endBound) {
-    return month + 1;
+    return month - 1;
   } else {
     throw new Error("Date input is outside the valid bounds");
   }
