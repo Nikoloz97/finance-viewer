@@ -62,6 +62,7 @@ investmentsRouter.get("/investmentReports", async (req, res) => {
   }
 });
 
+// TODO: it feels weird that this fetch happens right after investmentReports are fetched, both of which at least begins with fetching investmentReport (i.e. seems like redundant work is happening)
 investmentsRouter.get("/investmentChartData", async (req, res) => {
   const userId = req.query.userId;
 
