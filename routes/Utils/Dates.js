@@ -1,6 +1,6 @@
-export const getMonthIndex = (dateInput) => {
+export const getMonthIndex = (stringDateInput) => {
   // TODO: Weird conversion problem - 10-31-2024 got converted to October 30th
-  const date = new Date(dateInput);
+  const date = new Date(stringDateInput);
 
   if (isNaN(date.getTime())) {
     throw new Error("Invalid date input");
@@ -19,4 +19,24 @@ export const getMonthIndex = (dateInput) => {
   } else {
     throw new Error("Date input is outside the valid bounds");
   }
+};
+
+export const getCutOffDate = (stringDateInput, monthModifierInteger) => {
+  let cutOffDate = new Date(stringDateInput);
+
+  const month = cutOffDate.getMonth(); // Note: months are 0-indexed (0 = January, 11 = December)
+  const day = cutOffDate.getDate();
+
+  if (day > 5 && day < 25) {
+    throw new Error("Date input is outside the valid bounds");
+  }
+
+  if (day <= 5) {
+    cutOffDate = cutOffDate.setMonth(month - 1);
+  }
+
+  cutOffDate.setDate(25);
+  cutOffDate.setMonth(month + monthModifierInteger);
+
+  return cutOffDate;
 };

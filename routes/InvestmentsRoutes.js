@@ -1,7 +1,7 @@
 import express from "express";
 import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
-import { getMonthIndex } from "./Utils/Dates.js";
+import { getCutOffDate, getMonthIndex } from "./Utils/Dates.js";
 import { months } from "./Utils/Months.js";
 import { toDateOnly, toDollarAmount } from "./Utils/Formatters.js";
 
@@ -95,35 +95,43 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
       { month: months[latestMonthIndex] },
     ];
 
-    // TODO: For each UserInvestmentReport, filter out statement objects where endBalanceDates are less than latestMonthIndex - 2
-    const userInvestmentReports = await allInvestmentReports
-      .find({
-        userId: userId,
-      })
+    const cutoffDate = new Date(
+      getCutOffDate(latestEndBalanceDateObject.latestEndBalanceDate, -2)
+    );
+
+    const eligibleStatements = await allInvestmentReports
+      .aggregate([
+        { $match: { userId: userId } },
+        { $unwind: "$statements" }, // flatten statements
+        { $match: { "statements.endBalanceDate": { $gte: cutoffDate } } }, // filter based off cutoff date
+        {
+          $project: {
+            brokerageName: 1, // Include the brokerageName field
+            statement: "$statements",
+          },
+        },
+      ])
       .toArray();
 
-    userInvestmentReports.forEach((investment) => {
-      investment.statements.forEach((statement) => {
-        newChartData.forEach((chartData) => {
-          if (
-            chartData.month ===
-            months[getMonthIndex(statement.startBalanceDate)]
-          ) {
-            chartData[investment.brokerageName] = parseFloat(
-              statement.startBalance.toString()
-            );
-          } else if (
-            chartData.month === months[getMonthIndex(statement.endBalanceDate)]
-          ) {
-            chartData[investment.brokerageName] = parseFloat(
-              statement.endBalance.toString()
-            );
-          }
-        });
+    eligibleStatements.forEach((statement) => {
+      newChartData.forEach((chartData) => {
+        if (
+          chartData.month === months[getMonthIndex(statement.startBalanceDate)]
+        ) {
+          chartData[statement.brokerageName] = parseFloat(
+            statement.startBalance.toString()
+          );
+        } else if (
+          chartData.month === months[getMonthIndex(statement.endBalanceDate)]
+        ) {
+          chartData[statement.brokerageName] = parseFloat(
+            statement.endBalance.toString()
+          );
+        }
       });
     });
 
-    if (userInvestmentReports) {
+    if (eligibleStatements) {
       res.send(newChartData);
     } else {
       res
