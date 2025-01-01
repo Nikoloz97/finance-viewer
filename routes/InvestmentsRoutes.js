@@ -103,8 +103,22 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
       .aggregate([
         { $match: { userId: userId } },
         { $unwind: "$statements" }, // flatten statements
-        { $match: { "statements.endBalanceDate": { $gte: cutoffDate } } }, // filter based off cutoff date
+        // TODO: make this filtering work
+        // {
+        //   $match: {
+        //     "statements.endBalanceDate": {
+        //       $gte: {
+        //         // Since dates are stored as strings in mongodb, this will be used to compare them
+        //         $dateFromString: {
+        //           dateString: cutoffDate.toISOString().substring(0, 10),
+        //           format: "%Y-%m-%d",
+        //         },
+        //       },
+        //     },
+        //   },
+        // }, // filter based off cutoff date
         {
+          // TODO: break statement property up into its parts
           $project: {
             brokerageName: 1, // Include the brokerageName field
             statement: "$statements",
@@ -116,16 +130,18 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
     eligibleStatements.forEach((statement) => {
       newChartData.forEach((chartData) => {
         if (
-          chartData.month === months[getMonthIndex(statement.startBalanceDate)]
+          chartData.month ===
+          months[getMonthIndex(statement.statement.startBalanceDate)]
         ) {
           chartData[statement.brokerageName] = parseFloat(
-            statement.startBalance.toString()
+            statement.statement.startBalance.toString()
           );
         } else if (
-          chartData.month === months[getMonthIndex(statement.endBalanceDate)]
+          chartData.month ===
+          months[getMonthIndex(statement.statement.endBalanceDate)]
         ) {
           chartData[statement.brokerageName] = parseFloat(
-            statement.endBalance.toString()
+            statement.statement.endBalance.toString()
           );
         }
       });
