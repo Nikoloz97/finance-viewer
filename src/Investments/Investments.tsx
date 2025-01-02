@@ -52,6 +52,7 @@ const Investments = () => {
   let flattenedInvestmentStatements: IFlattenedInvestmentStatement[] | null =
     null;
 
+  // TODO: This flattening should be done from the original fetch (via $unwind operator)
   if (selectedInvestment) {
     flattenedInvestmentStatements = investmentReports
       .filter((report) => report._id === selectedInvestment.investmentId)

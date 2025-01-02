@@ -124,7 +124,6 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
       ])
       .toArray();
 
-    // TODO: figure out why this is whole fetch is being called twice
     eligibleStatements.forEach((statement) => {
       newChartData.forEach((chartData) => {
         if (
