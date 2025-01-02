@@ -32,6 +32,7 @@ import {
   INewInvestmentReport,
   IParsedInvestmentData,
 } from "../Models/Investments";
+import { investmentBrokerages } from "../Utils/Brokerages";
 
 interface InvestmentAddFormProps {
   parsedData?: IParsedInvestmentData;
@@ -46,9 +47,6 @@ const InvestmentAddForm = ({
   // Min + max possible value for type int32
   const MIN_INT32 = -(2 ** 31);
   const MAX_INT32 = 2 ** 31;
-
-  // TODO: Create/fetch a thorough list of brokerages
-  const brokerages = ["Webull", "Vanguard", "Fidelity"];
 
   const investmentTypes = [
     "Stocks",
@@ -184,7 +182,7 @@ const InvestmentAddForm = ({
                     </FormControl>
 
                     <SelectContent>
-                      {brokerages.map((brokerage, index) => (
+                      {investmentBrokerages.map((brokerage, index) => (
                         <SelectItem key={index} value={brokerage}>
                           {brokerage}
                         </SelectItem>
