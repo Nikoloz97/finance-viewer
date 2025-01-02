@@ -32,7 +32,6 @@ import {
   INewInvestmentReport,
   IParsedInvestmentData,
 } from "../Models/Investments";
-import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 
 interface InvestmentAddFormProps {
   parsedData?: IParsedInvestmentData;
@@ -48,8 +47,7 @@ const InvestmentAddForm = ({
   const MIN_INT32 = -(2 ** 31);
   const MAX_INT32 = 2 ** 31;
 
-  const { user } = UseContextCheck();
-
+  // TODO: Create/fetch a thorough list of brokerages
   const brokerages = ["Webull", "Vanguard", "Fidelity"];
 
   const investmentTypes = [

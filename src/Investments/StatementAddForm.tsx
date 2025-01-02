@@ -22,7 +22,6 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ShadcnComponents/Calendar";
 import { Input } from "../ShadcnComponents/Input";
 import { INewStatement, IParsedInvestmentData } from "../Models/Investments";
-import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 
 interface StatementAddFormProps {
   parsedData?: IParsedInvestmentData;
@@ -34,20 +33,6 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
   // Min + max possible value for type int32
   const MIN_INT32 = -(2 ** 31);
   const MAX_INT32 = 2 ** 31;
-
-  const { user } = UseContextCheck();
-
-  const brokerages = ["Webull", "Vanguard", "Fidelity"];
-
-  const investmentTypes = [
-    "Stocks",
-    "Savings",
-    "Crypto",
-    "Bonds",
-    "Retirement",
-  ];
-
-  const investmentSubtypes = ["Individual", "ETF"];
 
   const addFormSchema = z.object({
     startBalanceDate: z.date({
