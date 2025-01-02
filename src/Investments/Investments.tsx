@@ -273,7 +273,9 @@ const Investments = () => {
   }, []);
 
   useEffect(() => {
-    fetchInvestmentChartData();
+    if (investmentReports.length) {
+      fetchInvestmentChartData();
+    }
   }, [investmentReports]);
 
   return (
