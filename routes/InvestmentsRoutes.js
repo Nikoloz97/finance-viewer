@@ -95,28 +95,25 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
       { month: months[latestMonthIndex] },
     ];
 
-    const cutoffDate = new Date(
-      getCutOffDate(latestEndBalanceDateObject.latestEndBalanceDate, -2)
+    const cutoffDate = getCutOffDate(
+      latestEndBalanceDateObject.latestEndBalanceDate,
+      -2
     );
+
+    // Since dates are stored as strings in mongodb, this will be used to compare them
+    const stringifiedCutoffDate = cutoffDate.toISOString().substring(0, 10);
 
     const eligibleStatements = await allInvestmentReports
       .aggregate([
         { $match: { userId: userId } },
         { $unwind: "$statements" }, // flatten statements
-        // TODO: make this filtering work
-        // {
-        //   $match: {
-        //     "statements.endBalanceDate": {
-        //       $gte: {
-        //         // Since dates are stored as strings in mongodb, this will be used to compare them
-        //         $dateFromString: {
-        //           dateString: cutoffDate.toISOString().substring(0, 10),
-        //           format: "%Y-%m-%d",
-        //         },
-        //       },
-        //     },
-        //   },
-        // }, // filter based off cutoff date
+        {
+          $match: {
+            "statements.endBalanceDate": {
+              $gte: stringifiedCutoffDate,
+            },
+          },
+        }, // filter out anything less than cutoff date
         {
           // TODO: break statement property up into its parts
           $project: {
@@ -127,6 +124,7 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
       ])
       .toArray();
 
+    // TODO: figure out why this is whole fetch is being called twice
     eligibleStatements.forEach((statement) => {
       newChartData.forEach((chartData) => {
         if (
