@@ -35,16 +35,22 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
   const MAX_INT32 = 2 ** 31;
 
   const addFormSchema = z.object({
-    startBalanceDate: z.date({
-      message: "Please select a start date",
-    }),
-    startBalance: z.preprocess(
-      (input) => {
-        if (typeof input === "number") {
-          return input.toString();
+    startBalanceDate: z
+      .date({
+        message: "Please select a start date",
+      })
+      .refine(
+        (date) => {
+          const day = date.getDate();
+          return day >= 25 || day <= 5;
+        },
+        {
+          message:
+            "Day must be equal or less than the 5th or equal or greater than the 25th",
         }
-        return input;
-      },
+      ),
+    startBalance: z.preprocess(
+      (input) => (typeof input === "number" ? input.toString() : input),
       z
         .string()
         .transform((value) => parseFloat(value))
@@ -52,16 +58,22 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
           message: "Please enter a valid number",
         })
     ),
-    endBalanceDate: z.date({
-      message: "Please select an end date",
-    }),
-    endBalance: z.preprocess(
-      (input) => {
-        if (typeof input === "number") {
-          return input.toString();
+    endBalanceDate: z
+      .date({
+        message: "Please select an end date",
+      })
+      .refine(
+        (date) => {
+          const day = date.getDate();
+          return day >= 25 || day <= 5;
+        },
+        {
+          message:
+            "Day must be equal or less than the 5th or equal or greater than the 25th",
         }
-        return input;
-      },
+      ),
+    endBalance: z.preprocess(
+      (input) => (typeof input === "number" ? input.toString() : input),
       z
         .string()
         .transform((value) => parseFloat(value))
@@ -70,12 +82,7 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
         })
     ),
     depositAmount: z.preprocess(
-      (input) => {
-        if (typeof input === "number") {
-          return input.toString();
-        }
-        return input;
-      },
+      (input) => (typeof input === "number" ? input.toString() : input),
       z
         .string()
         .transform((value) => parseFloat(value))
@@ -84,12 +91,7 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
         })
     ),
     withdrawalAmount: z.preprocess(
-      (input) => {
-        if (typeof input === "number") {
-          return input.toString();
-        }
-        return input;
-      },
+      (input) => (typeof input === "number" ? input.toString() : input),
       z
         .string()
         .transform((value) => parseFloat(value))
