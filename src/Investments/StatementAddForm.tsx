@@ -34,72 +34,77 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
   const MIN_INT32 = -(2 ** 31);
   const MAX_INT32 = 2 ** 31;
 
-  const addFormSchema = z.object({
-    startBalanceDate: z
-      .date({
-        message: "Please select a start date",
-      })
-      .refine(
-        (date) => {
-          const day = date.getDate();
-          return day >= 25 || day <= 5;
-        },
-        {
-          message:
-            "Day must be equal or less than the 5th or equal or greater than the 25th",
-        }
+  const addFormSchema = z
+    .object({
+      startBalanceDate: z
+        .date({
+          message: "Please select a start date",
+        })
+        .refine(
+          (date) => {
+            const day = date.getDate();
+            return day >= 25 || day <= 5;
+          },
+          {
+            message:
+              "Day must be equal or less than the 5th or equal or greater than the 25th",
+          }
+        ),
+      startBalance: z.preprocess(
+        (input) => (typeof input === "number" ? input.toString() : input),
+        z
+          .string()
+          .transform((value) => parseFloat(value))
+          .refine((value) => !isNaN(value), {
+            message: "Please enter a valid number",
+          })
       ),
-    startBalance: z.preprocess(
-      (input) => (typeof input === "number" ? input.toString() : input),
-      z
-        .string()
-        .transform((value) => parseFloat(value))
-        .refine((value) => !isNaN(value), {
-          message: "Please enter a valid number",
+      endBalanceDate: z
+        .date({
+          message: "Please select an end date",
         })
-    ),
-    endBalanceDate: z
-      .date({
-        message: "Please select an end date",
-      })
-      .refine(
-        (date) => {
-          const day = date.getDate();
-          return day >= 25 || day <= 5;
-        },
-        {
-          message:
-            "Day must be equal or less than the 5th or equal or greater than the 25th",
-        }
+        .refine(
+          (date) => {
+            const day = date.getDate();
+            return day >= 25 || day <= 5;
+          },
+          {
+            message:
+              "Day must be equal or less than the 5th or equal or greater than the 25th",
+          }
+        ),
+      endBalance: z.preprocess(
+        (input) => (typeof input === "number" ? input.toString() : input),
+        z
+          .string()
+          .transform((value) => parseFloat(value))
+          .refine((value) => !isNaN(value), {
+            message: "Please enter a valid number",
+          })
       ),
-    endBalance: z.preprocess(
-      (input) => (typeof input === "number" ? input.toString() : input),
-      z
-        .string()
-        .transform((value) => parseFloat(value))
-        .refine((value) => !isNaN(value), {
-          message: "Please enter a valid number",
-        })
-    ),
-    depositAmount: z.preprocess(
-      (input) => (typeof input === "number" ? input.toString() : input),
-      z
-        .string()
-        .transform((value) => parseFloat(value))
-        .refine((value) => !isNaN(value), {
-          message: "Please enter a valid number",
-        })
-    ),
-    withdrawalAmount: z.preprocess(
-      (input) => (typeof input === "number" ? input.toString() : input),
-      z
-        .string()
-        .transform((value) => parseFloat(value))
-        .refine((value) => !isNaN(value), {
-          message: "Please enter a valid number",
-        })
-    ),
-  });
+      depositAmount: z.preprocess(
+        (input) => (typeof input === "number" ? input.toString() : input),
+        z
+          .string()
+          .transform((value) => parseFloat(value))
+          .refine((value) => !isNaN(value), {
+            message: "Please enter a valid number",
+          })
+      ),
+      withdrawalAmount: z.preprocess(
+        (input) => (typeof input === "number" ? input.toString() : input),
+        z
+          .string()
+          .transform((value) => parseFloat(value))
+          .refine((value) => !isNaN(value), {
+            message: "Please enter a valid number",
+          })
+      ),
+    })
+    .refine((data) => data.endBalanceDate > data.startBalanceDate, {
+      message: "End date must be after the start date",
+      path: ["endBalanceDate"],
+    });
 
   const form = useForm<z.infer<typeof addFormSchema>>({
     resolver: zodResolver(addFormSchema),

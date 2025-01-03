@@ -73,106 +73,107 @@ const EditStatementDialog = ({
 
   const investmentSubtypes = ["Individual", "ETF"];
 
-  const editFormSchema = z.object({
-    // TODO: Prevent from being edited
-    // Or remove from being displayed entirely?
-    investmentId: z.string().min(1, {
-      message: "Please enter a valid Id",
-    }),
-    statementId: z.string().min(1, {
-      message: "Please enter a valid Id",
-    }),
+  const editFormSchema = z
+    .object({
+      // TODO: Prevent from being edited
+      // Or remove from being displayed entirely?
+      investmentId: z.string().min(1, {
+        message: "Please enter a valid Id",
+      }),
+      statementId: z.string().min(1, {
+        message: "Please enter a valid Id",
+      }),
 
-    // TODO: Prevented from being edited?
-    brokerageName: z.string().min(1, {
-      message: "Please select a brokerage",
-    }),
-    investmentType: z.string().min(1, {
-      message: "Please select an investment type",
-    }),
-    investmentSubtype: z.string().min(1, {
-      message: "Please select an investment subtype",
-    }),
-    startBalance: z.preprocess(
-      (input) => {
-        if (typeof input === "number") {
-          return input.toString();
-        }
-        return input;
-      },
-      z
-        .string()
-        .transform((value) => parseFloat(value))
-        .refine((value) => !isNaN(value), {
-          message: "Please enter a valid number",
-        })
-    ),
-    startBalanceDate: z.preprocess(
-      (input) => {
-        if (typeof input === "string") {
-          return new Date(input);
-        }
-        return input;
-      },
-
-      z.date({
-        message: "Please select a valid date",
-      })
-    ),
-    endBalance: z.preprocess(
-      (input) => {
-        if (typeof input === "number") {
-          return input.toString();
-        }
-        return input;
-      },
-      z
-        .string()
-        .transform((value) => parseFloat(value))
-        .refine((value) => !isNaN(value), {
-          message: "Please enter a valid number",
-        })
-    ),
-    endBalanceDate: z.preprocess(
-      (input) => {
-        if (typeof input === "string") {
-          return new Date(input);
-        }
-        return input;
-      },
-      z.date({
-        message: "Please select a valid date",
-      })
-    ),
-    depositAmount: z.preprocess(
-      (input) => {
-        if (typeof input === "number") {
-          return input.toString();
-        }
-        return input;
-      },
-      z
-        .string()
-        .transform((value) => parseFloat(value))
-        .refine((value) => !isNaN(value), {
-          message: "Please enter a valid number",
-        })
-    ),
-    withdrawalAmount: z.preprocess(
-      (input) => {
-        if (typeof input === "number") {
-          return input.toString();
-        }
-        return input;
-      },
-      z
-        .string()
-        .transform((value) => parseFloat(value))
-        .refine((value) => !isNaN(value), {
-          message: "Please enter a valid number",
-        })
-    ),
-  });
+      // TODO: Prevented from being edited?
+      brokerageName: z.string().min(1, {
+        message: "Please select a brokerage",
+      }),
+      investmentType: z.string().min(1, {
+        message: "Please select an investment type",
+      }),
+      investmentSubtype: z.string().min(1, {
+        message: "Please select an investment subtype",
+      }),
+      startBalance: z.preprocess(
+        (input) => {
+          if (typeof input === "number") {
+            return input.toString();
+          }
+          return input;
+        },
+        z
+          .string()
+          .transform((value) => parseFloat(value))
+          .refine((value) => !isNaN(value), {
+            message: "Please enter a valid number",
+          })
+      ),
+      startBalanceDate: z
+        .preprocess(
+          (input) => (typeof input === "string" ? new Date(input) : input),
+          z.date({
+            message: "Please select a valid date",
+          })
+        )
+        .refine(
+          (date) => {
+            const day = date.getDate();
+            return day >= 25 || day <= 5;
+          },
+          {
+            message:
+              "Day must be equal or less than the 5th or equal or greater than the 25th",
+          }
+        ),
+      endBalance: z.preprocess(
+        (input) => (typeof input === "number" ? input.toString() : input),
+        z
+          .string()
+          .transform((value) => parseFloat(value))
+          .refine((value) => !isNaN(value), {
+            message: "Please enter a valid number",
+          })
+      ),
+      endBalanceDate: z
+        .preprocess(
+          (input) => (typeof input === "string" ? new Date(input) : input),
+          z.date({
+            message: "Please select a valid date",
+          })
+        )
+        .refine(
+          (date) => {
+            const day = date.getDate();
+            return day >= 25 || day <= 5;
+          },
+          {
+            message:
+              "Day must be equal or less than the 5th or equal or greater than the 25th",
+          }
+        ),
+      depositAmount: z.preprocess(
+        (input) => (typeof input === "number" ? input.toString() : input),
+        z
+          .string()
+          .transform((value) => parseFloat(value))
+          .refine((value) => !isNaN(value), {
+            message: "Please enter a valid number",
+          })
+      ),
+      withdrawalAmount: z.preprocess(
+        (input) => (typeof input === "number" ? input.toString() : input),
+        z
+          .string()
+          .transform((value) => parseFloat(value))
+          .refine((value) => !isNaN(value), {
+            message: "Please enter a valid number",
+          })
+      ),
+    })
+    .refine((data) => data.endBalanceDate > data.startBalanceDate, {
+      message: "End date must be after the start date",
+      path: ["endBalanceDate"],
+    });
 
   const form = useForm<z.infer<typeof editFormSchema>>({
     resolver: zodResolver(editFormSchema),
