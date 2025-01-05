@@ -218,16 +218,6 @@ investmentsRouter.post("/addStatement", async (req, res) => {
     withdrawalAmount,
   } = req.body;
 
-  const newStatementData = {
-    statementId: new ObjectId(),
-    startBalanceDate: toDateOnly(startBalanceDate),
-    startBalance: toDollarAmount(startBalance.toString()),
-    endBalanceDate: toDateOnly(endBalanceDate),
-    endBalance: toDollarAmount(endBalance.toString()),
-    depositAmount: toDollarAmount(depositAmount.toString()),
-    withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
-  };
-
   try {
     await client.connect();
     const db = client.db("FinanceViewer");
@@ -235,15 +225,69 @@ investmentsRouter.post("/addStatement", async (req, res) => {
 
     const investmentReportObjectId = new ObjectId(investmentId);
 
+    const startBalanceDateOnly = toDateOnly(startBalanceDate);
+    const endBalanceDateOnly = toDateOnly(endBalanceDate);
+
+    const statementOverlaps = await allInvestmentReports
+      .aggregate([
+        { $match: { _id: investmentReportObjectId } },
+        { $unwind: "$statement" },
+        {
+          $match: {
+            $or: [
+              {
+                "statement.startBalanceDate": {
+                  $lte: startBalanceDateOnly,
+                },
+                "statement.endBalanceDate": {
+                  $gt: startBalanceDateOnly,
+                },
+              },
+              {
+                "statement.startBalanceDate": {
+                  $lte: endBalanceDateOnly,
+                },
+                "statement.endBalanceDate": {
+                  $gte: endBalanceDateOnly,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            "statement.startBalanceDate": 1,
+            "statement.endBalanceDate": 1,
+          },
+        },
+      ])
+      .toArray();
+
+    if (statementOverlaps.length > 0) {
+      return res
+        .status(400)
+        .json({ message: "Date range overlaps with existing statements" });
+    }
+    const newStatementData = {
+      statementId: new ObjectId(),
+      startBalanceDate: toDateOnly(startBalanceDate),
+      startBalance: toDollarAmount(startBalance.toString()),
+      endBalanceDate: toDateOnly(endBalanceDate),
+      endBalance: toDollarAmount(endBalance.toString()),
+      depositAmount: toDollarAmount(depositAmount.toString()),
+      withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
+    };
+
     const newlyAddedStatement = await allInvestmentReports.updateOne(
       { _id: investmentReportObjectId },
       { $push: { statements: newStatementData } }
     );
 
     if (newlyAddedStatement) {
-      res.send(newlyAddedStatement);
+      return res.send(newlyAddedStatement);
     } else {
-      res
+      return res
         .status(400)
         .json({ message: "Error adding statement to investment report" });
     }
