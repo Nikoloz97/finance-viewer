@@ -322,16 +322,75 @@ investmentsRouter.put("/statement", async (req, res) => {
     const db = client.db("FinanceViewer");
     const allInvestmentReports = db.collection("InvestmentReports");
 
+    const investmentReportObjectId = new ObjectId(investmentId);
+
+    const startBalanceDateDate = new Date(startBalanceDate);
+    const endBalanceDateDate = new Date(endBalanceDate);
+
+    const statementOverlaps = await allInvestmentReports
+      .aggregate([
+        { $match: { _id: investmentReportObjectId } },
+        { $unwind: "$statements" },
+        {
+          $match: {
+            $or: [
+              {
+                "statements.startBalanceDate": {
+                  // newStartDate >= startDate
+                  $lt: startBalanceDateDate,
+                },
+                "statements.endBalanceDate": {
+                  // newStartDate <= endDate
+                  $gt: startBalanceDateDate,
+                },
+              },
+              {
+                "statements.startBalanceDate": {
+                  // newStartDate <= startDate
+                  $gt: startBalanceDateDate,
+                  // newEndDate > startDate
+                  $lte: endBalanceDateDate,
+                },
+              },
+              {
+                "statements.startBalanceDate": {
+                  // newEndDate > startDate
+                  $lte: endBalanceDateDate,
+                },
+                "statements.endBalanceDate": {
+                  // newEndDate <= endDate
+                  $gt: endBalanceDateDate,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            "statements.startBalanceDate": 1,
+            "statements.endBalanceDate": 1,
+          },
+        },
+      ])
+      .toArray();
+
+    if (statementOverlaps.length > 0) {
+      return res
+        .status(400)
+        .json({ message: "Date range overlaps with existing statements" });
+    }
+
     const updateResult = await allInvestmentReports.updateOne(
       {
-        _id: new ObjectId(investmentId),
+        _id: investmentReportObjectId,
         "statements.statementId": new ObjectId(statementId),
       },
       {
         $set: {
-          "statements.$.startBalanceDate": toDateOnly(startBalanceDate),
+          "statements.$.startBalanceDate": startBalanceDateDate,
           "statements.$.startBalance": toDollarAmount(startBalance),
-          "statements.$.endBalanceDate": toDateOnly(endBalanceDate),
+          "statements.$.endBalanceDate": endBalanceDateDate,
           "statements.$.endBalance": toDollarAmount(endBalance),
           "statements.$.depositAmount": toDollarAmount(depositAmount),
           "statements.$.withdrawalAmount": toDollarAmount(withdrawalAmount),
