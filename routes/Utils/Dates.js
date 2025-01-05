@@ -1,13 +1,10 @@
-export const getMonthIndex = (stringDateInput) => {
-  // TODO: Weird conversion problem - 10-31-2024 got converted to October 30th
-  const date = new Date(stringDateInput);
-
-  if (isNaN(date.getTime())) {
+export const getMonthIndex = (dateInput) => {
+  if (isNaN(dateInput.getTime())) {
     throw new Error("Invalid date input");
   }
 
-  const month = date.getMonth(); // Note: months are 0-indexed (0 = January, 11 = December)
-  const day = date.getDate();
+  const month = dateInput.getMonth(); // Note: months are 0-indexed (0 = January, 11 = December)
+  const day = dateInput.getDate();
 
   const startBound = 25;
   const endBound = 5;
@@ -21,9 +18,7 @@ export const getMonthIndex = (stringDateInput) => {
   }
 };
 
-export const getCutOffDate = (stringDateInput, monthModifierInteger) => {
-  let cutOffDate = new Date(stringDateInput);
-
+export const getCutOffDate = (cutOffDate, monthModifierInteger) => {
   const month = cutOffDate.getMonth(); // Note: months are 0-indexed (0 = January, 11 = December)
   const day = cutOffDate.getDate();
 

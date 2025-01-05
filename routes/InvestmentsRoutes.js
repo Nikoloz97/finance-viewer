@@ -100,9 +100,6 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
       -2
     );
 
-    // Since dates are stored as strings in mongodb, this will be used to compare them
-    const stringifiedCutoffDate = cutoffDate.toISOString().substring(0, 10);
-
     const eligibleStatements = await allInvestmentReports
       .aggregate([
         { $match: { userId: userId } },
@@ -110,7 +107,7 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
         {
           $match: {
             "statements.endBalanceDate": {
-              $gte: stringifiedCutoffDate,
+              $gte: cutoffDate,
             },
           },
         }, // filter out anything less than cutoff date
