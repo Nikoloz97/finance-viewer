@@ -178,9 +178,9 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     statements: [
       {
         statementId: new ObjectId(),
-        startBalanceDate: toDateOnly(startBalanceDate),
+        startBalanceDate: new Date(startBalanceDate),
         startBalance: toDollarAmount(startBalance.toString()),
-        endBalanceDate: toDateOnly(endBalanceDate),
+        endBalanceDate: new Date(endBalanceDate),
         endBalance: toDollarAmount(endBalance.toString()),
         depositAmount: toDollarAmount(depositAmount.toString()),
         withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
