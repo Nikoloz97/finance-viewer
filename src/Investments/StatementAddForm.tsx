@@ -19,9 +19,10 @@ import {
 import { cn } from "../utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "../ShadcnComponents/Calendar";
 import { Input } from "../ShadcnComponents/Input";
 import { INewStatement, IParsedInvestmentData } from "../Models/Investments";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
 
 interface StatementAddFormProps {
   parsedData?: IParsedInvestmentData;
@@ -159,14 +160,14 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
+                      <DayPicker
+                        className="p-3"
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
@@ -214,14 +215,14 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
+                      <DayPicker
+                        className="p-3"
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>

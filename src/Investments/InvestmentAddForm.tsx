@@ -26,13 +26,14 @@ import {
 import { cn } from "../utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "../ShadcnComponents/Calendar";
 import { Input } from "../ShadcnComponents/Input";
 import {
   INewInvestmentReport,
   IParsedInvestmentData,
 } from "../Models/Investments";
 import { investmentBrokerages } from "../Utils/Brokerages";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
 
 interface InvestmentAddFormProps {
   parsedData?: IParsedInvestmentData;
@@ -282,14 +283,14 @@ const InvestmentAddForm = ({
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
+                      <DayPicker
+                        className="p-3"
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
@@ -297,6 +298,7 @@ const InvestmentAddForm = ({
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="startBalance"
@@ -337,14 +339,14 @@ const InvestmentAddForm = ({
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
+                      <DayPicker
+                        className="p-3"
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>

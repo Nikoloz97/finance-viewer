@@ -33,9 +33,11 @@ import {
 import { cn } from "../utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "../ShadcnComponents/Calendar";
 import { Input } from "../ShadcnComponents/Input";
 import { IFlattenedInvestmentStatement } from "../Models/Investments";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
+import { investmentBrokerages } from "../Utils/Brokerages";
 
 interface EditStatementDialogProps {
   setIsEditStatementDialogOpen: (isOpen: boolean) => void;
@@ -56,8 +58,6 @@ const EditStatementDialog = ({
   setSelectedStatement,
   handleEditStatementSubmission,
 }: EditStatementDialogProps) => {
-  const brokerages = ["Webull", "Vanguard", "Fidelity"];
-
   const investmentTypes = [
     "Stocks",
     "Savings",
@@ -225,7 +225,7 @@ const EditStatementDialog = ({
                         </FormControl>
 
                         <SelectContent>
-                          {brokerages.map((brokerage, index) => (
+                          {investmentBrokerages.map((brokerage, index) => (
                             <SelectItem key={index} value={brokerage}>
                               {brokerage}
                             </SelectItem>
@@ -320,14 +320,14 @@ const EditStatementDialog = ({
                           </FormControl>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
+                          <DayPicker
+                            className="p-3"
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
                             disabled={(date) =>
                               date > new Date() || date < new Date("1900-01-01")
                             }
-                            initialFocus
                           />
                         </PopoverContent>
                       </Popover>
@@ -375,14 +375,14 @@ const EditStatementDialog = ({
                           </FormControl>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
+                          <DayPicker
+                            className="p-3"
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
                             disabled={(date) =>
                               date > new Date() || date < new Date("1900-01-01")
                             }
-                            initialFocus
                           />
                         </PopoverContent>
                       </Popover>
