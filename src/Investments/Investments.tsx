@@ -116,10 +116,8 @@ const Investments = () => {
       fetchInvestmentReports();
       setIsInvestmentAddDialogCarouselOpen(false);
     } else {
-      // Specific message
       if (responseJson.message) {
-        // Non-specific message
-      } else {
+        console.log(responseJson.message);
       }
     }
   };

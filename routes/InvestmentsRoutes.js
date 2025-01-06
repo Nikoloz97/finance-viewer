@@ -190,6 +190,36 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     const db = client.db("FinanceViewer");
     const investmentReports = db.collection("InvestmentReports");
 
+    const redundantInvestment = await investmentReports
+      .aggregate([
+        {
+          $match: {
+            userId: userId,
+            brokerageName: brokerageName,
+            investmentType: investmentType,
+            investmentSubtype: investmentSubtype,
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            brokerageName: 1,
+            investmentType: 1,
+            investmentSubtype: 1,
+          },
+        },
+      ])
+      .toArray();
+
+    if (redundantInvestment.length > 0) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Brokerage name, investment type, and investment subtype combination already exists",
+        });
+    }
+
     const newlyCreatedInvestment = await investmentReports.insertOne(
       newInvestmentReportData
     );
