@@ -27,7 +27,7 @@ export const getCutOffDate = (cutOffDate, monthModifierInteger) => {
   }
 
   if (day <= 5) {
-    cutOffDate = cutOffDate.setMonth(month - 1);
+    cutOffDate.setMonth(month - 1);
   }
 
   cutOffDate.setDate(25);
