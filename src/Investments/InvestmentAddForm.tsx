@@ -25,7 +25,7 @@ import {
 } from "../ShadcnComponents/Popover";
 import { cn } from "../utils";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
 import { Input } from "../ShadcnComponents/Input";
 import {
   INewInvestmentReport,
@@ -34,6 +34,14 @@ import {
 import { investmentBrokerages } from "../Utils/Brokerages";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../ShadcnComponents/Command";
 
 interface InvestmentAddFormProps {
   parsedData?: IParsedInvestmentData;
@@ -169,7 +177,6 @@ const InvestmentAddForm = ({
 
   return (
     <div>
-      <Header textAlign="center">Investment Add Form</Header>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleAdd)}>
           <div className="Signup-Grid-Container">
@@ -177,27 +184,61 @@ const InvestmentAddForm = ({
               control={form.control}
               name="brokerageName"
               render={({ field }) => (
-                <FormItem className="flex flex-col justify-end">
+                <FormItem className="flex flex-col">
                   <FormLabel>Brokerage</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a Brokerage" />
-                      </SelectTrigger>
-                    </FormControl>
-
-                    <SelectContent>
-                      {investmentBrokerages.map((brokerage, index) => (
-                        <SelectItem key={index} value={brokerage}>
-                          {brokerage}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-[200px] justify-between",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value
+                            ? investmentBrokerages.find(
+                                (brokerage) => brokerage === field.value
+                              )
+                            : "Select brokerage"}
+                          <ChevronsUpDown />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput
+                          placeholder="Search brokerage..."
+                          className="h-9"
+                        />
+                        <CommandList>
+                          <CommandEmpty>No brokerage found.</CommandEmpty>
+                          <CommandGroup>
+                            {investmentBrokerages.map((brokerage) => (
+                              <CommandItem
+                                value={brokerage}
+                                key={brokerage}
+                                onSelect={() => {
+                                  form.setValue("brokerageName", brokerage);
+                                }}
+                              >
+                                {brokerage}
+                                <Check
+                                  className={cn(
+                                    "ml-auto",
+                                    brokerage === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                 </FormItem>
               )}
             />
