@@ -130,7 +130,6 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
 
   return (
     <div>
-      <Header textAlign="center">Statement Add Form</Header>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleAdd)}>
           <div className="Signup-Grid-Container">

@@ -83,7 +83,7 @@ export function InvestmentsTable({
       accessorKey: "endBalance",
       header: "End Balance",
       cell: ({ row }) => {
-        const startBalance = parseFloat(row.getValue("startBalance"));
+        const startBalance = parseFloat(row.getValue("endBalance"));
         const formatted = new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",
