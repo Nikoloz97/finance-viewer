@@ -200,100 +200,11 @@ const EditStatementDialog = ({
       <DialogContent className="dark">
         <DialogHeader>
           <DialogTitle className="text-white">Edit Statement</DialogTitle>
-          <DialogDescription className="text-white">
-            Edit Statement below:
-          </DialogDescription>
         </DialogHeader>
         <div className="flex justify-center space-x-6 mb-2">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleEditStatementSubmission)}>
               <div className="Signup-Grid-Container text-white">
-                <FormField
-                  control={form.control}
-                  name="brokerageName"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col justify-end">
-                      <FormLabel>Brokerage</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Select a Brokerage" />
-                          </SelectTrigger>
-                        </FormControl>
-
-                        <SelectContent>
-                          {investmentBrokerages.map((brokerage, index) => (
-                            <SelectItem key={index} value={brokerage}>
-                              {brokerage}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="investmentType"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col justify-end">
-                      <FormLabel>Investment Type</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Select Type" />
-                          </SelectTrigger>
-                        </FormControl>
-
-                        <SelectContent>
-                          {investmentTypes.map((investmentType, index) => (
-                            <SelectItem key={index} value={investmentType}>
-                              {investmentType}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="investmentSubtype"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col justify-end">
-                      <FormLabel>Investment Subtype</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Select a Subtype" />
-                          </SelectTrigger>
-                        </FormControl>
-
-                        <SelectContent>
-                          {investmentSubtypes.map(
-                            (investmentSubtype, index) => (
-                              <SelectItem key={index} value={investmentSubtype}>
-                                {investmentSubtype}
-                              </SelectItem>
-                            )
-                          )}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
                 <FormField
                   control={form.control}
                   name="startBalanceDate"
