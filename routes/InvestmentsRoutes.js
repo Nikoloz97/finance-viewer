@@ -3,7 +3,7 @@ import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
 import { getCutOffDate, getMonthIndex } from "./Utils/Dates.js";
 import { months } from "./Utils/Months.js";
-import { toDateOnly, toDollarAmount } from "./Utils/Formatters.js";
+import { toDollarAmount } from "./Utils/Formatters.js";
 
 // TODO: abstract this setup stuff
 // Ability to utilize env variables
@@ -212,12 +212,10 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
       .toArray();
 
     if (redundantInvestment.length > 0) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "Brokerage name, investment type, and investment subtype combination already exists",
-        });
+      return res.status(400).json({
+        message:
+          "Brokerage name, investment type, and investment subtype combination already exists",
+      });
     }
 
     const newlyCreatedInvestment = await investmentReports.insertOne(
