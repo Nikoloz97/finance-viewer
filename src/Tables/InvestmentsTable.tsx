@@ -66,15 +66,15 @@ export function InvestmentsTable({
       },
     },
     {
-      accessorKey: "startBalanceDate",
+      accessorKey: "startDate",
       header: "Start Balance Date",
       cell: ({ row }) => {
-        const startBalanceDate = new Date(row.getValue("startBalanceDate"));
+        const startDate = new Date(row.getValue("startDate"));
         const formattedDate = new Intl.DateTimeFormat("en-US", {
           year: "numeric",
           month: "long",
           day: "2-digit",
-        }).format(startBalanceDate);
+        }).format(startDate);
 
         return <div>{formattedDate}</div>;
       },
@@ -93,15 +93,15 @@ export function InvestmentsTable({
       },
     },
     {
-      accessorKey: "endBalanceDate",
+      accessorKey: "endDate",
       header: "End Balance Date",
       cell: ({ row }) => {
-        const endBalanceDate = new Date(row.getValue("endBalanceDate"));
+        const endDate = new Date(row.getValue("endDate"));
         const formattedDate = new Intl.DateTimeFormat("en-US", {
           year: "numeric",
           month: "long",
           day: "2-digit",
-        }).format(endBalanceDate);
+        }).format(endDate);
 
         return <div>{formattedDate}</div>;
       },

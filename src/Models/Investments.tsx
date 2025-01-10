@@ -10,18 +10,18 @@ export interface IInvestment {
 export interface IInvestmentStatement {
   statementId: string;
   startBalance: number;
-  startBalanceDate: Date;
+  startDate: Date;
   endBalance: number;
-  endBalanceDate: Date;
+  endDate: Date;
   depositAmount: number;
   withdrawalAmount: number;
 }
 
 export interface INewStatement {
   startBalance: number;
-  startBalanceDate: Date;
+  startDate: Date;
   endBalance: number;
-  endBalanceDate: Date;
+  endDate: Date;
   depositAmount: number;
   withdrawalAmount: number;
 }
@@ -38,9 +38,9 @@ export interface INewInvestment {
   type: string;
   subtype: string;
   startBalance: number;
-  startBalanceDate: Date;
+  startDate: Date;
   endBalance: number;
-  endBalanceDate: Date;
+  endDate: Date;
   depositAmount: number;
   withdrawalAmount: number;
 }
@@ -62,9 +62,9 @@ export interface IParsedInvestmentData {
   brokerageName: string;
   type: string;
   subtype: string;
-  startBalanceDate: Date;
+  startDate: Date;
   startBalance: number;
-  endBalanceDate: Date;
+  endDate: Date;
   endBalance: number;
   depositAmount: number;
   withdrawalAmount: number;

@@ -89,7 +89,7 @@ const EditStatementDialog = ({
             message: "Please enter a valid number",
           })
       ),
-      startBalanceDate: z
+      startDate: z
         .preprocess(
           (input) => (typeof input === "string" ? new Date(input) : input),
           z.date({
@@ -115,7 +115,7 @@ const EditStatementDialog = ({
             message: "Please enter a valid number",
           })
       ),
-      endBalanceDate: z
+      endDate: z
         .preprocess(
           (input) => (typeof input === "string" ? new Date(input) : input),
           z.date({
@@ -151,9 +151,9 @@ const EditStatementDialog = ({
           })
       ),
     })
-    .refine((data) => data.endBalanceDate > data.startBalanceDate, {
+    .refine((data) => data.endDate > data.startDate, {
       message: "End date must be after the start date",
-      path: ["endBalanceDate"],
+      path: ["endDate"],
     });
 
   const form = useForm<z.infer<typeof editFormSchema>>({
@@ -165,9 +165,9 @@ const EditStatementDialog = ({
       subtype: selectedStatement.subtype,
       statementId: selectedStatement.statementId,
       startBalance: selectedStatement.startBalance,
-      startBalanceDate: selectedStatement.startBalanceDate,
+      startDate: selectedStatement.startDate,
       endBalance: selectedStatement.endBalance,
-      endBalanceDate: selectedStatement.endBalanceDate,
+      endDate: selectedStatement.endDate,
       depositAmount: selectedStatement.depositAmount,
       withdrawalAmount: selectedStatement.withdrawalAmount,
     },
@@ -188,7 +188,7 @@ const EditStatementDialog = ({
               <div className="Signup-Grid-Container text-white">
                 <FormField
                   control={form.control}
-                  name="startBalanceDate"
+                  name="startDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel>Statement Start Date</FormLabel>
@@ -243,7 +243,7 @@ const EditStatementDialog = ({
 
                 <FormField
                   control={form.control}
-                  name="endBalanceDate"
+                  name="endDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel>Statement End Date</FormLabel>

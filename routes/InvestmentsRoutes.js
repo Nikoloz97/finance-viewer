@@ -39,8 +39,8 @@ investmentsRouter.get("/investments", async (req, res) => {
           statement.depositAmount = parseFloat(
             statement.depositAmount.toString()
           );
-          statement.startBalanceDate = statement.startBalanceDate.toString();
-          statement.endBalanceDate = statement.endBalanceDate.toString();
+          statement.startDate = statement.startDate.toString();
+          statement.endDate = statement.endDate.toString();
           statement.endBalance = parseFloat(statement.endBalance.toString());
           statement.startBalance = parseFloat(
             statement.startBalance.toString()
@@ -72,22 +72,20 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
     const db = client.db("FinanceViewer");
     const allInvestments = db.collection("Investments");
 
-    const latestEndBalanceDateObject = await allInvestments
+    const latestEndDateObject = await allInvestments
       .aggregate([
         { $match: { userId: userId } },
         { $unwind: "$statements" }, // creates investment out of each statement item
         {
           $group: {
             _id: null, // Group all documents into a single group
-            latestEndBalanceDate: { $max: "$statements.endBalanceDate" },
+            latestEndDate: { $max: "$statements.endDate" },
           },
         },
       ])
       .next(); // grabs the first item
 
-    const latestMonthIndex = getMonthIndex(
-      latestEndBalanceDateObject.latestEndBalanceDate
-    );
+    const latestMonthIndex = getMonthIndex(latestEndDateObject.latestEndDate);
 
     let newChartData = [
       { month: months[latestMonthIndex - 2] },
@@ -95,10 +93,7 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
       { month: months[latestMonthIndex] },
     ];
 
-    const cutoffDate = getCutOffDate(
-      latestEndBalanceDateObject.latestEndBalanceDate,
-      -2
-    );
+    const cutoffDate = getCutOffDate(latestEndDateObject.latestEndDate, -2);
 
     const eligibleStatements = await allInvestments
       .aggregate([
@@ -106,7 +101,7 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
         { $unwind: "$statements" }, // flatten statements
         {
           $match: {
-            "statements.endBalanceDate": {
+            "statements.endDate": {
               $gte: cutoffDate,
             },
           },
@@ -125,14 +120,13 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
       newChartData.forEach((chartData) => {
         if (
           chartData.month ===
-          months[getMonthIndex(statement.statement.startBalanceDate)]
+          months[getMonthIndex(statement.statement.startDate)]
         ) {
           chartData[statement.brokerageName] = parseFloat(
             statement.statement.startBalance.toString()
           );
         } else if (
-          chartData.month ===
-          months[getMonthIndex(statement.statement.endBalanceDate)]
+          chartData.month === months[getMonthIndex(statement.statement.endDate)]
         ) {
           chartData[statement.brokerageName] = parseFloat(
             statement.statement.endBalance.toString()
@@ -159,9 +153,9 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     type,
     subtype,
     userId,
-    startBalanceDate,
+    startDate,
     startBalance,
-    endBalanceDate,
+    endDate,
     endBalance,
     depositAmount,
     withdrawalAmount,
@@ -175,9 +169,9 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     statements: [
       {
         statementId: new ObjectId(),
-        startBalanceDate: new Date(startBalanceDate),
+        startDate: new Date(startDate),
         startBalance: toDollarAmount(startBalance.toString()),
-        endBalanceDate: new Date(endBalanceDate),
+        endDate: new Date(endDate),
         endBalance: toDollarAmount(endBalance.toString()),
         depositAmount: toDollarAmount(depositAmount.toString()),
         withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
@@ -234,9 +228,9 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
 investmentsRouter.post("/addStatement", async (req, res) => {
   const {
     investmentId,
-    startBalanceDate,
+    startDate,
     startBalance,
-    endBalanceDate,
+    endDate,
     endBalance,
     depositAmount,
     withdrawalAmount,
@@ -249,8 +243,8 @@ investmentsRouter.post("/addStatement", async (req, res) => {
 
     const investmentObjectId = new ObjectId(investmentId);
 
-    const startBalanceDateDate = new Date(startBalanceDate);
-    const endBalanceDateDate = new Date(endBalanceDate);
+    const startDateDate = new Date(startDate);
+    const endDateDate = new Date(endDate);
 
     const statementOverlaps = await allInvestments
       .aggregate([
@@ -260,31 +254,31 @@ investmentsRouter.post("/addStatement", async (req, res) => {
           $match: {
             $or: [
               {
-                "statements.startBalanceDate": {
+                "statements.startDate": {
                   // newStartDate >= startDate
-                  $lt: startBalanceDateDate,
+                  $lt: startDateDate,
                 },
-                "statements.endBalanceDate": {
+                "statements.endDate": {
                   // newStartDate <= endDate
-                  $gt: startBalanceDateDate,
+                  $gt: startDateDate,
                 },
               },
               {
-                "statements.startBalanceDate": {
+                "statements.startDate": {
                   // newStartDate <= startDate
-                  $gt: startBalanceDateDate,
+                  $gt: startDateDate,
                   // newEndDate > startDate
-                  $lte: endBalanceDateDate,
+                  $lte: endDateDate,
                 },
               },
               {
-                "statements.startBalanceDate": {
+                "statements.startDate": {
                   // newEndDate > startDate
-                  $lte: endBalanceDateDate,
+                  $lte: endDateDate,
                 },
-                "statements.endBalanceDate": {
+                "statements.endDate": {
                   // newEndDate <= endDate
-                  $gt: endBalanceDateDate,
+                  $gt: endDateDate,
                 },
               },
             ],
@@ -293,8 +287,8 @@ investmentsRouter.post("/addStatement", async (req, res) => {
         {
           $project: {
             _id: 1,
-            "statements.startBalanceDate": 1,
-            "statements.endBalanceDate": 1,
+            "statements.startDate": 1,
+            "statements.endDate": 1,
           },
         },
       ])
@@ -307,9 +301,9 @@ investmentsRouter.post("/addStatement", async (req, res) => {
     }
     const newStatementData = {
       statementId: new ObjectId(),
-      startBalanceDate: startBalanceDateDate,
+      startDate: startDateDate,
       startBalance: toDollarAmount(startBalance.toString()),
-      endBalanceDate: endBalanceDateDate,
+      endDate: endDateDate,
       endBalance: toDollarAmount(endBalance.toString()),
       depositAmount: toDollarAmount(depositAmount.toString()),
       withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
@@ -337,9 +331,9 @@ investmentsRouter.put("/statement", async (req, res) => {
     investmentId,
     statementId,
     startBalance,
-    startBalanceDate,
+    startDate,
     endBalance,
-    endBalanceDate,
+    endDate,
     depositAmount,
     withdrawalAmount,
   } = req.body;
@@ -351,8 +345,8 @@ investmentsRouter.put("/statement", async (req, res) => {
 
     const investmentObjectId = new ObjectId(investmentId);
 
-    const startBalanceDateDate = new Date(startBalanceDate);
-    const endBalanceDateDate = new Date(endBalanceDate);
+    const startDateDate = new Date(startDate);
+    const endDateDate = new Date(endDate);
 
     const statementOverlaps = await allInvestments
       .aggregate([
@@ -362,31 +356,31 @@ investmentsRouter.put("/statement", async (req, res) => {
           $match: {
             $or: [
               {
-                "statements.startBalanceDate": {
+                "statements.startDate": {
                   // newStartDate >= startDate
-                  $lt: startBalanceDateDate,
+                  $lt: startDateDate,
                 },
-                "statements.endBalanceDate": {
+                "statements.endDate": {
                   // newStartDate <= endDate
-                  $gt: startBalanceDateDate,
+                  $gt: startDateDate,
                 },
               },
               {
-                "statements.startBalanceDate": {
+                "statements.startDate": {
                   // newStartDate <= startDate
-                  $gt: startBalanceDateDate,
+                  $gt: startDateDate,
                   // newEndDate > startDate
-                  $lte: endBalanceDateDate,
+                  $lte: endDateDate,
                 },
               },
               {
-                "statements.startBalanceDate": {
+                "statements.startDate": {
                   // newEndDate > startDate
-                  $lte: endBalanceDateDate,
+                  $lte: endDateDate,
                 },
-                "statements.endBalanceDate": {
+                "statements.endDate": {
                   // newEndDate <= endDate
-                  $gt: endBalanceDateDate,
+                  $gt: endDateDate,
                 },
               },
             ],
@@ -395,8 +389,8 @@ investmentsRouter.put("/statement", async (req, res) => {
         {
           $project: {
             _id: 1,
-            "statements.startBalanceDate": 1,
-            "statements.endBalanceDate": 1,
+            "statements.startDate": 1,
+            "statements.endDate": 1,
           },
         },
       ])
@@ -415,9 +409,9 @@ investmentsRouter.put("/statement", async (req, res) => {
       },
       {
         $set: {
-          "statements.$.startBalanceDate": startBalanceDateDate,
+          "statements.$.startDate": startDateDate,
           "statements.$.startBalance": toDollarAmount(startBalance),
-          "statements.$.endBalanceDate": endBalanceDateDate,
+          "statements.$.endDate": endDateDate,
           "statements.$.endBalance": toDollarAmount(endBalance),
           "statements.$.depositAmount": toDollarAmount(depositAmount),
           "statements.$.withdrawalAmount": toDollarAmount(withdrawalAmount),

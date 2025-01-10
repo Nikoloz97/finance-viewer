@@ -37,7 +37,7 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
 
   const addFormSchema = z
     .object({
-      startBalanceDate: z
+      startDate: z
         .date({
           message: "Please select a start date",
         })
@@ -60,7 +60,7 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
             message: "Please enter a valid number",
           })
       ),
-      endBalanceDate: z
+      endDate: z
         .date({
           message: "Please select an end date",
         })
@@ -102,26 +102,26 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
           })
       ),
     })
-    .refine((data) => data.endBalanceDate > data.startBalanceDate, {
+    .refine((data) => data.endDate > data.startDate, {
       message: "End date must be after the start date",
-      path: ["endBalanceDate"],
+      path: ["endDate"],
     });
 
   const form = useForm<z.infer<typeof addFormSchema>>({
     resolver: zodResolver(addFormSchema),
     defaultValues: parsedData
       ? {
-          startBalanceDate: parsedData.startBalanceDate,
+          startDate: parsedData.startDate,
           startBalance: parsedData.startBalance,
-          endBalanceDate: parsedData.endBalanceDate,
+          endDate: parsedData.endDate,
           endBalance: parsedData.endBalance,
           depositAmount: parsedData.depositAmount,
           withdrawalAmount: parsedData.withdrawalAmount,
         }
       : {
-          startBalanceDate: new Date(),
+          startDate: new Date(),
           startBalance: 0,
-          endBalanceDate: new Date(),
+          endDate: new Date(),
           endBalance: 0,
           depositAmount: 0,
           withdrawalAmount: 0,
@@ -135,7 +135,7 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
           <div className="Signup-Grid-Container">
             <FormField
               control={form.control}
-              name="startBalanceDate"
+              name="startDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Statement Start Date</FormLabel>
@@ -190,7 +190,7 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
 
             <FormField
               control={form.control}
-              name="endBalanceDate"
+              name="endDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Statement End Date</FormLabel>
