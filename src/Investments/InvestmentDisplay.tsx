@@ -46,9 +46,9 @@ const InvestmentDisplay = ({
             : "All Investments"}
         </h1>
         <p style={{ fontWeight: "100", fontSize: "0.7em", opacity: "0.8" }}>
-          {selectedInvestment?.investmentType}
-          {selectedInvestment?.investmentSubtype
-            ? ` (${selectedInvestment?.investmentSubtype})`
+          {selectedInvestment?.type}
+          {selectedInvestment?.subtype
+            ? ` (${selectedInvestment?.subtype})`
             : ""}
         </p>
 

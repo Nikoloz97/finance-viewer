@@ -1,7 +1,6 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "../ShadcnComponents/Dialog";
@@ -19,13 +18,6 @@ import {
   FormMessage,
 } from "../ShadcnComponents/Form";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ShadcnComponents/Select";
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -37,7 +29,6 @@ import { Input } from "../ShadcnComponents/Input";
 import { IFlattenedInvestmentStatement } from "../Models/Investments";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
-import { investmentBrokerages } from "../Utils/Brokerages";
 
 interface EditStatementDialogProps {
   setIsEditStatementDialogOpen: (isOpen: boolean) => void;
@@ -58,20 +49,10 @@ const EditStatementDialog = ({
   setSelectedStatement,
   handleEditStatementSubmission,
 }: EditStatementDialogProps) => {
-  const investmentTypes = [
-    "Stocks",
-    "Savings",
-    "Crypto",
-    "Bonds",
-    "Retirement",
-  ];
-
   const handleCancelEditStatement = () => {
     setIsEditStatementDialogOpen(false);
     setSelectedStatement(null);
   };
-
-  const investmentSubtypes = ["Individual", "ETF"];
 
   const editFormSchema = z
     .object({
@@ -88,10 +69,10 @@ const EditStatementDialog = ({
       brokerageName: z.string().min(1, {
         message: "Please select a brokerage",
       }),
-      investmentType: z.string().min(1, {
+      type: z.string().min(1, {
         message: "Please select an investment type",
       }),
-      investmentSubtype: z.string().min(1, {
+      subtype: z.string().min(1, {
         message: "Please select an investment subtype",
       }),
       startBalance: z.preprocess(
@@ -180,8 +161,8 @@ const EditStatementDialog = ({
     defaultValues: {
       investmentId: selectedStatement.investmentId,
       brokerageName: selectedStatement.brokerageName,
-      investmentType: selectedStatement.investmentType,
-      investmentSubtype: selectedStatement.investmentSubtype,
+      type: selectedStatement.type,
+      subtype: selectedStatement.subtype,
       statementId: selectedStatement.statementId,
       startBalance: selectedStatement.startBalance,
       startBalanceDate: selectedStatement.startBalanceDate,

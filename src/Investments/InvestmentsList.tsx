@@ -58,7 +58,7 @@ const InvestmentsList = ({
             <Card className="Investment-Card">
               <CardHeader>
                 <CardTitle>{investment.brokerageName}</CardTitle>
-                <CardDescription>{`${investment.investmentType} ${investment.investmentSubtype ? `(${investment.investmentSubtype})` : ""}`}</CardDescription>
+                <CardDescription>{`${investment.type} ${investment.subtype ? `(${investment.subtype})` : ""}`}</CardDescription>
               </CardHeader>
             </Card>
           </Button>

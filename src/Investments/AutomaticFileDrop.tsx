@@ -48,8 +48,8 @@ const AutomaticFileDrop = ({
 
     const dummyParsedStatementData = {
       brokerageName: "Webull",
-      investmentType: "Stocks",
-      investmentSubtype: "Individual",
+      type: "Stocks",
+      subtype: "Individual",
       startBalanceDate: new Date(11 - 1 - 2024),
       startBalance: 6000,
       endBalanceDate: new Date(11 - 1 - 2024),

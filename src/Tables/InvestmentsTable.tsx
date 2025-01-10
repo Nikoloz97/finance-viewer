@@ -45,11 +45,11 @@ export function InvestmentsTable({
       header: "Brokerage Name",
     },
     {
-      accessorKey: "investmentType",
+      accessorKey: "type",
       header: "Investment Type",
     },
     {
-      accessorKey: "investmentSubtype",
+      accessorKey: "subtype",
       header: "Investment Subtype",
     },
     {

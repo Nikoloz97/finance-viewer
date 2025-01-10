@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Header } from "semantic-ui-react";
 import { z } from "zod";
 import {
   Form,
@@ -69,10 +68,10 @@ const InvestmentAddForm = ({
       brokerageName: z.string().min(1, {
         message: "Please select a brokerage",
       }),
-      investmentType: z.string().min(1, {
+      type: z.string().min(1, {
         message: "Please select an investment type",
       }),
-      investmentSubtype: z.string().min(1, {
+      subtype: z.string().min(1, {
         message: "Please select an investment subtype",
       }),
       startBalanceDate: z
@@ -150,8 +149,8 @@ const InvestmentAddForm = ({
     defaultValues: parsedData
       ? {
           brokerageName: parsedData.brokerageName,
-          investmentType: parsedData.investmentType,
-          investmentSubtype: parsedData.investmentSubtype,
+          type: parsedData.type,
+          subtype: parsedData.subtype,
           startBalanceDate: parsedData.startBalanceDate,
           startBalance: parsedData.startBalance,
           endBalanceDate: parsedData.endBalanceDate,
@@ -161,8 +160,8 @@ const InvestmentAddForm = ({
         }
       : {
           brokerageName: "",
-          investmentType: "",
-          investmentSubtype: "",
+          type: "",
+          subtype: "",
           startBalanceDate: new Date(),
           startBalance: 0,
           endBalanceDate: new Date(),
@@ -241,7 +240,7 @@ const InvestmentAddForm = ({
             />
             <FormField
               control={form.control}
-              name="investmentType"
+              name="type"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-end">
                   <FormLabel>Investment Type</FormLabel>
@@ -269,7 +268,7 @@ const InvestmentAddForm = ({
             />
             <FormField
               control={form.control}
-              name="investmentSubtype"
+              name="subtype"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-end">
                   <FormLabel>Investment Subtype</FormLabel>

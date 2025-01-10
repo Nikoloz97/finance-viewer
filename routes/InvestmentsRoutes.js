@@ -156,8 +156,8 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
 investmentsRouter.post("/addInvestment", async (req, res) => {
   const {
     brokerageName,
-    investmentType,
-    investmentSubtype,
+    type,
+    subtype,
     userId,
     startBalanceDate,
     startBalance,
@@ -169,8 +169,8 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
 
   const newInvestmentData = {
     brokerageName,
-    investmentType,
-    investmentSubtype,
+    type,
+    subtype,
     userId,
     statements: [
       {
@@ -196,16 +196,16 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
           $match: {
             userId: userId,
             brokerageName: brokerageName,
-            investmentType: investmentType,
-            investmentSubtype: investmentSubtype,
+            type: type,
+            subtype: subtype,
           },
         },
         {
           $project: {
             _id: 1,
             brokerageName: 1,
-            investmentType: 1,
-            investmentSubtype: 1,
+            type: 1,
+            subtype: 1,
           },
         },
       ])

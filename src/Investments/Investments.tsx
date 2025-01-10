@@ -60,8 +60,8 @@ const Investments = () => {
         investment.statements.map((statement) => ({
           investmentId: investment._id,
           brokerageName: investment.brokerageName,
-          investmentType: investment.investmentType,
-          investmentSubtype: investment.investmentSubtype,
+          type: investment.type,
+          subtype: investment.subtype,
           ...statement,
         }))
       );
@@ -70,8 +70,8 @@ const Investments = () => {
       investment.statements.map((statement) => ({
         investmentId: investment._id,
         brokerageName: investment.brokerageName,
-        investmentType: investment.investmentType,
-        investmentSubtype: investment.investmentSubtype,
+        type: investment.type,
+        subtype: investment.subtype,
         ...statement,
       }))
     );
@@ -189,8 +189,8 @@ const Investments = () => {
     setSelectedInvestment({
       investmentId: investment._id,
       brokerageName: investment.brokerageName,
-      investmentType: investment.investmentType,
-      investmentSubtype: investment.investmentSubtype,
+      type: investment.type,
+      subtype: investment.subtype,
     });
   };
 
