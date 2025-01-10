@@ -5,21 +5,21 @@ import {
   CardHeader,
   CardTitle,
 } from "../ShadcnComponents/Card";
-import { IInvestmentReport, ISelectedInvestment } from "../Models/Investments";
+import { IInvestment, ISelectedInvestment } from "../Models/Investments";
 import { Badge } from "../ShadcnComponents/Badge";
 import { Plus } from "lucide-react";
 
 interface InvestmentsListProps {
   handleAllClick: () => void;
-  investmentReports: IInvestmentReport[];
-  handleInvestmentCardClick: (report: IInvestmentReport) => void;
+  investments: IInvestment[];
+  handleInvestmentCardClick: (investment: IInvestment) => void;
   selectedInvestment: ISelectedInvestment | null;
   setIsInvestmentAddDialogCarouselOpen: (isOpen: boolean) => void;
 }
 
 const InvestmentsList = ({
   handleAllClick,
-  investmentReports,
+  investments,
   handleInvestmentCardClick,
   selectedInvestment,
   setIsInvestmentAddDialogCarouselOpen,
@@ -48,17 +48,17 @@ const InvestmentsList = ({
         >
           All
         </Button>
-        {investmentReports.map((report, index) => (
+        {investments.map((investment, index) => (
           <Button
             key={index}
             asChild
-            className={`border-none ${selectedInvestment ? (selectedInvestment.investmentId === report._id ? "Selected-Investment-Card" : "") : ""}`}
-            onClick={() => handleInvestmentCardClick(report)}
+            className={`border-none ${selectedInvestment ? (selectedInvestment.investmentId === investment._id ? "Selected-Investment-Card" : "") : ""}`}
+            onClick={() => handleInvestmentCardClick(investment)}
           >
             <Card className="Investment-Card">
               <CardHeader>
-                <CardTitle>{report.brokerageName}</CardTitle>
-                <CardDescription>{`${report.investmentType} ${report.investmentSubtype ? `(${report.investmentSubtype})` : ""}`}</CardDescription>
+                <CardTitle>{investment.brokerageName}</CardTitle>
+                <CardDescription>{`${investment.investmentType} ${investment.investmentSubtype ? `(${investment.investmentSubtype})` : ""}`}</CardDescription>
               </CardHeader>
             </Card>
           </Button>

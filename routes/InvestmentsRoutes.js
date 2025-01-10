@@ -20,21 +20,21 @@ const client = new MongoClient(uri, {
   },
 });
 
-investmentsRouter.get("/investmentReports", async (req, res) => {
+investmentsRouter.get("/investments", async (req, res) => {
   const userId = req.query.userId;
 
   try {
     await client.connect();
     const db = client.db("FinanceViewer");
-    const allInvestmentReports = db.collection("InvestmentReports");
+    const allInvestments = db.collection("Investments");
 
-    const userInvestmentReports = await allInvestmentReports
+    const userInvestments = await allInvestments
       .find({ userId: userId })
       .toArray();
 
     // TODO: parsing seems unnecessary (maybe store them as strings in the first place?)
-    if (userInvestmentReports) {
-      userInvestmentReports.forEach((investment) => {
+    if (userInvestments) {
+      userInvestments.forEach((investment) => {
         investment.statements.forEach((statement) => {
           statement.depositAmount = parseFloat(
             statement.depositAmount.toString()
@@ -51,11 +51,11 @@ investmentsRouter.get("/investmentReports", async (req, res) => {
         });
       });
 
-      res.send(userInvestmentReports);
+      res.send(userInvestments);
     } else {
       res
         .status(400)
-        .json({ message: "Could not find investment reports or is empty" });
+        .json({ message: "Could not find investment or is empty" });
     }
   } finally {
     // TODO: consolidate this and investmentChartData get requests
@@ -63,16 +63,16 @@ investmentsRouter.get("/investmentReports", async (req, res) => {
   }
 });
 
-// TODO: it feels weird that this fetch happens right after investmentReports are fetched, both of which at least begins with fetching investmentReport (i.e. seems like redundant work is happening)
+// TODO: it feels weird that this fetch happens right after investments are fetched, both of which at least begins with fetching investment (i.e. seems like redundant work is happening)
 investmentsRouter.get("/investmentChartData", async (req, res) => {
   const userId = req.query.userId;
 
   try {
     await client.connect();
     const db = client.db("FinanceViewer");
-    const allInvestmentReports = db.collection("InvestmentReports");
+    const allInvestments = db.collection("Investments");
 
-    const latestEndBalanceDateObject = await allInvestmentReports
+    const latestEndBalanceDateObject = await allInvestments
       .aggregate([
         { $match: { userId: userId } },
         { $unwind: "$statements" }, // creates investment out of each statement item
@@ -100,7 +100,7 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
       -2
     );
 
-    const eligibleStatements = await allInvestmentReports
+    const eligibleStatements = await allInvestments
       .aggregate([
         { $match: { userId: userId } },
         { $unwind: "$statements" }, // flatten statements
@@ -146,7 +146,7 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
     } else {
       res
         .status(400)
-        .json({ message: "Could not find investment reports or is empty" });
+        .json({ message: "Could not find investment or is empty" });
     }
   } finally {
     await client.close();
@@ -167,7 +167,7 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     withdrawalAmount,
   } = req.body;
 
-  const newInvestmentReportData = {
+  const newInvestmentData = {
     brokerageName,
     investmentType,
     investmentSubtype,
@@ -188,9 +188,9 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
   try {
     await client.connect();
     const db = client.db("FinanceViewer");
-    const investmentReports = db.collection("InvestmentReports");
+    const investments = db.collection("Investments");
 
-    const redundantInvestment = await investmentReports
+    const redundantInvestment = await investments
       .aggregate([
         {
           $match: {
@@ -218,14 +218,13 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
       });
     }
 
-    const newlyCreatedInvestment = await investmentReports.insertOne(
-      newInvestmentReportData
-    );
+    const newlyCreatedInvestment =
+      await investments.insertOne(newInvestmentData);
 
     if (newlyCreatedInvestment) {
       res.send(newlyCreatedInvestment);
     } else {
-      res.status(400).json({ message: "Error creating new investment report" });
+      res.status(400).json({ message: "Error creating new investment" });
     }
   } finally {
     await client.close();
@@ -246,16 +245,16 @@ investmentsRouter.post("/addStatement", async (req, res) => {
   try {
     await client.connect();
     const db = client.db("FinanceViewer");
-    const allInvestmentReports = db.collection("InvestmentReports");
+    const allInvestments = db.collection("Investments");
 
-    const investmentReportObjectId = new ObjectId(investmentId);
+    const investmentObjectId = new ObjectId(investmentId);
 
     const startBalanceDateDate = new Date(startBalanceDate);
     const endBalanceDateDate = new Date(endBalanceDate);
 
-    const statementOverlaps = await allInvestmentReports
+    const statementOverlaps = await allInvestments
       .aggregate([
-        { $match: { _id: investmentReportObjectId } },
+        { $match: { _id: investmentObjectId } },
         { $unwind: "$statements" },
         {
           $match: {
@@ -316,8 +315,8 @@ investmentsRouter.post("/addStatement", async (req, res) => {
       withdrawalAmount: toDollarAmount(withdrawalAmount.toString()),
     };
 
-    const newlyAddedStatement = await allInvestmentReports.updateOne(
-      { _id: investmentReportObjectId },
+    const newlyAddedStatement = await allInvestments.updateOne(
+      { _id: investmentObjectId },
       { $push: { statements: newStatementData } }
     );
 
@@ -326,7 +325,7 @@ investmentsRouter.post("/addStatement", async (req, res) => {
     } else {
       return res
         .status(400)
-        .json({ message: "Error adding statement to investment report" });
+        .json({ message: "Error adding statement to investment" });
     }
   } finally {
     await client.close();
@@ -348,16 +347,16 @@ investmentsRouter.put("/statement", async (req, res) => {
   try {
     await client.connect();
     const db = client.db("FinanceViewer");
-    const allInvestmentReports = db.collection("InvestmentReports");
+    const allInvestments = db.collection("Investments");
 
-    const investmentReportObjectId = new ObjectId(investmentId);
+    const investmentObjectId = new ObjectId(investmentId);
 
     const startBalanceDateDate = new Date(startBalanceDate);
     const endBalanceDateDate = new Date(endBalanceDate);
 
-    const statementOverlaps = await allInvestmentReports
+    const statementOverlaps = await allInvestments
       .aggregate([
-        { $match: { _id: investmentReportObjectId } },
+        { $match: { _id: investmentObjectId } },
         { $unwind: "$statements" },
         {
           $match: {
@@ -409,9 +408,9 @@ investmentsRouter.put("/statement", async (req, res) => {
         .json({ message: "Date range overlaps with existing statements" });
     }
 
-    const updateResult = await allInvestmentReports.updateOne(
+    const updateResult = await allInvestments.updateOne(
       {
-        _id: investmentReportObjectId,
+        _id: investmentObjectId,
         "statements.statementId": new ObjectId(statementId),
       },
       {
@@ -447,9 +446,9 @@ investmentsRouter.delete("/statement", async (req, res) => {
   try {
     await client.connect();
     const db = client.db("FinanceViewer");
-    const investmentReports = db.collection("InvestmentReports");
+    const investments = db.collection("Investments");
 
-    const result = await investmentReports.updateOne(
+    const result = await investments.updateOne(
       { _id: new ObjectId(investmentId) },
       { $pull: { statements: { statementId: new ObjectId(statementId) } } } // Pull (remove) the statement from the array
     );
@@ -457,7 +456,7 @@ investmentsRouter.delete("/statement", async (req, res) => {
     if (result.modifiedCount === 0) {
       res.status(404).json({
         message:
-          "No investment report found with the given investment Id, or no statement found with the given statement Id",
+          "No investment found with the given investment Id, or no statement found with the given statement Id",
       });
     } else {
       res.json({ message: "Statement deleted successfully" });
@@ -470,29 +469,28 @@ investmentsRouter.delete("/statement", async (req, res) => {
   }
 });
 
-investmentsRouter.delete("/investmentReport", async (req, res) => {
-  const investmentReportId = req.query.investmentReportId;
+investmentsRouter.delete("/investment", async (req, res) => {
+  const investmentId = req.query.investmentId;
 
   try {
     await client.connect();
     const db = client.db("FinanceViewer");
-    const investmentReports = db.collection("InvestmentReports");
+    const investments = db.collection("Investments");
 
-    const result = await investmentReports.deleteOne({
-      _id: new ObjectId(investmentReportId),
+    const result = await investments.deleteOne({
+      _id: new ObjectId(investmentId),
     });
 
     if (result.deletedCount === 0) {
       res.status(400).json({
-        message:
-          "No investment report found with the given investment report Id",
+        message: "No investment found with the given investment Id",
       });
     } else {
-      res.json({ message: "Investment report deleted successfully" });
+      res.json({ message: "Investment deleted successfully" });
     }
   } catch (error) {
-    console.error("Error deleting investment report:", error);
-    res.status(500).json({ message: "Failed to delete the investment report" });
+    console.error("Error deleting investment:", error);
+    res.status(500).json({ message: "Failed to delete investment" });
   } finally {
     await client.close();
   }

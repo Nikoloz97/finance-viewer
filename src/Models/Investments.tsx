@@ -1,4 +1,4 @@
-export interface IInvestmentReport {
+export interface IInvestment {
   _id: string;
   userId: string;
   brokerageName: string;
@@ -26,7 +26,6 @@ export interface INewStatement {
   withdrawalAmount: number;
 }
 
-// TODO: replace ALL instances of investmentId to investmentReportId (or vice versa??)
 export interface IFlattenedInvestmentStatement extends IInvestmentStatement {
   investmentId: string;
   brokerageName: string;
@@ -34,7 +33,7 @@ export interface IFlattenedInvestmentStatement extends IInvestmentStatement {
   investmentSubtype: string;
 }
 
-export interface INewInvestmentReport {
+export interface INewInvestment {
   brokerageName: string;
   investmentType: string;
   investmentSubtype: string;

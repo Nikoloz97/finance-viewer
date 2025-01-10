@@ -19,7 +19,7 @@ import "./Investments.css";
 import InvestmentAddForm from "./InvestmentAddForm";
 import AutomaticFileDrop from "./AutomaticFileDrop";
 import {
-  INewInvestmentReport,
+  INewInvestment,
   INewStatement,
   IParsedInvestmentData,
 } from "../Models/Investments";
@@ -27,7 +27,7 @@ import StatementAddForm from "./StatementAddForm";
 
 interface AddDialogCarouselProps {
   isAddDialogCarouselOpen: boolean;
-  handleAdd: (newData: INewInvestmentReport | INewStatement) => void;
+  handleAdd: (newData: INewInvestment | INewStatement) => void;
   setIsAddDialogCarouselOpen: (isOpen: boolean) => void;
   type: "Statement" | "Investment";
   header: string;

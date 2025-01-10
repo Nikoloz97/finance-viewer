@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import {
   IFlattenedInvestmentStatement,
   IInvestmentChartData,
-  IInvestmentReport,
-  INewInvestmentReport,
+  IInvestment,
+  INewInvestment,
   INewStatement,
   ISelectedInvestment,
 } from "../Models/Investments";
@@ -20,9 +20,7 @@ import { InvestmentsTable } from "../Tables/InvestmentsTable";
 const Investments = () => {
   const { user } = UseContextCheck();
 
-  const [investmentReports, setInvestmentReports] = useState<
-    IInvestmentReport[]
-  >([]);
+  const [investments, setInvestments] = useState<IInvestment[]>([]);
   const [fetchedInvestmentChartData, setFetchedInvestmentChartData] = useState<
     IInvestmentChartData[]
   >([]);
@@ -54,44 +52,46 @@ const Investments = () => {
 
   // TODO: This flattening should be done from the original fetch (via $unwind operator)
   if (selectedInvestment) {
-    flattenedInvestmentStatements = investmentReports
-      .filter((report) => report._id === selectedInvestment.investmentId)
-      .flatMap((report) =>
-        report.statements.map((statement) => ({
-          investmentId: report._id,
-          brokerageName: report.brokerageName,
-          investmentType: report.investmentType,
-          investmentSubtype: report.investmentSubtype,
+    flattenedInvestmentStatements = investments
+      .filter(
+        (investment) => investment._id === selectedInvestment.investmentId
+      )
+      .flatMap((investment) =>
+        investment.statements.map((statement) => ({
+          investmentId: investment._id,
+          brokerageName: investment.brokerageName,
+          investmentType: investment.investmentType,
+          investmentSubtype: investment.investmentSubtype,
           ...statement,
         }))
       );
   } else {
-    flattenedInvestmentStatements = investmentReports.flatMap((report) =>
-      report.statements.map((statement) => ({
-        investmentId: report._id,
-        brokerageName: report.brokerageName,
-        investmentType: report.investmentType,
-        investmentSubtype: report.investmentSubtype,
+    flattenedInvestmentStatements = investments.flatMap((investment) =>
+      investment.statements.map((statement) => ({
+        investmentId: investment._id,
+        brokerageName: investment.brokerageName,
+        investmentType: investment.investmentType,
+        investmentSubtype: investment.investmentSubtype,
         ...statement,
       }))
     );
   }
 
-  const fetchInvestmentReports = async () => {
+  const fetchInvestments = async () => {
     const response = await fetch(
-      `/investments/investmentReports?userId=${user?._id}`
+      `/investments/investments?userId=${user?._id}`
     );
     if (!response.ok) {
-      throw new Error("Failed to fetch Investment Reports");
+      throw new Error("Failed to fetch investments");
     } else {
-      const jsonData: IInvestmentReport[] = await response.json();
-      setInvestmentReports(jsonData);
+      const jsonData: IInvestment[] = await response.json();
+      setInvestments(jsonData);
       setSelectedInvestment(null);
     }
   };
 
   const handleAddInvestment = async (
-    newInvestmentData: INewInvestmentReport | INewStatement
+    newInvestmentData: INewInvestment | INewStatement
   ) => {
     if (!user) {
       console.error("No user defined");
@@ -113,7 +113,7 @@ const Investments = () => {
     const responseJson = await response.json();
 
     if (response.ok) {
-      fetchInvestmentReports();
+      fetchInvestments();
       setIsInvestmentAddDialogCarouselOpen(false);
     } else {
       if (responseJson.message) {
@@ -141,12 +141,10 @@ const Investments = () => {
     setSelectedStatement(currentStatement);
   };
 
-  const handleInvestmentDelete = async (
-    investmentReportId: string | undefined
-  ) => {
+  const handleInvestmentDelete = async (investmentId: string | undefined) => {
     if (confirm("Delete investment? This action cannot be undone")) {
       const response = await fetch(
-        `/investments/investmentReport?investmentReportId=${investmentReportId}`,
+        `/investments/investment?investmentId=${investmentId}`,
         {
           method: "DELETE",
         }
@@ -154,7 +152,7 @@ const Investments = () => {
       if (!response.ok) {
         throw new Error("Failed to delete investment");
       } else {
-        fetchInvestmentReports();
+        fetchInvestments();
       }
     }
   };
@@ -173,26 +171,26 @@ const Investments = () => {
       if (!response.ok) {
         throw new Error("Failed to delete statement");
       } else {
-        fetchInvestmentReports();
+        fetchInvestments();
       }
     }
   };
 
-  const handleInvestmentCardClick = (report: IInvestmentReport) => {
+  const handleInvestmentCardClick = (investment: IInvestment) => {
     const filteredInvestmentChartData = fetchedInvestmentChartData?.map(
       (chartData) => {
         return {
           month: chartData.month,
-          [report.brokerageName]: chartData[report.brokerageName],
+          [investment.brokerageName]: chartData[investment.brokerageName],
         };
       }
     );
     setSelectedInvestmentChartData(filteredInvestmentChartData);
     setSelectedInvestment({
-      investmentId: report._id,
-      brokerageName: report.brokerageName,
-      investmentType: report.investmentType,
-      investmentSubtype: report.investmentSubtype,
+      investmentId: investment._id,
+      brokerageName: investment.brokerageName,
+      investmentType: investment.investmentType,
+      investmentSubtype: investment.investmentSubtype,
     });
   };
 
@@ -220,14 +218,14 @@ const Investments = () => {
     if (response.ok) {
       console.log(response);
       setSelectedStatement(null);
-      fetchInvestmentReports();
+      fetchInvestments();
     } else {
       console.log("response was not okay");
     }
   };
 
   const handleAddStatement = async (
-    newStatementData: INewStatement | INewInvestmentReport
+    newStatementData: INewStatement | INewInvestment
   ) => {
     if (!selectedInvestment) {
       console.error("No investment was selected");
@@ -249,7 +247,7 @@ const Investments = () => {
     const responseJson = await response.json();
 
     if (response.ok) {
-      fetchInvestmentReports();
+      fetchInvestments();
       setIsStatementAddDialogCarouselOpen(false);
     } else {
       // Specific message
@@ -268,14 +266,14 @@ const Investments = () => {
   }, [selectedStatement]);
 
   useEffect(() => {
-    fetchInvestmentReports();
+    fetchInvestments();
   }, []);
 
   useEffect(() => {
-    if (investmentReports.length) {
+    if (investments.length) {
       fetchInvestmentChartData();
     }
-  }, [investmentReports]);
+  }, [investments]);
 
   return (
     <div className="Investments-Page">
@@ -306,7 +304,7 @@ const Investments = () => {
       )}
       <InvestmentsList
         handleAllClick={handleAllClick}
-        investmentReports={investmentReports}
+        investments={investments}
         handleInvestmentCardClick={handleInvestmentCardClick}
         selectedInvestment={selectedInvestment}
         setIsInvestmentAddDialogCarouselOpen={
@@ -330,7 +328,7 @@ const Investments = () => {
             Add Statement
           </Button>
 
-          {investmentReports.length && (
+          {investments.length && (
             <InvestmentsTable
               data={flattenedInvestmentStatements}
               handleStatementEdit={handleStatementEdit}

@@ -27,10 +27,7 @@ import { cn } from "../utils";
 import { format } from "date-fns";
 import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
 import { Input } from "../ShadcnComponents/Input";
-import {
-  INewInvestmentReport,
-  IParsedInvestmentData,
-} from "../Models/Investments";
+import { INewInvestment, IParsedInvestmentData } from "../Models/Investments";
 import { investmentBrokerages } from "../Utils/Brokerages";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
@@ -45,7 +42,7 @@ import {
 
 interface InvestmentAddFormProps {
   parsedData?: IParsedInvestmentData;
-  handleAdd: (newInvestmentReport: INewInvestmentReport) => void;
+  handleAdd: (newInvestment: INewInvestment) => void;
 }
 
 const InvestmentAddForm = ({
