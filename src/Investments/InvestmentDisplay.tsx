@@ -23,6 +23,19 @@ const InvestmentDisplay = ({
   selectedInvestmentChartConfig,
   selectedInvestment,
 }: InvestmentDisplayProps) => {
+  const monthlyTotals = selectedInvestmentsChartData?.map((chartData) => {
+    let sum = 0;
+    for (const key in chartData) {
+      const value = chartData[key];
+      if (typeof value === "number") {
+        sum += value;
+      }
+    }
+    return sum;
+  });
+
+  const highestSum = monthlyTotals ? Math.max(...monthlyTotals) : 0;
+
   return (
     <div>
       <div style={{ marginLeft: "2.2em", marginBottom: "1em" }}>
@@ -58,7 +71,7 @@ const InvestmentDisplay = ({
               type="number"
               tickLine={false}
               tickMargin={10}
-              domain={[0, 16000]}
+              domain={[0, highestSum + 2000]}
             />
             {/* TODO: fix the white background this gives (or just get rid of it) */}
             {/* <ChartTooltip content={<ChartTooltipContent />} /> */}
