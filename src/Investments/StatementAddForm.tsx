@@ -178,7 +178,7 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
               name="startBalance"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Start Date Balance</FormLabel>
+                  <FormLabel>Start Balance</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -233,7 +233,7 @@ const StatementAddForm = ({ parsedData, handleAdd }: StatementAddFormProps) => {
               name="endBalance"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>End Date Balance</FormLabel>
+                  <FormLabel>End Balance</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

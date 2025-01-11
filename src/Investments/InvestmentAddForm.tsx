@@ -38,6 +38,7 @@ import {
   CommandItem,
   CommandList,
 } from "../ShadcnComponents/Command";
+import { colors } from "../Utils/Colors";
 
 interface InvestmentAddFormProps {
   parsedData?: IParsedInvestmentData;
@@ -73,6 +74,9 @@ const InvestmentAddForm = ({
       }),
       subtype: z.string().min(1, {
         message: "Please select an investment subtype",
+      }),
+      color: z.string().min(1, {
+        message: "Please select a color to represent your investment",
       }),
       startDate: z
         .date({
@@ -162,6 +166,7 @@ const InvestmentAddForm = ({
           brokerageName: "",
           type: "",
           subtype: "",
+          color: "",
           startDate: new Date(),
           startBalance: 0,
           endDate: new Date(),
@@ -235,6 +240,34 @@ const InvestmentAddForm = ({
                       </Command>
                     </PopoverContent>
                   </Popover>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="color"
+              render={({ field }) => (
+                <FormItem className="flex flex-col justify-end">
+                  <FormLabel>Color</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select Color" />
+                      </SelectTrigger>
+                    </FormControl>
+
+                    <SelectContent>
+                      {colors.map((color) => (
+                        <SelectItem key={color.label} value={color.value}>
+                          {color.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -341,7 +374,7 @@ const InvestmentAddForm = ({
               name="startBalance"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Start Date Balance</FormLabel>
+                  <FormLabel>Start Balance</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -396,7 +429,7 @@ const InvestmentAddForm = ({
               name="endBalance"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>End Date Balance</FormLabel>
+                  <FormLabel>End Balance</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

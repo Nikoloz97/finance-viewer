@@ -1,0 +1,17 @@
+export const colors = [
+  { label: "Red", value: "#FF0000" },
+  { label: "Green", value: "#00FF00" },
+  { label: "Blue", value: "#0000FF" },
+  { label: "Yellow", value: "#FFFF00" },
+  { label: "Black", value: "#000000" },
+  { label: "White", value: "#FFFFFF" },
+  { label: "Cyan", value: "#00FFFF" },
+  { label: "Magenta", value: "#FF00FF" },
+  { label: "Silver", value: "#C0C0C0" },
+  { label: "Gray", value: "#808080" },
+  { label: "Maroon", value: "#800000" },
+  { label: "Olive", value: "#808000" },
+  { label: "Purple", value: "#800080" },
+  { label: "Teal", value: "#008080" },
+  { label: "Navy", value: "#000080" },
+];

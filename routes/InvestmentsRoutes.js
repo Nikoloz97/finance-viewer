@@ -152,6 +152,7 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     brokerageName,
     type,
     subtype,
+    color,
     userId,
     startDate,
     startBalance,
@@ -165,6 +166,7 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
     brokerageName,
     type,
     subtype,
+    color,
     userId,
     statements: [
       {
