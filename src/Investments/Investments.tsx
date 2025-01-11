@@ -7,6 +7,7 @@ import {
   INewInvestment,
   INewStatement,
   ISelectedInvestment,
+  IInvestmentChartConfig,
 } from "../Models/Investments";
 import { UseContextCheck } from "../CustomHooks/UseContextCheck";
 import InvestmentDisplay from "./InvestmentDisplay";
@@ -27,6 +28,9 @@ const Investments = () => {
 
   const [selectedInvestmentChartData, setSelectedInvestmentChartData] =
     useState<IInvestmentChartData[]>();
+
+  const [selectedInvestmentChartConfig, setSelectedInvestmentChartConfig] =
+    useState<IInvestmentChartConfig>();
 
   const [selectedInvestment, setSelectedInvestment] =
     useState<ISelectedInvestment | null>(null);
@@ -84,9 +88,23 @@ const Investments = () => {
     if (!response.ok) {
       throw new Error("Failed to fetch investments");
     } else {
-      const jsonData: IInvestment[] = await response.json();
-      setInvestments(jsonData);
+      const investments: IInvestment[] = await response.json();
+      setInvestments(investments);
       setSelectedInvestment(null);
+
+      const chartConfig = investments.reduce<IInvestmentChartConfig>(
+        (acc, investment) => {
+          const { brokerageName, color } = investment;
+          acc[brokerageName] = {
+            label: brokerageName,
+            color: color,
+          };
+          return acc;
+        },
+        {}
+      );
+
+      setSelectedInvestmentChartConfig(chartConfig);
     }
   };
 
@@ -339,6 +357,7 @@ const Investments = () => {
         <div style={{ width: "50%" }}>
           <InvestmentDisplay
             selectedInvestmentsChartData={selectedInvestmentChartData}
+            selectedInvestmentChartConfig={selectedInvestmentChartConfig}
             selectedInvestment={selectedInvestment}
           />
         </div>

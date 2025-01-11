@@ -4,9 +4,11 @@ export interface IInvestment {
   brokerageName: string;
   type: string;
   subtype: string;
+  color: string;
   statements: IInvestmentStatement[];
 }
 
+// TODO: rename to just Statement?
 export interface IInvestmentStatement {
   statementId: string;
   startBalance: number;
@@ -47,8 +49,15 @@ export interface INewInvestment {
 
 export interface IInvestmentChartData {
   month: string;
-  // TODO: find out why this has to be type string as well
+  // TODO: find out why the value (corresponds to balance) has to be type string as well
   [brokerageName: string]: number | string;
+}
+
+export interface IInvestmentChartConfig {
+  [brokerageName: string]: {
+    label: string;
+    color: string;
+  };
 }
 
 export interface ISelectedInvestment {
