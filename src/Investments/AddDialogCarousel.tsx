@@ -58,16 +58,20 @@ const AddDialogCarousel = ({
     setIsManualChosen(false);
   };
 
-  const addInvestmentSteps = [
-    <div className="flex gap-4">
-      <Button onClick={handleManualButtonClick} disabled={isManualChosen}>
-        Manual
-      </Button>
-      <Button onClick={handleAutomaticButtonClick} disabled={isAutomaticChosen}>
-        Automatic
-      </Button>
-    </div>,
-  ];
+  // TODO: remove once automatic created
+  const addInvestmentSteps = [];
+
+  // TODO: uncomment once automatic created
+  // const addInvestmentSteps = [
+  //   <div className="flex gap-4">
+  //     <Button onClick={handleManualButtonClick} disabled={isManualChosen}>
+  //       Manual
+  //     </Button>
+  //     <Button onClick={handleAutomaticButtonClick} disabled={isAutomaticChosen}>
+  //       Automatic
+  //     </Button>
+  //   </div>,
+  // ];
 
   if (isAutomaticChosen) {
     addInvestmentSteps.push(
@@ -86,6 +90,8 @@ const AddDialogCarousel = ({
     } else if (isManualChosen) {
       addInvestmentSteps.push(<InvestmentAddForm handleAdd={handleAdd} />);
     }
+    // TODO: remove once automatic created
+    addInvestmentSteps.push(<InvestmentAddForm handleAdd={handleAdd} />);
   } else if (type === "Statement") {
     if (parsedInvestmentData) {
       addInvestmentSteps.push(
@@ -97,6 +103,8 @@ const AddDialogCarousel = ({
     } else if (isManualChosen) {
       addInvestmentSteps.push(<StatementAddForm handleAdd={handleAdd} />);
     }
+    // TODO: remove once automatic created
+    addInvestmentSteps.push(<StatementAddForm handleAdd={handleAdd} />);
   }
 
   return (
