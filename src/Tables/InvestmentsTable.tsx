@@ -67,7 +67,7 @@ export function InvestmentsTable({
     },
     {
       accessorKey: "startDate",
-      header: "Start Balance Date",
+      header: "Start Date",
       cell: ({ row }) => {
         const startDate = new Date(row.getValue("startDate"));
         const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -94,7 +94,7 @@ export function InvestmentsTable({
     },
     {
       accessorKey: "endDate",
-      header: "End Balance Date",
+      header: "End Date",
       cell: ({ row }) => {
         const endDate = new Date(row.getValue("endDate"));
         const formattedDate = new Intl.DateTimeFormat("en-US", {

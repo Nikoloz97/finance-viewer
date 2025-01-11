@@ -8,6 +8,7 @@ import {
 import { IInvestment, ISelectedInvestment } from "../Models/Investments";
 import { Badge } from "../ShadcnComponents/Badge";
 import { Plus } from "lucide-react";
+import ComingSoonOverlay from "../Utils/ComingSoonOverlay/ComingSoonOverlay";
 
 interface InvestmentsListProps {
   handleAllClick: () => void;
@@ -26,15 +27,18 @@ const InvestmentsList = ({
 }: InvestmentsListProps) => {
   return (
     <div className="Investments-List-Container">
-      <div className="Investment-Filters-Container">
-        <h3 className="mb-0">Filter: </h3>
-        <Badge className="dark">All</Badge>
-        <Badge>Stocks</Badge>
-        <Badge>Savings</Badge>
-        <Badge>Crypto</Badge>
-        <Badge>Bonds</Badge>
-        <Badge>Retirement</Badge>
-      </div>
+      <ComingSoonOverlay style={{ width: "60%", padding: "0.2em" }}>
+        <div className="Investment-Filters-Container">
+          <h3 className="mb-0">Filter: </h3>
+          <Badge className="dark">All</Badge>
+          <Badge>Stocks</Badge>
+          <Badge>Savings</Badge>
+          <Badge>Crypto</Badge>
+          <Badge>Bonds</Badge>
+          <Badge>Retirement</Badge>
+        </div>
+      </ComingSoonOverlay>
+
       <div className="Investments-List-Rectangle">
         <Button
           onClick={() => setIsInvestmentAddDialogCarouselOpen(true)}

@@ -17,6 +17,7 @@ import { Button } from "../ShadcnComponents/Button";
 import AddInvestmentDialogCarousel from "./AddDialogCarousel";
 import AddStatementDialogCarousel from "./AddDialogCarousel";
 import { InvestmentsTable } from "../Tables/InvestmentsTable";
+import ComingSoonOverlay from "../Utils/ComingSoonOverlay/ComingSoonOverlay";
 
 const Investments = () => {
   const { user } = UseContextCheck();
