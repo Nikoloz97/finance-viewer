@@ -52,6 +52,8 @@ const Investments = () => {
     setIsStatementAddDialogCarouselOpen,
   ] = useState<boolean>(false);
 
+  const [areInvestmentsLoading, setAreInvestmentsLoading] = useState(true);
+
   let flattenedInvestmentStatements: IFlattenedInvestmentStatement[] | null =
     null;
 
@@ -83,10 +85,12 @@ const Investments = () => {
   }
 
   const fetchInvestments = async () => {
+    setAreInvestmentsLoading(true);
     const response = await fetch(
       `/investments/investments?userId=${user?._id}`
     );
     if (!response.ok) {
+      setAreInvestmentsLoading(false);
       throw new Error("Failed to fetch investments");
     } else {
       const investments: IInvestment[] = await response.json();
@@ -106,6 +110,7 @@ const Investments = () => {
       );
 
       setSelectedInvestmentChartConfig(chartConfig);
+      setAreInvestmentsLoading(false);
     }
   };
 
@@ -329,6 +334,7 @@ const Investments = () => {
         setIsInvestmentAddDialogCarouselOpen={
           setIsInvestmentAddDialogCarouselOpen
         }
+        areInvestmentsLoading={areInvestmentsLoading}
       />
       <div className="Investment-Display-Container">
         <div className="Investment-Add-Delete-Table-Container">
