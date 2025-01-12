@@ -37,8 +37,8 @@ const InvestmentDisplay = ({
   const highestSum = monthlyTotals ? Math.max(...monthlyTotals) : 0;
 
   return (
-    <div>
-      <div style={{ marginLeft: "2.2em", marginBottom: "1em" }}>
+    <>
+      <div style={{ height: "4em", marginLeft: "2.2em", marginBottom: "1em" }}>
         <h1 style={{ fontWeight: "500" }}>
           {selectedInvestment?.brokerageName
             ? selectedInvestment?.brokerageName
@@ -87,7 +87,7 @@ const InvestmentDisplay = ({
           </BarChart>
         </ChartContainer>
       )}
-    </div>
+    </>
   );
 };
 

@@ -17,7 +17,6 @@ import { Button } from "../ShadcnComponents/Button";
 import AddInvestmentDialogCarousel from "./AddDialogCarousel";
 import AddStatementDialogCarousel from "./AddDialogCarousel";
 import { InvestmentsTable } from "../Tables/InvestmentsTable";
-import ComingSoonOverlay from "../Utils/ComingSoonOverlay/ComingSoonOverlay";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -338,30 +337,36 @@ const Investments = () => {
       />
       <div className="Investment-Display-Container">
         <div className="Investment-Add-Delete-Table-Container">
-          <Button
-            disabled={selectedInvestment === null}
-            onClick={() =>
-              handleInvestmentDelete(selectedInvestment?.investmentId)
-            }
-          >
-            Delete Investment
-          </Button>
-          <Button
-            disabled={selectedInvestment === null}
-            onClick={() => setIsStatementAddDialogCarouselOpen(true)}
-          >
-            Add Statement
-          </Button>
+          <div className="Investments-Add-Delete-Container">
+            <Button
+              style={{ width: "40%", height: "5em", fontSize: "0.5em" }}
+              disabled={selectedInvestment === null}
+              onClick={() =>
+                handleInvestmentDelete(selectedInvestment?.investmentId)
+              }
+            >
+              Delete Investment
+            </Button>
+            <Button
+              style={{ width: "40%", height: "5em", fontSize: "0.5em" }}
+              disabled={selectedInvestment === null}
+              onClick={() => setIsStatementAddDialogCarouselOpen(true)}
+            >
+              Add Statement
+            </Button>
+          </div>
 
-          {investments.length && (
-            <InvestmentsTable
-              data={flattenedInvestmentStatements}
-              handleStatementEdit={handleStatementEdit}
-              handleStatementDelete={handleStatementDelete}
-            />
-          )}
+          <div className="Investments-Table-Container">
+            {investments.length && (
+              <InvestmentsTable
+                data={flattenedInvestmentStatements}
+                handleStatementEdit={handleStatementEdit}
+                handleStatementDelete={handleStatementDelete}
+              />
+            )}
+          </div>
         </div>
-        <div style={{ width: "50%" }}>
+        <div className="Investments-Display-Container">
           <InvestmentDisplay
             selectedInvestmentsChartData={selectedInvestmentChartData}
             selectedInvestmentChartConfig={selectedInvestmentChartConfig}

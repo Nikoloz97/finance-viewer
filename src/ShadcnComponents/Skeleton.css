@@ -1,4 +1,4 @@
-@keyframes pulse {
+@keyframes pulsate {
   0% {
     background-color: rgba(0, 0, 0, 0.2);
   }
@@ -11,6 +11,6 @@
 }
 
 .skeleton-pulsate {
-  animation: pulse 0.75s infinite;
+  animation: pulsate 0.75s infinite;
   border-radius: 4px; /* Adjust as needed */
 }
