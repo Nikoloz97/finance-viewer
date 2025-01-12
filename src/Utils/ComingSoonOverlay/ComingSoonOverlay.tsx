@@ -3,18 +3,24 @@ import "./ComingSoonOverlay.css";
 
 interface ComingSoonOverlayProps {
   children: ReactNode;
-  style?: CSSProperties;
+  containerStyle?: CSSProperties;
+  overlayStyle?: CSSProperties;
+  overlayTextStyle?: CSSProperties;
 }
 
 const ComingSoonOverlay: React.FC<ComingSoonOverlayProps> = ({
   children,
-  style,
+  overlayStyle,
+  containerStyle,
+  overlayTextStyle,
 }) => {
   return (
-    <div className="overlay-container" style={{ ...style }}>
+    <div className="overlay-container" style={{ ...containerStyle }}>
       {children}
-      <div className="overlay">
-        <div className="overlay-text">Coming Soon</div>
+      <div className="overlay" style={{ ...overlayStyle }}>
+        <div className="overlay-text" style={{ ...overlayTextStyle }}>
+          Coming Soon
+        </div>
       </div>
     </div>
   );

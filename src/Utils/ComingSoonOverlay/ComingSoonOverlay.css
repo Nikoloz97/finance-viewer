@@ -8,14 +8,14 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(208, 208, 208, 0.6); /* Semi-transparent white background */
-  backdrop-filter: blur(5px); /* Blur effect */
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent white background */
+  backdrop-filter: blur(5px); /* Blur effect */
 }
 
 .overlay-text {
-  font-size: 24px;
-  color: #333;
+  color: #ffffff;
 }

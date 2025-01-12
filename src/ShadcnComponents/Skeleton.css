@@ -11,6 +11,6 @@
 }
 
 .skeleton-pulsate {
-  animation: pulse 1.5s infinite;
+  animation: pulse 0.75s infinite;
   border-radius: 4px; /* Adjust as needed */
 }

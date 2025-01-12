@@ -31,7 +31,10 @@ const InvestmentsList = ({
 }: InvestmentsListProps) => {
   return (
     <div className="Investments-List-Container">
-      <ComingSoonOverlay style={{ width: "60%", padding: "0.2em" }}>
+      <ComingSoonOverlay
+        containerStyle={{ width: "60%", padding: "0.3em" }}
+        overlayTextStyle={{ fontSize: "1em" }}
+      >
         <div className="Investment-Filters-Container">
           <h3 className="mb-0">Filter: </h3>
           <Badge className="dark">All</Badge>
