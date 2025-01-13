@@ -186,7 +186,10 @@ export function InvestmentsTable({
   });
 
   return (
-    <div className="rounded-md border text-center">
+    <div
+      className="rounded-md text-center"
+      style={{ border: "1px solid rgba(255, 255, 255, 0.2)" }}
+    >
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
