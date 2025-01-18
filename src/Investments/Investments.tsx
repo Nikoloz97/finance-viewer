@@ -17,6 +17,7 @@ import { Button } from "../ShadcnComponents/Button";
 import AddInvestmentDialogCarousel from "./AddDialogCarousel";
 import AddStatementDialogCarousel from "./AddDialogCarousel";
 import { InvestmentsTable } from "../Tables/InvestmentsTable";
+import { Skeleton } from "../ShadcnComponents/Skeleton";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -325,16 +326,23 @@ const Investments = () => {
           setSelectedStatement={setSelectedStatement}
         />
       )}
-      <InvestmentsList
-        handleAllClick={handleAllClick}
-        investments={investments}
-        handleInvestmentCardClick={handleInvestmentCardClick}
-        selectedInvestment={selectedInvestment}
-        setIsInvestmentAddDialogCarouselOpen={
-          setIsInvestmentAddDialogCarouselOpen
-        }
-        areInvestmentsLoading={areInvestmentsLoading}
-      />
+
+      <div className="Investments-List-Container">
+        {areInvestmentsLoading ? (
+          <Skeleton className="h-full w-full" />
+        ) : (
+          <InvestmentsList
+            handleAllClick={handleAllClick}
+            investments={investments}
+            handleInvestmentCardClick={handleInvestmentCardClick}
+            selectedInvestment={selectedInvestment}
+            setIsInvestmentAddDialogCarouselOpen={
+              setIsInvestmentAddDialogCarouselOpen
+            }
+          />
+        )}
+      </div>
+
       <div className="Investment-Display-Container">
         <div className="Investment-Add-Delete-Table-Container">
           <div className="Investments-Add-Delete-Container">

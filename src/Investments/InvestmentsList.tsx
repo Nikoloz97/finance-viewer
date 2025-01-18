@@ -9,7 +9,6 @@ import { IInvestment, ISelectedInvestment } from "../Models/Investments";
 import { Badge } from "../ShadcnComponents/Badge";
 import { Plus } from "lucide-react";
 import ComingSoonOverlay from "../Utils/ComingSoonOverlay/ComingSoonOverlay";
-import { Skeleton } from "../ShadcnComponents/Skeleton";
 
 interface InvestmentsListProps {
   handleAllClick: () => void;
@@ -17,7 +16,6 @@ interface InvestmentsListProps {
   handleInvestmentCardClick: (investment: IInvestment) => void;
   selectedInvestment: ISelectedInvestment | null;
   setIsInvestmentAddDialogCarouselOpen: (isOpen: boolean) => void;
-  areInvestmentsLoading: boolean;
 }
 
 const InvestmentsList = ({
@@ -26,10 +24,9 @@ const InvestmentsList = ({
   handleInvestmentCardClick,
   selectedInvestment,
   setIsInvestmentAddDialogCarouselOpen,
-  areInvestmentsLoading,
 }: InvestmentsListProps) => {
   return (
-    <div className="Investments-List-Container">
+    <>
       <ComingSoonOverlay
         containerStyle={{ width: "60%", padding: "0.3em" }}
         overlayTextStyle={{ fontSize: "1em" }}
@@ -45,42 +42,46 @@ const InvestmentsList = ({
         </div>
       </ComingSoonOverlay>
 
-      {areInvestmentsLoading ? (
-        <div className="Investments-List-Rectangle">
-          <Skeleton className="h-full w-full" />
-        </div>
-      ) : (
-        <div className="Investments-List-Rectangle">
+      <div className="Investments-List-Rectangle">
+        <Button
+          onClick={() => setIsInvestmentAddDialogCarouselOpen(true)}
+          className="dark Add-Investment-Button text-white"
+        >
+          <Plus />
+        </Button>
+        <Button
+          className={`Add-Investment-Button text-white ${
+            selectedInvestment ? "" : "Selected-Investment-Card"
+          }`}
+          onClick={handleAllClick}
+        >
+          All
+        </Button>
+        {investments.map((investment, index) => (
           <Button
-            onClick={() => setIsInvestmentAddDialogCarouselOpen(true)}
-            className="dark Add-Investment-Button text-white"
+            key={index}
+            asChild
+            className={`border-none ${
+              selectedInvestment
+                ? selectedInvestment.investmentId === investment._id
+                  ? "Selected-Investment-Card"
+                  : ""
+                : ""
+            }`}
+            onClick={() => handleInvestmentCardClick(investment)}
           >
-            <Plus />
+            <Card className="Investment-Card">
+              <CardHeader>
+                <CardTitle>{investment.brokerageName}</CardTitle>
+                <CardDescription>{`${investment.type} ${
+                  investment.subtype ? `(${investment.subtype})` : ""
+                }`}</CardDescription>
+              </CardHeader>
+            </Card>
           </Button>
-          <Button
-            className={`Add-Investment-Button text-white ${selectedInvestment ? "" : "Selected-Investment-Card"}`}
-            onClick={handleAllClick}
-          >
-            All
-          </Button>
-          {investments.map((investment, index) => (
-            <Button
-              key={index}
-              asChild
-              className={`border-none ${selectedInvestment ? (selectedInvestment.investmentId === investment._id ? "Selected-Investment-Card" : "") : ""}`}
-              onClick={() => handleInvestmentCardClick(investment)}
-            >
-              <Card className="Investment-Card">
-                <CardHeader>
-                  <CardTitle>{investment.brokerageName}</CardTitle>
-                  <CardDescription>{`${investment.type} ${investment.subtype ? `(${investment.subtype})` : ""}`}</CardDescription>
-                </CardHeader>
-              </Card>
-            </Button>
-          ))}
-        </div>
-      )}
-    </div>
+        ))}
+      </div>
+    </>
   );
 };
 
