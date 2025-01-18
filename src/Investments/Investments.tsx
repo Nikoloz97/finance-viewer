@@ -345,41 +345,51 @@ const Investments = () => {
 
       <div className="Investment-Display-Container">
         <div className="Investment-Add-Delete-Table-Container">
-          <div className="Investments-Add-Delete-Container">
-            <Button
-              style={{ width: "40%", height: "5em", fontSize: "0.5em" }}
-              disabled={selectedInvestment === null}
-              onClick={() =>
-                handleInvestmentDelete(selectedInvestment?.investmentId)
-              }
-            >
-              Delete Investment
-            </Button>
-            <Button
-              style={{ width: "40%", height: "5em", fontSize: "0.5em" }}
-              disabled={selectedInvestment === null}
-              onClick={() => setIsStatementAddDialogCarouselOpen(true)}
-            >
-              Add Statement
-            </Button>
-          </div>
-
-          <div className="Investments-Table-Container">
-            {investments.length && (
-              <InvestmentsTable
-                data={flattenedInvestmentStatements}
-                handleStatementEdit={handleStatementEdit}
-                handleStatementDelete={handleStatementDelete}
-              />
-            )}
-          </div>
+          {areInvestmentsLoading ? (
+            <Skeleton className="h-full w-full" />
+          ) : (
+            <>
+              <div className="Investments-Add-Delete-Container">
+                <Button
+                  style={{ width: "40%", height: "5em", fontSize: "0.5em" }}
+                  disabled={selectedInvestment === null}
+                  onClick={() =>
+                    handleInvestmentDelete(selectedInvestment?.investmentId)
+                  }
+                >
+                  Delete Investment
+                </Button>
+                <Button
+                  style={{ width: "40%", height: "5em", fontSize: "0.5em" }}
+                  disabled={selectedInvestment === null}
+                  onClick={() => setIsStatementAddDialogCarouselOpen(true)}
+                >
+                  Add Statement
+                </Button>
+              </div>
+              <div className="Investments-Table-Container">
+                {investments.length && (
+                  <InvestmentsTable
+                    data={flattenedInvestmentStatements}
+                    handleStatementEdit={handleStatementEdit}
+                    handleStatementDelete={handleStatementDelete}
+                  />
+                )}
+              </div>
+            </>
+          )}
         </div>
+
         <div className="Investments-Display-Container">
-          <InvestmentDisplay
-            selectedInvestmentsChartData={selectedInvestmentChartData}
-            selectedInvestmentChartConfig={selectedInvestmentChartConfig}
-            selectedInvestment={selectedInvestment}
-          />
+          {areInvestmentsLoading ? (
+            <Skeleton className="h-full w-full" />
+          ) : (
+            <InvestmentDisplay
+              selectedInvestmentsChartData={selectedInvestmentChartData}
+              selectedInvestmentChartConfig={selectedInvestmentChartConfig}
+              selectedInvestment={selectedInvestment}
+            />
+          )}
         </div>
       </div>
     </div>
