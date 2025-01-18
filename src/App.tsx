@@ -20,8 +20,10 @@ function App() {
     <div className="Navbar-Page-Container">
       <UserProvider>
         <Router>
-          <Navbar />
-          <div className="Page-Style">
+          <div className="Navbar-Container-Container">
+            <Navbar />
+          </div>
+          <div className="Page-Container">
             <Routes>
               <Route path="/" Component={Dashboard} />
               <Route path="/budget" Component={Budget} />
