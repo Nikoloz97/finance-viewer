@@ -550,7 +550,7 @@ video {
 }
 
 .flex {
-  display: flex;
+  /* display: flex; */
 }
 
 .contents {

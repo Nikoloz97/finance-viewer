@@ -17,6 +17,7 @@ import {
 } from "../ShadcnComponents/Table";
 import { IFlattenedInvestmentStatement } from "../Models/Investments";
 import {
+  defaultDropdownItemStyling,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -25,6 +26,7 @@ import {
 } from "../ShadcnComponents/Dropdown";
 import { Button } from "../ShadcnComponents/Button";
 import { MoreHorizontal } from "lucide-react";
+import CustomAlertDialog from "../Utils/CustomAlertDialog";
 
 interface DataTableProps {
   data: IFlattenedInvestmentStatement[];
@@ -162,15 +164,24 @@ export function InvestmentsTable({
               >
                 Edit statement
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() =>
-                  handleStatementDelete(
-                    flattenedInvestmentStatement.investmentId,
-                    flattenedInvestmentStatement.statementId
-                  )
-                }
-              >
-                Delete Statement
+              <DropdownMenuItem onClick={(event) => event.preventDefault()}>
+                <CustomAlertDialog
+                  triggerText="Delete statement"
+                  title="Delete Statement?"
+                  description="This action cannot be undone"
+                  customTriggerClassName={defaultDropdownItemStyling}
+                  triggerStyle={{
+                    padding: "0",
+                    fontFamily:
+                      "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif",
+                  }}
+                  onContinueClick={() =>
+                    handleStatementDelete(
+                      flattenedInvestmentStatement.investmentId,
+                      flattenedInvestmentStatement.statementId
+                    )
+                  }
+                />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

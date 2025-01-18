@@ -184,18 +184,16 @@ const Investments = () => {
     investmentId: string | undefined,
     statementId: string | undefined
   ) => {
-    if (confirm("Delete statement? This action cannot be undone")) {
-      const response = await fetch(
-        `/investments/statement?investmentId=${investmentId}&statementId=${statementId}`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to delete statement");
-      } else {
-        fetchInvestments();
+    const response = await fetch(
+      `/investments/statement?investmentId=${investmentId}&statementId=${statementId}`,
+      {
+        method: "DELETE",
       }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to delete statement");
+    } else {
+      fetchInvestments();
     }
   };
 

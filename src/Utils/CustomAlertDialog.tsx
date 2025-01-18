@@ -19,6 +19,7 @@ interface CustomAlertDialogProps {
   title: string;
   description: string;
   isTriggerDisabled?: boolean;
+  customTriggerClassName?: string;
   triggerStyle?: CSSProperties;
 }
 
@@ -29,11 +30,14 @@ const CustomAlertDialog = ({
   description,
   triggerStyle,
   isTriggerDisabled = false,
+  customTriggerClassName,
 }: CustomAlertDialogProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger
-        className={cn(buttonVariants())}
+        className={cn(
+          customTriggerClassName ? customTriggerClassName : buttonVariants()
+        )}
         disabled={isTriggerDisabled}
         style={triggerStyle}
       >
