@@ -18,6 +18,7 @@ import AddInvestmentDialogCarousel from "./AddDialogCarousel";
 import AddStatementDialogCarousel from "./AddDialogCarousel";
 import { InvestmentsTable } from "../Tables/InvestmentsTable";
 import { Skeleton } from "../ShadcnComponents/Skeleton";
+import CustomAlertDialog from "../Utils/CustomAlertDialog";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -166,18 +167,16 @@ const Investments = () => {
   };
 
   const handleInvestmentDelete = async (investmentId: string | undefined) => {
-    if (confirm("Delete investment? This action cannot be undone")) {
-      const response = await fetch(
-        `/investments/investment?investmentId=${investmentId}`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to delete investment");
-      } else {
-        fetchInvestments();
+    const response = await fetch(
+      `/investments/investment?investmentId=${investmentId}`,
+      {
+        method: "DELETE",
       }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to delete investment");
+    } else {
+      fetchInvestments();
     }
   };
 
@@ -350,15 +349,17 @@ const Investments = () => {
           ) : (
             <>
               <div className="Investments-Add-Delete-Container">
-                <Button
-                  style={{ width: "40%", height: "5em", fontSize: "0.5em" }}
-                  disabled={selectedInvestment === null}
-                  onClick={() =>
+                <CustomAlertDialog
+                  isTriggerDisabled={selectedInvestment === null}
+                  triggerStyle={{
+                    width: "40%",
+                    height: "5em",
+                    fontSize: "0.5em",
+                  }}
+                  onContinueClick={() =>
                     handleInvestmentDelete(selectedInvestment?.investmentId)
                   }
-                >
-                  Delete Investment
-                </Button>
+                />
                 <Button
                   style={{ width: "40%", height: "5em", fontSize: "0.5em" }}
                   disabled={selectedInvestment === null}
