@@ -14,15 +14,21 @@ import { buttonVariants } from "../ShadcnComponents/Button";
 import { cn } from "../utils";
 
 interface CustomAlertDialogProps {
+  onContinueClick: () => void;
+  triggerText: string;
+  title: string;
+  description: string;
   isTriggerDisabled?: boolean;
   triggerStyle?: CSSProperties;
-  onContinueClick: () => void;
 }
 
 const CustomAlertDialog = ({
-  isTriggerDisabled = false,
-  triggerStyle,
   onContinueClick,
+  triggerText,
+  title,
+  description,
+  triggerStyle,
+  isTriggerDisabled = false,
 }: CustomAlertDialogProps) => {
   return (
     <AlertDialog>
@@ -31,14 +37,12 @@ const CustomAlertDialog = ({
         disabled={isTriggerDisabled}
         style={triggerStyle}
       >
-        Delete Investment
+        {triggerText}
       </AlertDialogTrigger>
       <AlertDialogContent className="dark text-white">
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Investment?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone
-          </AlertDialogDescription>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>

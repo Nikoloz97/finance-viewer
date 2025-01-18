@@ -350,6 +350,9 @@ const Investments = () => {
             <>
               <div className="Investments-Add-Delete-Container">
                 <CustomAlertDialog
+                  triggerText="Delete Investment"
+                  title="Delete Investment?"
+                  description="This action cannot be undone"
                   isTriggerDisabled={selectedInvestment === null}
                   triggerStyle={{
                     width: "40%",
