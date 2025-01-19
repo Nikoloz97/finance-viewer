@@ -248,12 +248,22 @@ const Investments = () => {
       body: JSON.stringify(updatedStatementData),
     });
 
+    const responseJson = await response.json();
+
     if (response.ok) {
-      console.log(response);
       setSelectedStatement(null);
       fetchInvestments();
+      if (responseJson.message) {
+        toast.success(responseJson.message);
+      } else {
+        toast.success("Success!");
+      }
     } else {
-      console.log("response was not okay");
+      if (responseJson.message) {
+        toast.error(responseJson.message);
+      } else {
+        toast.error("Something went wrong...");
+      }
     }
   };
 

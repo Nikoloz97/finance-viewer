@@ -214,8 +214,9 @@ investmentsRouter.post("/addInvestment", async (req, res) => {
       });
     }
 
-    const newlyCreatedInvestment =
-      await investments.insertOne(newInvestmentData);
+    const newlyCreatedInvestment = await investments.insertOne(
+      newInvestmentData
+    );
 
     if (newlyCreatedInvestment) {
       res.send(newlyCreatedInvestment);
@@ -346,6 +347,7 @@ investmentsRouter.put("/statement", async (req, res) => {
     const allInvestments = db.collection("Investments");
 
     const investmentObjectId = new ObjectId(investmentId);
+    const statementObjectId = new ObjectId(statementId);
 
     const startDateDate = new Date(startDate);
     const endDateDate = new Date(endDate);
@@ -354,6 +356,7 @@ investmentsRouter.put("/statement", async (req, res) => {
       .aggregate([
         { $match: { _id: investmentObjectId } },
         { $unwind: "$statements" },
+        { $match: { "statements.statementId": { $ne: statementObjectId } } },
         {
           $match: {
             $or: [
@@ -422,15 +425,17 @@ investmentsRouter.put("/statement", async (req, res) => {
     );
 
     if (updateResult.modifiedCount === 0) {
-      res
-        .status(400)
-        .send("No statement found with the given investment or statement ID.");
+      res.status(400).json({
+        message: "No statement found with given investment or statement ID",
+      });
     } else {
-      res.status(200).send("Statement updated successfully.");
+      res.status(200).json({
+        message: "Statement updated successfully",
+      });
     }
   } catch (error) {
     console.error("Failed to update statement:", error);
-    res.status(500).send("Error updating statement.");
+    res.status(500).send("Error updating statement");
   } finally {
     await client.close();
   }
