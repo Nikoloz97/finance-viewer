@@ -2,4 +2,7 @@
   --primary-background-color: rgba(0, 0, 0, 0.15);
   --secondary-background-color: rgba(0, 0, 0, 0.25);
   --primary-border-radius: 10px;
+  --toastify-color-dark: rgb(0, 0, 0, 0.25);
+  --toastify-text-color-dark: rgb(255, 255, 255);
+  --toastify-color-progress-dark: rgb(255, 255, 255);
 }

@@ -19,6 +19,7 @@ import AddStatementDialogCarousel from "./AddDialogCarousel";
 import { InvestmentsTable } from "../Tables/InvestmentsTable";
 import { Skeleton } from "../ShadcnComponents/Skeleton";
 import CustomAlertDialog from "../Utils/CustomAlertDialog";
+import { toast } from "react-toastify";
 
 const Investments = () => {
   const { user } = UseContextCheck();
@@ -119,7 +120,7 @@ const Investments = () => {
     newInvestmentData: INewInvestment | INewStatement
   ) => {
     if (!user) {
-      console.error("No user defined");
+      toast.error("No user defined");
       return;
     }
     const newInvestmentDataWithUserId = {
@@ -140,9 +141,12 @@ const Investments = () => {
     if (response.ok) {
       fetchInvestments();
       setIsInvestmentAddDialogCarouselOpen(false);
+      toast.success("Successfully added investment!");
     } else {
       if (responseJson.message) {
-        console.log(responseJson.message);
+        toast.error(responseJson.message);
+      } else {
+        toast.error("Something went wrong...");
       }
     }
   };
@@ -173,10 +177,18 @@ const Investments = () => {
         method: "DELETE",
       }
     );
-    if (!response.ok) {
-      throw new Error("Failed to delete investment");
-    } else {
+
+    const responseJson = await response.json();
+
+    if (response.ok) {
       fetchInvestments();
+      toast.success("Successfully deleted investment!");
+    } else {
+      if (responseJson.message) {
+        toast.error(responseJson.message);
+      } else {
+        toast.error("Something went wrong...");
+      }
     }
   };
 
