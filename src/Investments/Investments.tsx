@@ -138,10 +138,15 @@ const Investments = () => {
 
     const responseJson = await response.json();
 
+    // TODO: make this code reusable
     if (response.ok) {
       fetchInvestments();
       setIsInvestmentAddDialogCarouselOpen(false);
-      toast.success("Successfully added investment!");
+      if (responseJson.message) {
+        toast.success(responseJson.message);
+      } else {
+        toast.success("Success!");
+      }
     } else {
       if (responseJson.message) {
         toast.error(responseJson.message);
@@ -182,7 +187,11 @@ const Investments = () => {
 
     if (response.ok) {
       fetchInvestments();
-      toast.success("Successfully deleted investment!");
+      if (responseJson.message) {
+        toast.success(responseJson.message);
+      } else {
+        toast.success("Success!");
+      }
     } else {
       if (responseJson.message) {
         toast.error(responseJson.message);
@@ -202,10 +211,22 @@ const Investments = () => {
         method: "DELETE",
       }
     );
-    if (!response.ok) {
-      throw new Error("Failed to delete statement");
-    } else {
+
+    const responseJson = await response.json();
+
+    if (response.ok) {
       fetchInvestments();
+      if (responseJson.message) {
+        toast.success(responseJson.message);
+      } else {
+        toast.success("Success!");
+      }
+    } else {
+      if (responseJson.message) {
+        toast.error(responseJson.message);
+      } else {
+        toast.error("Something went wrong...");
+      }
     }
   };
 
@@ -292,11 +313,16 @@ const Investments = () => {
     if (response.ok) {
       fetchInvestments();
       setIsStatementAddDialogCarouselOpen(false);
-    } else {
-      // Specific message
       if (responseJson.message) {
-        // Non-specific message
+        toast.success(responseJson.message);
       } else {
+        toast.success("Success!");
+      }
+    } else {
+      if (responseJson.message) {
+        toast.error(responseJson.message);
+      } else {
+        toast.error("Something went wrong...");
       }
     }
   };
