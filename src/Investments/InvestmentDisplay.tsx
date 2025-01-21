@@ -23,19 +23,6 @@ const InvestmentDisplay = ({
   selectedInvestmentChartConfig,
   selectedInvestment,
 }: InvestmentDisplayProps) => {
-  const monthlyTotals = selectedInvestmentsChartData?.map((chartData) => {
-    let sum = 0;
-    for (const key in chartData) {
-      const value = chartData[key];
-      if (typeof value === "number") {
-        sum += value;
-      }
-    }
-    return sum;
-  });
-
-  const highestSum = monthlyTotals ? Math.max(...monthlyTotals) : 0;
-
   return (
     <>
       <div style={{ height: "4em", marginLeft: "2.2em", marginBottom: "1em" }}>
@@ -52,9 +39,13 @@ const InvestmentDisplay = ({
         </p>
 
         {selectedInvestmentsChartData && (
-          <h3
-            style={{ fontWeight: "100", opacity: "0.8", marginTop: "0" }}
-          >{`${selectedInvestmentsChartData[0].month} - ${selectedInvestmentsChartData[selectedInvestmentsChartData.length - 1].month}`}</h3>
+          <h3 style={{ fontWeight: "100", opacity: "0.8", marginTop: "0" }}>{`${
+            selectedInvestmentsChartData[0].month
+          } - ${
+            selectedInvestmentsChartData[
+              selectedInvestmentsChartData.length - 1
+            ].month
+          }`}</h3>
         )}
       </div>
       {selectedInvestmentChartConfig && (
@@ -67,12 +58,7 @@ const InvestmentDisplay = ({
               tickMargin={10}
               axisLine={false}
             />
-            <YAxis
-              type="number"
-              tickLine={false}
-              tickMargin={10}
-              domain={[0, highestSum + 2000]}
-            />
+            <YAxis type="number" tickLine={false} tickMargin={10} />
             {/* TODO: fix the white background this gives (or just get rid of it) */}
             {/* <ChartTooltip content={<ChartTooltipContent />} /> */}
             <ChartLegend content={<ChartLegendContent />} />
