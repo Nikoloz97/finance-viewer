@@ -1,7 +1,9 @@
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
@@ -25,9 +27,10 @@ import {
   DropdownMenuTrigger,
 } from "../ShadcnComponents/Dropdown";
 import { Button } from "../ShadcnComponents/Button";
-import { MoreHorizontal } from "lucide-react";
+import { ChevronDown, MoreHorizontal } from "lucide-react";
 import CustomAlertDialog from "../Utils/CustomAlertDialog";
 import { useEffect, useState } from "react";
+import { Input } from "../ShadcnComponents/Input";
 
 interface DataTableProps {
   data: IFlattenedInvestmentStatement[];
@@ -203,14 +206,18 @@ export function InvestmentsTable({
   }, []);
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     data,
     columns: InvestmentsColumns,
     getCoreRowModel: getCoreRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       columnVisibility,
+      columnFilters,
     },
   });
 
@@ -219,30 +226,51 @@ export function InvestmentsTable({
       className="rounded-md text-center"
       style={{ border: "1px solid rgba(255, 255, 255, 0.2)" }}
     >
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="dark ml-auto">
-            Columns
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          {table
-            .getAllColumns()
-            .filter((column) => column.getCanHide())
-            .map((column) => {
-              return (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  className="capitalize"
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              );
-            })}
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="flex py-4 justify-between">
+        <Input
+          placeholder="Filter by brokerage..."
+          value={
+            (table.getColumn("brokerageName")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(event) =>
+            table.getColumn("brokerageName")?.setFilterValue(event.target.value)
+          }
+          className="dark text-white w-1/2 mx-2"
+          style={{ border: "1px solid rgba(255, 255, 255, 0.2)" }}
+        />
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              className="dark mx-2"
+              style={{ border: "1px solid rgba(255, 255, 255, 0.2)" }}
+            >
+              Columns <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
