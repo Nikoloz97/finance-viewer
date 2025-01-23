@@ -1,10 +1,9 @@
-"use client";
-
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
+  VisibilityState,
 } from "@tanstack/react-table";
 
 import {
@@ -19,6 +18,7 @@ import { IFlattenedInvestmentStatement } from "../Models/Investments";
 import {
   defaultDropdownItemStyling,
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -27,6 +27,7 @@ import {
 import { Button } from "../ShadcnComponents/Button";
 import { MoreHorizontal } from "lucide-react";
 import CustomAlertDialog from "../Utils/CustomAlertDialog";
+import { useEffect, useState } from "react";
 
 interface DataTableProps {
   data: IFlattenedInvestmentStatement[];
@@ -190,10 +191,27 @@ export function InvestmentsTable({
     },
   ];
 
+  useEffect(() => {
+    const defaultHiddenColumns = {
+      depositAmount: false,
+      withdrawalAmount: false,
+      statementId: false,
+      investmentId: false,
+    };
+
+    setColumnVisibility(defaultHiddenColumns);
+  }, []);
+
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+
   const table = useReactTable({
     data,
     columns: InvestmentsColumns,
     getCoreRowModel: getCoreRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    state: {
+      columnVisibility,
+    },
   });
 
   return (
@@ -201,6 +219,30 @@ export function InvestmentsTable({
       className="rounded-md text-center"
       style={{ border: "1px solid rgba(255, 255, 255, 0.2)" }}
     >
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="dark ml-auto">
+            Columns
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          {table
+            .getAllColumns()
+            .filter((column) => column.getCanHide())
+            .map((column) => {
+              return (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  className="capitalize"
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                >
+                  {column.id}
+                </DropdownMenuCheckboxItem>
+              );
+            })}
+        </DropdownMenuContent>
+      </DropdownMenu>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
