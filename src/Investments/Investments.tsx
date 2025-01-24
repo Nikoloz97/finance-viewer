@@ -102,7 +102,8 @@ const Investments = () => {
       const chartConfig = investments.reduce<IInvestmentChartConfig>(
         (acc, investment) => {
           const { brokerageName, color } = investment;
-          acc[brokerageName] = {
+          const joinedBrokerageName = brokerageName.replace(/\s+/g, ""); // Join on whitespace
+          acc[joinedBrokerageName] = {
             label: brokerageName,
             color: color,
           };
