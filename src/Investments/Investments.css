@@ -27,16 +27,16 @@
 
 .Investments-List-Rectangle {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 6.5rem;
   width: 95%;
   gap: 0.5em;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--primary-border-radius);
+  padding: 0.2rem 1rem;
   overflow-x: scroll;
   overflow-y: hidden;
-  padding: 0.1rem;
 }
 
 .Selected-Investment-Card {

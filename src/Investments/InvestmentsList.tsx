@@ -9,7 +9,6 @@ import { IInvestment, ISelectedInvestment } from "../Models/Investments";
 import { Badge } from "../ShadcnComponents/Badge";
 import { Plus } from "lucide-react";
 import ComingSoonOverlay from "../Utils/ComingSoonOverlay/ComingSoonOverlay";
-import { toast } from "react-toastify";
 
 interface InvestmentsListProps {
   handleAllClick: () => void;
