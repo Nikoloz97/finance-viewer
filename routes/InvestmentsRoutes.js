@@ -122,13 +122,13 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
           chartData.month ===
           months[getMonthIndex(statement.statement.startDate)]
         ) {
-          chartData[statement.brokerageName] = parseFloat(
+          chartData[statement.brokerageName.replace(/\s+/g, "")] = parseFloat(
             statement.statement.startBalance.toString()
           );
         } else if (
           chartData.month === months[getMonthIndex(statement.statement.endDate)]
         ) {
-          chartData[statement.brokerageName] = parseFloat(
+          chartData[statement.brokerageName.replace(/\s+/g, "")] = parseFloat(
             statement.statement.endBalance.toString()
           );
         }
