@@ -236,7 +236,8 @@ const Investments = () => {
       (chartData) => {
         return {
           month: chartData.month,
-          [investment.brokerageName]: chartData[investment.brokerageName],
+          [investment.brokerageName.replace(/\s+/g, "")]:
+            chartData[investment.brokerageName.replace(/\s+/g, "")],
         };
       }
     );
