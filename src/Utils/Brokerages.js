@@ -21,7 +21,7 @@ export const investmentBrokerages = [
   "Commonwealth Financial Network",
   "Credit Suisse",
   "Deutsche Bank Wealth Management",
-  "E*TRADE",
+  "E-TRADE",
   "Edward Jones",
   "Federated Investors",
   "Fidelity Investments",
