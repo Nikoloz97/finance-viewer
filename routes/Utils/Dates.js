@@ -12,7 +12,8 @@ export const getMonthIndex = (dateInput) => {
   if (day >= startBound) {
     return month;
   } else if (day <= endBound) {
-    return month - 1;
+    // If January, go to december
+    return month === 0 ? 11 : month - 1;
   } else {
     throw new Error("Date input is outside the valid bounds");
   }

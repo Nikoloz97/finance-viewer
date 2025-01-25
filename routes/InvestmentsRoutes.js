@@ -87,11 +87,16 @@ investmentsRouter.get("/investmentChartData", async (req, res) => {
 
     const latestMonthIndex = getMonthIndex(latestEndDateObject.latestEndDate);
 
-    let newChartData = [
-      { month: months[latestMonthIndex - 2] },
-      { month: months[latestMonthIndex - 1] },
-      { month: months[latestMonthIndex] },
-    ];
+    let newChartData =
+      latestMonthIndex >= 2
+        ? [
+            { month: months[latestMonthIndex - 2] },
+            { month: months[latestMonthIndex - 1] },
+            { month: months[latestMonthIndex] },
+          ]
+        : latestMonthIndex === 1
+        ? [{ month: months[11] }, { month: months[0] }, { month: months[1] }]
+        : [{ month: months[10] }, { month: months[11] }, { month: months[0] }];
 
     const cutoffDate = getCutOffDate(latestEndDateObject.latestEndDate, -2);
 
