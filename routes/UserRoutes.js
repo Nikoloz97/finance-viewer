@@ -25,6 +25,7 @@ userRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
+    // TODO: do not need to make a connection for each request
     await client.connect();
     const db = client.db("FinanceViewer");
     const users = db.collection("Users");
