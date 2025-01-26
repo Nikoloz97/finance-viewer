@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "https://financeviewer.azurewebsites.net", // Replace with your frontend URL
+    origin: "https://armenia.azurewebsites.net", // Replace with your frontend URL
   })
 );
 
