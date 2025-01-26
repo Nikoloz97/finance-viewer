@@ -8,7 +8,8 @@ import { BlobServiceClient } from "@azure/storage-blob";
 dotenv.config();
 
 const userRouter = express.Router();
-const uri = process.env.MONGODB_URI_PROD;
+const uri = process.env.MONGODB_URI;
+// const uri = process.env.MONGODB_URI_PROD;
 const blobConnectionString = process.env.AZURE_BLOB_CS;
 // Level of encryption
 const saltRounds = 10;
