@@ -3,16 +3,16 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import userRouter from "./routes/UserRoutes.js";
 import investmentsRouter from "./routes/InvestmentsRoutes.js";
-import path from "path";
+// import path from "path";
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 // production script
-app.use(express.static("./build"));
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "build", "index.html"));
-});
+// app.use(express.static("./build"));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "build", "index.html"));
+// });
 
 app.use(cors());
 app.use(bodyParser.json());
