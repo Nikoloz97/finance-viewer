@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "https://armenia.azurewebsites.net", // Replace with your frontend URL
+    origin: "https://financeviewer.azurewebsites.net",
   })
 );
 
@@ -22,10 +22,10 @@ app.use("/user", userRouter);
 app.use("/investments", investmentsRouter);
 
 // production script ("serves static files")
-// app.use(express.static("./build"));
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "build", "index.html"));
-// });
+app.use(express.static("./build"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "build", "index.html"));
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
