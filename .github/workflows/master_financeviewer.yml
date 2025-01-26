@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - FinanceViewer
+name: Build and deploy Node.js app to Azure Web App - financeviewer
 
 on:
   push:
@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -31,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: build/
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,6 +41,9 @@ jobs:
     environment:
       name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
@@ -46,11 +51,17 @@ jobs:
         with:
           name: node-app
 
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_EED35D012D5440299A17ED39C2C6EF34 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_3CBD43D5870B4509982E0227191CA73B }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_416489EE45F641A0B7ED03A88A8F4F90 }}
+
       - name: "Deploy to Azure Web App"
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: "FinanceViewer"
+          app-name: "financeviewer"
           slot-name: "Production"
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3B5B58E3D2574E4294AE4F94B609B74F }}
           package: .
