@@ -4,8 +4,10 @@ import bodyParser from "body-parser";
 import userRouter from "./routes/UserRoutes.js";
 import investmentsRouter from "./routes/InvestmentsRoutes.js";
 import path from "path";
+import dotenv from "dotenv";
 
 const app = express();
+dotenv.config();
 const port = process.env.PORT;
 
 // production script
