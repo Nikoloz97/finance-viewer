@@ -10,8 +10,8 @@ import { toDollarAmount } from "./Utils/Formatters.js";
 dotenv.config();
 
 const investmentsRouter = express.Router();
-const uri = process.env.MONGODB_URI;
-// const uri = process.env.MONGODB_URI_PROD;
+// const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI_PROD;
 
 const client = new MongoClient(uri, {
   serverApi: {
