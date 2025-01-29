@@ -28,7 +28,7 @@ jobs:
 
       - name: Build with esbuild
         run: |
-          npx esbuild src/index.tsx --bundle --outfile=out.js
+          npx esbuild src/index.tsx --bundle --outfile=out.js --loader:.eot=file --loader:.woff=file --loader:.woff2=file --loader:.ttf=file --loader:.svg=file
 
       - name: Run tests
         run: npm run test --if-present
