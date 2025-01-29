@@ -6,6 +6,9 @@ import investmentsRouter from "./routes/InvestmentsRoutes.js";
 import path from "path";
 import dotenv from "dotenv";
 
+// Ability to utilize env variables
+dotenv.config();
+
 const app = express();
 const port = process.env.PORT || 5000;
 
