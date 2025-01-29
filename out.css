@@ -1,0 +1,611 @@
+/* src/Dashboard/Dashboard.css */
+.Dashboard-Container {
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  width: 90%;
+  gap: 20px;
+}
+.Networth-Profile-Container {
+  display: flex;
+  flex-direction: row;
+  height: 50%;
+  gap: 20px;
+}
+.NetWorth-Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  height: 100%;
+  width: 100%;
+}
+.Profile-Container {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+}
+.Recent-Activity-Investments-Summary-Container {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  gap: 1em;
+}
+.Recent-Activity-Container {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+}
+.Investments-Summary-Container {
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+}
+
+/* src/Dashboard/Profile/Profile.css */
+.Avatar-Caption-Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 42%;
+}
+.Profile-Tabs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 58%;
+}
+
+/* src/Utils/ComingSoonOverlay/ComingSoonOverlay.css */
+.overlay-container {
+  position: relative;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+.overlay-text {
+  color: #ffffff;
+}
+
+/* src/Investments/Investments.css */
+.Investments-Page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 90%;
+  width: 90%;
+  gap: 1em;
+}
+.Investment-Filters-Container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+.Investments-List-Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  height: 25%;
+}
+.Investments-List-Rectangle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 6.5rem;
+  width: 95%;
+  gap: 0.5em;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--primary-border-radius);
+  padding: 0.2rem 1rem;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+.Selected-Investment-Card {
+  background-color: rgb(255, 255, 255) !important;
+  color: black;
+}
+.Add-Investment-Button {
+  height: 90%;
+  background-color: var(--secondary-background-color);
+}
+.Investment-Card {
+  background-color: var(--secondary-background-color);
+  text-align: center;
+  margin: 0.2em;
+  padding: 1em;
+  height: 90%;
+}
+.Investment-Display-Container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  height: 75%;
+}
+.Investment-Add-Delete-Table-Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 50%;
+  height: 100%;
+  padding: 1em;
+}
+.Investments-Add-Delete-Container {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1em;
+}
+.Investments-Table-Container {
+  width: 100%;
+  height: 100%;
+  margin-top: 1em;
+}
+.Investments-Display-Container {
+  width: 50%;
+  height: 100%;
+  padding: 1em 0 1em 0;
+}
+
+/* node_modules/react-day-picker/src/style.css */
+.rdp-root {
+  --rdp-accent-color: blue;
+  --rdp-accent-background-color: #f0f0ff;
+  --rdp-day-height: 44px;
+  --rdp-day-width: 44px;
+  --rdp-day_button-border-radius: 100%;
+  --rdp-day_button-border: 2px solid transparent;
+  --rdp-day_button-height: 42px;
+  --rdp-day_button-width: 42px;
+  --rdp-selected-border: 2px solid var(--rdp-accent-color);
+  --rdp-disabled-opacity: 0.5;
+  --rdp-outside-opacity: 0.75;
+  --rdp-today-color: var(--rdp-accent-color);
+  --rdp-dropdown-gap: 0.5rem;
+  --rdp-months-gap: 2rem;
+  --rdp-nav_button-disabled-opacity: 0.5;
+  --rdp-nav_button-height: 2.25rem;
+  --rdp-nav_button-width: 2.25rem;
+  --rdp-nav-height: 2.75rem;
+  --rdp-range_middle-background-color: var(--rdp-accent-background-color);
+  --rdp-range_middle-color: inherit;
+  --rdp-range_start-color: white;
+  --rdp-range_start-background:
+    linear-gradient(
+      var(--rdp-gradient-direction),
+      transparent 50%,
+      var(--rdp-range_middle-background-color) 50%);
+  --rdp-range_start-date-background-color: var(--rdp-accent-color);
+  --rdp-range_end-background:
+    linear-gradient(
+      var(--rdp-gradient-direction),
+      var(--rdp-range_middle-background-color) 50%,
+      transparent 50%);
+  --rdp-range_end-color: white;
+  --rdp-range_end-date-background-color: var(--rdp-accent-color);
+  --rdp-week_number-border-radius: 100%;
+  --rdp-week_number-border: 2px solid transparent;
+  --rdp-week_number-height: var(--rdp-day-height);
+  --rdp-week_number-opacity: 0.75;
+  --rdp-week_number-width: var(--rdp-day-width);
+  --rdp-weeknumber-text-align: center;
+  --rdp-weekday-opacity: 0.75;
+  --rdp-weekday-padding: 0.5rem 0rem;
+  --rdp-weekday-text-align: center;
+  --rdp-gradient-direction: 90deg;
+}
+.rdp-root[dir=rtl] {
+  --rdp-gradient-direction: -90deg;
+}
+.rdp-root[data-broadcast-calendar=true] {
+  --rdp-outside-opacity: unset;
+}
+.rdp-root {
+  position: relative;
+  box-sizing: border-box;
+}
+.rdp-root * {
+  box-sizing: border-box;
+}
+.rdp-day {
+  width: var(--rdp-day-width);
+  height: var(--rdp-day-height);
+  text-align: center;
+}
+.rdp-day_button {
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: var(--rdp-day_button-width);
+  height: var(--rdp-day_button-height);
+  border: var(--rdp-day_button-border);
+  border-radius: var(--rdp-day_button-border-radius);
+}
+.rdp-day_button:disabled {
+  cursor: revert;
+}
+.rdp-caption_label {
+  z-index: 1;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  border: 0;
+}
+.rdp-dropdown:focus-visible ~ .rdp-caption_label {
+  outline: 5px auto Highlight;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+.rdp-button_next,
+.rdp-button_previous {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  appearance: none;
+  width: var(--rdp-nav_button-width);
+  height: var(--rdp-nav_button-height);
+}
+.rdp-button_next:disabled,
+.rdp-button_previous:disabled {
+  cursor: revert;
+  opacity: var(--rdp-nav_button-disabled-opacity);
+}
+.rdp-chevron {
+  display: inline-block;
+  fill: var(--rdp-accent-color);
+}
+.rdp-root[dir=rtl] .rdp-nav .rdp-chevron {
+  transform: rotate(180deg);
+}
+.rdp-root[dir=rtl] .rdp-nav .rdp-chevron {
+  transform: rotate(180deg);
+  transform-origin: 50%;
+}
+.rdp-dropdowns {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--rdp-dropdown-gap);
+}
+.rdp-dropdown {
+  z-index: 2;
+  opacity: 0;
+  appearance: none;
+  position: absolute;
+  inset-block-start: 0;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: inherit;
+  border: none;
+  line-height: inherit;
+}
+.rdp-dropdown_root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.rdp-dropdown_root[data-disabled=true] .rdp-chevron {
+  opacity: var(--rdp-disabled-opacity);
+}
+.rdp-month_caption {
+  display: flex;
+  align-content: center;
+  height: var(--rdp-nav-height);
+  font-weight: bold;
+  font-size: large;
+}
+.rdp-months {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rdp-months-gap);
+  max-width: fit-content;
+}
+.rdp-month_grid {
+  border-collapse: collapse;
+}
+.rdp-nav {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  display: flex;
+  align-items: center;
+  height: var(--rdp-nav-height);
+}
+.rdp-weekday {
+  opacity: var(--rdp-weekday-opacity);
+  padding: var(--rdp-weekday-padding);
+  font-weight: 500;
+  font-size: smaller;
+  text-align: var(--rdp-weekday-text-align);
+  text-transform: var(--rdp-weekday-text-transform);
+}
+.rdp-week_number {
+  opacity: var(--rdp-week_number-opacity);
+  font-weight: 400;
+  font-size: small;
+  height: var(--rdp-week_number-height);
+  width: var(--rdp-week_number-width);
+  border: var(--rdp-week_number-border);
+  border-radius: var(--rdp-week_number-border-radius);
+  text-align: var(--rdp-weeknumber-text-align);
+}
+.rdp-today:not(.rdp-outside) {
+  color: var(--rdp-today-color);
+}
+.rdp-selected {
+  font-weight: bold;
+  font-size: large;
+}
+.rdp-selected .rdp-day_button {
+  border: var(--rdp-selected-border);
+}
+.rdp-outside {
+  opacity: var(--rdp-outside-opacity);
+}
+.rdp-disabled {
+  opacity: var(--rdp-disabled-opacity);
+}
+.rdp-hidden {
+  visibility: hidden;
+  color: var(--rdp-range_start-color);
+}
+.rdp-range_start {
+  background: var(--rdp-range_start-background);
+}
+.rdp-range_start .rdp-day_button {
+  background-color: var(--rdp-range_start-date-background-color);
+  color: var(--rdp-range_start-color);
+}
+.rdp-range_middle {
+  background-color: var(--rdp-range_middle-background-color);
+}
+.rdp-range_middle .rdp-day_button {
+  border-color: transparent;
+  border: unset;
+  border-radius: unset;
+  color: var(--rdp-range_middle-color);
+}
+.rdp-range_end {
+  background: var(--rdp-range_end-background);
+  color: var(--rdp-range_end-color);
+}
+.rdp-range_end .rdp-day_button {
+  color: var(--rdp-range_start-color);
+  background-color: var(--rdp-range_end-date-background-color);
+}
+.rdp-range_start.rdp-range_end {
+  background: revert;
+}
+.rdp-focusable {
+  cursor: pointer;
+}
+
+/* src/ShadcnComponents/Skeleton.css */
+@keyframes pulsate {
+  0% {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+.skeleton-pulsate {
+  animation: pulsate 0.75s infinite;
+  border-radius: 4px;
+}
+
+/* src/Navbar/Navbar.css */
+.Navbar-Container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.Navbar {
+  background-color: var(--primary-background-color);
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+}
+.Navbar-Options {
+  display: flex;
+  flex-direction: column;
+  background: none;
+  width: 100%;
+}
+.Navbar-Options a {
+  color: white !important;
+  padding: 10px;
+}
+.Navbar-Options a:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+.Navbar-Disabled {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* src/CustomHooks/ErrorPopup/ErrorPopup.css */
+.Error-Popup-Display {
+  position: fixed !important;
+  right: 9rem;
+  bottom: 1rem;
+  width: 66%;
+  animation-duration: 0.5s;
+  text-align: center;
+  background-color: #383c43 !important;
+  color: white !important;
+  border-radius: 2rem !important;
+}
+.Error-Popup-Fade-In-Up {
+  animation-name: fadeInUp;
+}
+.Error-Popup-Fade-Out-Down {
+  animation-name: fadeOutDown;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+.ui.message > .close.icon {
+  top: 1.7rem !important;
+}
+
+/* src/User/User.css */
+.ui.header {
+  color: white !important;
+}
+.ui.form .field > label {
+  color: white !important;
+}
+.ui.checkbox label {
+  color: white !important;
+}
+.ui.form input {
+  border-radius: 2rem !important;
+}
+.Login-Form {
+  display: flex;
+  flex-direction: column;
+  width: 25vw;
+}
+.Remember-Forgot-Container {
+  display: flex;
+  justify-content: space-between;
+}
+.Login-Button-Container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+.No-Account-Container {
+  color: white !important;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 30px;
+}
+.Signup-Grid-Container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+}
+.Signup-File-Input-Button {
+  cursor: pointer;
+  display: flex !important;
+  width: 100%;
+  align-items: center;
+  background-color: white !important;
+  border-radius: 2rem 0 0 2rem !important;
+  height: 2.75rem;
+  margin: 0 0 0 0 !important;
+}
+.Profile-Photo-Cancel-Button {
+  background-color: white !important;
+  border-radius: 0 2rem 2rem 0 !important;
+  max-width: 20%;
+}
+
+/* src/Styles/Globals.css */
+:root {
+  --primary-background-color: rgba(0, 0, 0, 0.15);
+  --secondary-background-color: rgba(0, 0, 0, 0.25);
+  --primary-border-radius: 10px;
+  --toastify-color-dark: rgb(0, 0, 0, 0.25);
+  --toastify-text-color-dark: rgb(255, 255, 255);
+  --toastify-color-progress-dark: rgb(255, 255, 255);
+}
+
+/* src/App.css */
+.Page-Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  min-width: 85%;
+  max-width: 85%;
+}
+.Navbar-Container-Container {
+  min-width: 15%;
+  max-width: 15%;
+}
+.Navbar-Page-Container {
+  display: flex;
+  height: 100vh;
+  background-color: hsl(220, 13%, 18%);
+}
