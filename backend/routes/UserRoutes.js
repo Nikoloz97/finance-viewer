@@ -1,8 +1,8 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
-import bcrypt from "bcrypt";
-import { BlobServiceClient } from "@azure/storage-blob";
+// import bcrypt from "bcrypt";
+// import { BlobServiceClient } from "@azure/storage-blob";
 
 // Ability to utilize env variables
 dotenv.config();

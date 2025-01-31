@@ -52,14 +52,18 @@ const Login = () => {
     },
   });
 
+  // Test
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const response = await fetch("/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
+    const response = await fetch(
+      "https://financeviewerbackend.azurewebsites.net/user/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      }
+    );
 
     const responseJson = await response.json();
 
