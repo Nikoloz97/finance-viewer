@@ -1,5 +1,8 @@
 name: Azure Static Web Apps CI/CD
 
+env:
+  CI: false
+
 on:
   push:
     branches:
@@ -26,9 +29,6 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: ./frontend
-
-      - env:
-          CI: false
 
       - name: Build
         run: CI=false npm run build
