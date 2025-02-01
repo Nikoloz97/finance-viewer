@@ -23,7 +23,6 @@ const client = new MongoClient(uri, {
 });
 
 userRouter.post("/login", async (req, res) => {
-  // res.status(200);
   const { username, password } = req.body;
   try {
     // TODO: do not need to make a connection for each request
