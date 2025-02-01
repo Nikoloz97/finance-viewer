@@ -44,38 +44,38 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
-// userRouter.post("/signup", async (req, res) => {
-//   const signupInfo = req.body;
+userRouter.post("/signup", async (req, res) => {
+  const signupInfo = req.body;
 
-//   try {
-//     await client.connect();
-//     const db = client.db("FinanceViewer");
-//     const users = db.collection("Users");
+  try {
+    await client.connect();
+    const db = client.db("FinanceViewer");
+    const users = db.collection("Users");
 
-//     // Middleware 1: password-hashing
-//     // TODO: Uncomment
-//     // const hashedPassword = await bcrypt.hash(signupInfo.password, saltRounds)
-//     // signupInfo.password = hashedPassword;
+    // Middleware 1: password-hashing
+    // TODO: Uncomment
+    // const hashedPassword = await bcrypt.hash(signupInfo.password, saltRounds)
+    // signupInfo.password = hashedPassword;
 
-//     // Middleware 2: profile image storage (blob)
-//     // TODO: Uncomment
-//     // const blobServiceClient = BlobServiceClient.fromConnectionString(blobConnectionString)
-//     // const containerClient = blobServiceClient.getContainerClient("profile-images")
-//     // const blockBlobClient = containerClient.getBlockBlobClient("financeviewer")
+    // Middleware 2: profile image storage (blob)
+    // TODO: Uncomment
+    // const blobServiceClient = BlobServiceClient.fromConnectionString(blobConnectionString)
+    // const containerClient = blobServiceClient.getContainerClient("profile-images")
+    // const blockBlobClient = containerClient.getBlockBlobClient("financeviewer")
 
-//     // // TODO: implement a try-catch here
-//     // const uploadBlobResponse = await blockBlobClient.uploadFile(signupInfo.profileImgUrl)
+    // // TODO: implement a try-catch here
+    // const uploadBlobResponse = await blockBlobClient.uploadFile(signupInfo.profileImgUrl)
 
-//     const user = await users.insertOne(signupInfo);
+    const user = await users.insertOne(signupInfo);
 
-//     if (user) {
-//       res.send(user);
-//     } else {
-//       res.status(400).json({ message: "Error saving your account" });
-//     }
-//   } finally {
-//     await client.close();
-//   }
-// });
+    if (user) {
+      res.send(user);
+    } else {
+      res.status(400).json({ message: "Error saving your account" });
+    }
+  } finally {
+    await client.close();
+  }
+});
 
 export default userRouter;

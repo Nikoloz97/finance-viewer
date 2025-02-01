@@ -3,14 +3,17 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import userRouter from "./routes/UserRoutes.js";
 import investmentsRouter from "./routes/InvestmentsRoutes.js";
-import path from "path";
+import path, { dirname } from "path";
 import dotenv from "dotenv";
+import { fileURLToPath } from "url";
 
 // Ability to utilize env variables
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 app.use(cors());
 
@@ -28,8 +31,7 @@ app.use(bodyParser.json());
 app.use("/user", userRouter);
 app.use("/investments", investmentsRouter);
 
-//production script ("serves static files")
-app.use(express.static("./build"));
+app.use(express.static(path.join(__dirname, "build")));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "build", "index.html"));
 });
